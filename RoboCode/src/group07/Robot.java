@@ -22,6 +22,7 @@ public class Robot extends robocode.Robot {
 			back(100);
 			
 			
+			
 		}
 	}
 
