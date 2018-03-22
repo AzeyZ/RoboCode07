@@ -1,7 +1,6 @@
 package group07;
 import robocode.*;
 import java.awt.Color;
-import java.io.Serializable;
 
 public class Robot07 extends robocode.TeamRobot {
 	/**
@@ -12,17 +11,27 @@ public class Robot07 extends robocode.TeamRobot {
 		setColors(Color.red,Color.blue,Color.red); // body,gun,radar
 		//String[] teamm8 = getTeammates();
 		
+		
+		
+		// After trying out your robot, try uncommenting the import at the top,
+		// and the next line:
+
+		 
+
 		// Robot main loop
 		while(true) {
 			// Replace the next 4 lines with any behavior you would like
 			turnGunRight(360);
 			ahead(100);
-			back(100);
-			
-			
+			back(100);				
 		}
 	}
-
+	
+	public void onScannedBullet(Bullet e)
+	{
+		
+	}
+	
 	/**
 	 * onScannedRobot: What to do when you see another robot
 	 */
@@ -36,18 +45,9 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onMessageReceived(MessageEvent event) {
 		//Check if Message was from same type
 		boolean same = isTeammate("Robot07");
-		if(same) {
-			
-		}
-	}
-	
-	/**
-	 * snedMessage: Sends a message to one (or more) teammates
-	 */
-	public void sendMessage(String name, Serializable message) {
+		
 		
 	}
-	
 	/**
 	 * onHitByBullet: What to do when you're hit by a bullet
 	 */
