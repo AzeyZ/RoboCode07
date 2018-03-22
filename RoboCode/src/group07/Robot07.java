@@ -7,6 +7,7 @@ public class Robot07 extends robocode.TeamRobot {
 	/**
 	 * run: Robot's default behavior
 	 */
+	double angelTurret;
 	public void run() {
 		// Initialization of the robot should be put here
 		setColors(Color.red,Color.blue,Color.red); // body,gun,radar
@@ -36,11 +37,7 @@ public class Robot07 extends robocode.TeamRobot {
 		}
 	}
 	
-	public void onScannedBullet(Bullet e)
-	{
-		double m_BulletSpeed = e.getVelocity();
-		double m_Heading = e.getHeading();
-	}
+
 	
 	/**
 	 * onScannedRobot: What to do when you see another robot
@@ -54,7 +51,7 @@ public class Robot07 extends robocode.TeamRobot {
 	 */
 	public void onMessageReceived(MessageEvent event) {
 		//Check if Message was from same type
-
+		
 		boolean m_Same = isTeammate("Robot07");
 		if(m_Same) {
 			
