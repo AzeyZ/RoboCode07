@@ -1,1 +1,34 @@
+rsync-pdfs.sh
+tmp
+**/old
+**/bin
 
+# Latex
+**/*.aux
+**/*.log
+**/*.nav
+**/*.out
+**/*.snm
+**/*.vrb
+**/*.synctex.gz
+**/*.synctex.gz(busy)
+**/*.toc
+
+# Java / Scala
+**/*.class
+
+# Eclipse
+**/*.cache-main
+**/.metadata
+.settings/
+.classpath
+.project
+
+# Sbt
+**/target
+
+# Editor swap files
+*.swp   # vim
+*~      # emacs
+
+.idea
