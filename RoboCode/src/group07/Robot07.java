@@ -38,7 +38,7 @@ public class Robot07 extends robocode.TeamRobot {
 	
 	public void onScannedBullet(Bullet e)
 	{
-		
+		double m_BulletSpeed = e.getVelocity();
 	}
 	
 	/**
@@ -53,7 +53,7 @@ public class Robot07 extends robocode.TeamRobot {
 	 */
 	public void onMessageReceived(MessageEvent event) {
 		//Check if Message was from same type
-		boolean same = isTeammate("Robot07");
+		boolean m_Same = isTeammate("Robot07");
 		
 		
 	}
