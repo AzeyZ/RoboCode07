@@ -1,6 +1,7 @@
 package group07;
 import robocode.*;
 import java.awt.Color;
+import java.io.IOException;
 
 public class Robot07 extends robocode.TeamRobot {
 	/**
@@ -23,7 +24,15 @@ public class Robot07 extends robocode.TeamRobot {
 			// Replace the next 4 lines with any behavior you would like
 			turnGunRight(360);
 			ahead(100);
-			back(100);				
+			back(100);
+			
+//			try {
+//				sendMessage("Robot07","hejsan");
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			
 		}
 	}
 	
