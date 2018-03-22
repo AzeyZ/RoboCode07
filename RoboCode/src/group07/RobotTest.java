@@ -2,7 +2,7 @@ package group07;
 import robocode.*;
 import java.awt.Color;
 
-public class Robot extends robocode.Robot {
+public class RobotTest extends robocode.Robot {
 	/**
 	 * run: Robot's default behavior
 	 */
