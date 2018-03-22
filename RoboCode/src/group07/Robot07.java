@@ -54,7 +54,9 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onMessageReceived(MessageEvent event) {
 		//Check if Message was from same type
 		boolean same = isTeammate("Robot07");
-		
+		if(same) {
+			
+		}
 		
 	}
 	/**
