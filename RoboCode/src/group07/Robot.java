@@ -20,6 +20,8 @@ public class Robot extends robocode.Robot {
 			turnGunRight(360);
 			ahead(100);
 			back(100);
+			
+			
 		}
 	}
 
@@ -29,7 +31,6 @@ public class Robot extends robocode.Robot {
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// Replace the next line with any behavior you would like
 		fire(1);
-		//test
 	}
 
 	/**
