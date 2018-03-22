@@ -2,17 +2,21 @@ package group07;
 import robocode.*;
 import java.awt.Color;
 
-public class Robot extends robocode.Robot {
+public class Robot07 extends robocode.TeamRobot {
 	/**
 	 * run: Robot's default behavior
 	 */
 	public void run() {
 		// Initialization of the robot should be put here
-
+		setColors(Color.red,Color.blue,Color.red); // body,gun,radar
+		//String[] teamm8 = getTeammates();
+		
+		
+		
 		// After trying out your robot, try uncommenting the import at the top,
 		// and the next line:
 
-		// setColors(Color.red,Color.blue,Color.green); // body,gun,radar
+		 
 
 		// Robot main loop
 		while(true) {
@@ -20,7 +24,6 @@ public class Robot extends robocode.Robot {
 			turnGunRight(360);
 			ahead(100);
 			back(100);
-			
 			
 			
 		}
@@ -33,7 +36,14 @@ public class Robot extends robocode.Robot {
 		// Replace the next line with any behavior you would like
 		fire(1);
 	}
-
+	/**
+	 * onMessageReceived: What to do when you receive a message
+	 */
+	public void onMessageReceived(MessageEvent event) {
+		//Check if Message was from same type
+		boolean same = isTeammate("Robot07");
+		
+	}
 	/**
 	 * onHitByBullet: What to do when you're hit by a bullet
 	 */
