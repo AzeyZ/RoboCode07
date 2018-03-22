@@ -56,6 +56,7 @@ public class Robot07 extends robocode.TeamRobot {
 		boolean same = isTeammate("Robot07");
 		if(same) {
 			
+			
 		}
 		
 	}
