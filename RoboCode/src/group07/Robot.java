@@ -20,7 +20,6 @@ public class Robot extends robocode.Robot {
 			turnGunRight(360);
 			ahead(100);
 			back(100);
-			int test = 0;
 		}
 	}
 
