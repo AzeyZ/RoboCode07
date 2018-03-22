@@ -2,12 +2,14 @@ package group07;
 import robocode.*;
 import java.awt.Color;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Robot07 extends robocode.TeamRobot {
 	/**
 	 * run: Robot's default behavior
 	 */
-	double angelTurret;
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	double angleTurret;
 	public void run() {
 		// Initialization of the robot should be put here
 		setColors(Color.red,Color.blue,Color.red); // body,gun,radar
@@ -43,8 +45,7 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
-		// Replace the next line with any behavior you would like
-		fire(1);
+		enemies.add(new Enemy(e.getEnergy()));
 	}
 	/**
 	 * onMessageReceived: What to do when you receive a message
