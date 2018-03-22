@@ -17,10 +17,10 @@ public class Robot extends robocode.Robot {
 		// Robot main loop
 		while(true) {
 			// Replace the next 4 lines with any behavior you would like
+			turnGunRight(360);
 			ahead(100);
-			turnGunRight(360);
 			back(100);
-			turnGunRight(360);
+			
 		}
 	}
 
