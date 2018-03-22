@@ -39,6 +39,7 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onScannedBullet(Bullet e)
 	{
 		double m_BulletSpeed = e.getVelocity();
+		double m_Heading = e.getHeading();
 	}
 	
 	/**
