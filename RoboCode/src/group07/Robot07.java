@@ -17,9 +17,11 @@ public class Robot07 extends robocode.TeamRobot {
 		setColors(Color.red,Color.blue,Color.red); // body,gun,radar
 		//adding allies
 		String[] teamm8 = getTeammates();
-		for(int i = 0; i<teamm8.length;i++) {
-			allies.add(new Ally(teamm8[i]));
-		}
+		
+		
+//		for(int i = 0; i<teamm8.length;i++) {
+//			allies.add(new Ally(teamm8[i]));
+//		}
 
 		// Robot main loop
 		while(true) {
@@ -76,8 +78,9 @@ public class Robot07 extends robocode.TeamRobot {
 		boolean m_Same = e.getSender().contains("Robot07");
 		//checks is message was of type 1(scannedRobotEvent)
 		if(m_Same && (int)msg.get(1) == 1) {
+			//creates local copy of ScannedRobot
 			ScannedRobotEvent e2 = (ScannedRobotEvent)msg.get(2);
-			//follows our com protocol
+			//Updates enemies list
 			for(int i = 0; i<enemies.size(); i++) {
 				if(e2.equals(enemies.get(i))) {
 					if(e2.getTime() > enemies.get(i).getTime()) {
