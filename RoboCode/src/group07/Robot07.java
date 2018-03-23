@@ -45,16 +45,15 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
-<<<<<<< HEAD
+
 		
 		stop();
-		enemies.add(new Enemy(e.getEnergy()));
 		setTurnGunRight(getRadarHeading() - getGunHeading());
 		fire(1);
 		turnRight(e.getBearing()-90);
 		setTurnRadarRight(getHeading() - getRadarHeading() + e.getBearing());
 		
-=======
+
 		//check if scannedRobot already exists, else adds it.
 		for(int i = 0; i<enemies.size(); i++) {
 			if(!e.equals(enemies.get(i))) {
@@ -62,14 +61,13 @@ public class Robot07 extends robocode.TeamRobot {
 			}
 		}
 
->>>>>>> branch 'Alpha.1.1.1' of https://github.com/AzeyZ/RoboCode07.git
 	}
 	/**
 	 * onMessageReceived: What to do when you receive a message
 	 */
 	public void onMessageReceived(MessageEvent e) {
 		//Check if Message was from same type
-		boolean m_Same = event.getSender() == "Robot07";
+		boolean m_Same = e.getSender() == "Robot07";
 		if(m_Same) {
 			//follows our com protocol
 		}
