@@ -2,6 +2,7 @@ package group07;
 import robocode.*;
 import java.awt.Color;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Robot07 extends robocode.TeamRobot {
@@ -52,8 +53,11 @@ public class Robot07 extends robocode.TeamRobot {
 			if(!e.equals(enemies.get(i))) {
 				enemies.add(e);
 				//notifies Allies(Robot07) of new Enemy
+				ArrayList< Serializable> msg = new ArrayList< Serializable>();
+				msg.add("1");
+				msg.add(e);
 				try {
-					sendMessage("Robot07",e);
+					sendMessage("Robot07",msg);
 				} catch (IOException error) {
 					// TODO Auto-generated catch block
 				}
@@ -66,15 +70,22 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onMessageReceived: What to do when you receive a message
 	 */
 	public void onMessageReceived(MessageEvent e) {
+		@SuppressWarnings("unchecked")
+		ArrayList <Serializable> msg = (ArrayList<Serializable>) e.getMessage();
 		//Check if Message was from same type
-		boolean m_Same = e.getSender() == "Robot07";
-		if(m_Same) {
+		boolean m_Same = e.getSender().contains("Robot07");
+		//checks is message was of type 1(scannedRobotEvent)
+		if(m_Same && (int)msg.get(1) == 1) {
 			//follows our com protocol
-			enemies.add((ScannedRobotEvent)e.getMessage());
+			enemies.add((ScannedRobotEvent)msg.get(2));
+		}
+		else if(m_Same && (int)msg.get(1) == 2) {
+			
 		}
 		else {
-			//doesn't
+			
 		}
+			
 
 	}
 	/**
@@ -92,7 +103,19 @@ public class Robot07 extends robocode.TeamRobot {
 		// Replace the next line with any behavior you would like
 
 		back(20);
-	}	
+	}
+	
+	public void onDeath(RobotDeathEvent event) {
+		ArrayList< Serializable> msg = new ArrayList< Serializable>();
+		msg.add("2");
+		//msg.add(this.get);
+		try {
+			sendMessage("Robot07", msg);
+		} catch (IOException error) {
+			// TODO Auto-generated catch block
+		}
+	}
+	
 }
 
 
