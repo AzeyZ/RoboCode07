@@ -12,7 +12,7 @@ public class Robot07 extends robocode.TeamRobot {
 	 */
 	private ArrayList<EnemyBot> enemies = new ArrayList<EnemyBot>();
 	private ArrayList<Ally> allies = new ArrayList<Ally>();
-	private AdvancedEnemyBot target;
+	private AdvancedEnemyBot target = new AdvancedEnemyBot();
 	double angleTurret;
 	// går upp varje efter varje tick då scan ej fokuserad
 	private int lastScan = 0;
@@ -73,8 +73,15 @@ public class Robot07 extends robocode.TeamRobot {
 		// Checks if Scanned is Team
 		if (!(isTeammate(e.getName()))) {
 
-			// New target
-			target = new AdvancedEnemyBot(e, this);
+			if(!isNewEnemy(e)) {
+				enemies.get(getEnemyIndex(e)).update(e);;
+			} else {
+				enemies.add(new EnemyBot());
+				enemies.get(enemies.size()-1).update(e);
+			}
+
+			// Update target
+			target.update(e, this);
 			radarFollowTarget();
 		}
 		// Sends message of ScannedEnemy to team
@@ -86,6 +93,26 @@ public class Robot07 extends robocode.TeamRobot {
 		// [0-1] targetPos;x;y
 		// [0-1] moveTo;x;y
 
+	}
+	
+	public int getEnemyIndex(ScannedRobotEvent e) {
+		for(int i = 0; i < enemies.size(); i++)
+		{
+			if(e.getName().equals(enemies.get(i).getName())) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	public boolean isNewEnemy(ScannedRobotEvent e) {
+		for(int i = 0; i < enemies.size(); i++)
+		{
+			if(e.getName().equals(enemies.get(i).getName())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public void doScan() {
