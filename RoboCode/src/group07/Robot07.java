@@ -81,16 +81,15 @@ public class Robot07 extends robocode.TeamRobot {
 		radarFollowTarget();
 
 		// Sends message of ScannedEnemy to team
-			EnemyBot enemy = new EnemyBot(e);
-			//enemies.add(enemy);
-			ArrayList<Serializable> msg = new ArrayList<Serializable>();
-			msg.add("1");
-			msg.add((Serializable)enemy);
-			try {
-				sendMessage("Robot07", msg);
-			} catch (IOException error) {
-				// TODO Auto-generated catch block
-			}
+//		[0-1] leadership;[followMe|leadMe]
+//		[0-1] teamMode;[offensive|defensive]
+//		[0-1] myPos;x;y
+//		[0-*] enemyPos;x;y
+//		[0-1] targetEnemy;name
+//		[0-1] targetPos;x;y
+//		[0-1] moveTo;x;y
+
+		
 		}
 
 	//Följer radarn på target
@@ -105,21 +104,7 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onMessageReceived: What to do when you receive a message
 	 */
 	public void onMessageReceived(MessageEvent e) {
-		@SuppressWarnings("unchecked")
-		ArrayList<Serializable> msg = (ArrayList<Serializable>) e.getMessage();
-		// Check if Message was from same type
-		boolean m_Same = e.getSender().contains("Robot07");
-
-		//checks is message was of type 1(EnemyBot)
-		if(m_Same && (int)msg.get(1) == 1) {
-			//TODO update local enemies list
-		}
-		else if (m_Same && (int) msg.get(1) == 2) {
-			// remove dead robot see onDeath()
-		} else {
-			
-		}
-		
+		//removed
 	}
 
 	/**
