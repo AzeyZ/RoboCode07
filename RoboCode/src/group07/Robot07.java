@@ -25,6 +25,7 @@ public class Robot07 extends robocode.TeamRobot {
 			}
 		}
 
+
 		// Robot main loop
 		while (true) {
 			// Replace the next 4 lines with any behavior you would like
@@ -75,13 +76,16 @@ public class Robot07 extends robocode.TeamRobot {
 		ArrayList<Serializable> msg = (ArrayList<Serializable>) e.getMessage();
 		// Check if Message was from same type
 		boolean m_Same = e.getSender().contains("Robot07");
-		// checks is message was of type 1(scannedRobotEvent)
-		if (m_Same && (int) msg.get(1) == 1) {
-			ScannedRobotEvent e2 = (ScannedRobotEvent) msg.get(2);
-			// follows our com protocol
-			for (int i = 0; i < enemies.size(); i++) {
-				if (e2.equals(enemies.get(i))) {
-					if (e2.getTime() > enemies.get(i).getTime()) {
+
+		//checks is message was of type 1(scannedRobotEvent)
+		if(m_Same && (int)msg.get(1) == 1) {
+			//creates local copy of ScannedRobot
+			ScannedRobotEvent e2 = (ScannedRobotEvent)msg.get(2);
+			//Updates enemies list
+			for(int i = 0; i<enemies.size(); i++) {
+				if(e2.equals(enemies.get(i))) {
+					if(e2.getTime() > enemies.get(i).getTime()) {
+
 						enemies.remove(i);
 						enemies.add(e2);
 						break;
