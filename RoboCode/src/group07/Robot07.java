@@ -41,7 +41,7 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
-
+		
 		// test behavior
 		stop();
 		setTurnGunRight(getRadarHeading() - getGunHeading());
