@@ -149,6 +149,12 @@ public class Robot07 extends robocode.TeamRobot {
 			// TODO Auto-generated catch block
 		}
 	}
+	
+	public void onRobotDeath(RobotDeathEvent e) {
+		if (e.getName().equals(target.getName())) {
+			target.reset();
+		}
+	}
 
 	private void doMoveRobot() {
 		double degreeCloser = 0;
