@@ -19,45 +19,45 @@ public class Robot07 extends robocode.TeamRobot {
 		for(int i = 0; i<teamm8.length;i++) {
 			allies.add(new Ally(teamm8[i]));
 		}
-		
+
 		// Robot main loop
 		while(true) {
 			// Replace the next 4 lines with any behavior you would like
-			
+
 			turnRadarRight(360);
 			ahead(100);
 			back(100);
-			
-			
-//			try {
-//				sendMessage("Robot07","hejsan");
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-			
+
+
 		}
 	}
-	
-	
-	
+
+
+
 	/**
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
 
-		
+		//test behavior
 		stop();
 		setTurnGunRight(getRadarHeading() - getGunHeading());
 		fire(1);
 		turnRight(e.getBearing()-90);
 		setTurnRadarRight(getHeading() - getRadarHeading() + e.getBearing());
-		
+
 
 		//check if scannedRobot already exists, else adds it.
 		for(int i = 0; i<enemies.size(); i++) {
 			if(!e.equals(enemies.get(i))) {
 				enemies.add(e);
+				//notifies Allies(Robot07) of new Enemy
+				try {
+					sendMessage("Robot07",e);
+				} catch (IOException error) {
+					// TODO Auto-generated catch block
+				}
+
 			}
 		}
 
@@ -70,6 +70,7 @@ public class Robot07 extends robocode.TeamRobot {
 		boolean m_Same = e.getSender() == "Robot07";
 		if(m_Same) {
 			//follows our com protocol
+			enemies.add((ScannedRobotEvent)e.getMessage());
 		}
 		else {
 			//doesn't
@@ -83,13 +84,13 @@ public class Robot07 extends robocode.TeamRobot {
 		// Replace the next line with any behavior you would like
 		back(10);
 	}
-	
+
 	/**
 	 * onHitWall: What to do when you hit a wall
 	 */
 	public void onHitWall(HitWallEvent e) {
 		// Replace the next line with any behavior you would like
-		
+
 		back(20);
 	}	
 }
