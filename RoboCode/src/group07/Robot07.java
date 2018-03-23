@@ -75,7 +75,7 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
-
+		if (!isTeammate(e.getName())) return;
 		target = new AdvancedEnemyBot(e,this);
 		radarFollowTarget();
 
