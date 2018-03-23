@@ -7,6 +7,7 @@ import robocode.*;
 
 public class MatRobot extends AdvancedRobot
 {
+	//doesn't work anymore since changes in AdvancedEnemyBot constructor
 	private AdvancedEnemyBot enemy = new AdvancedEnemyBot();
 	private int lastScan = 0;
 	
