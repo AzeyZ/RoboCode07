@@ -14,9 +14,9 @@ public class Robot07 extends robocode.TeamRobot {
 	private ArrayList<Ally> allies = new ArrayList<Ally>();
 	private AdvancedEnemyBot target;
 	double angleTurret;
-	//går upp varje efter varje tick då scan ej fokuserad
+	// går upp varje efter varje tick då scan ej fokuserad
 	private int lastScan = 0;
-	//bytas till -1 om man vill åka baklänges
+	// bytas till -1 om man vill åka baklänges
 	private int moveDirection = 1;
 
 	public void run() {
@@ -30,7 +30,7 @@ public class Robot07 extends robocode.TeamRobot {
 			}
 		}
 
-		//ser till att alla delar kan rotera individuellt
+		// ser till att alla delar kan rotera individuellt
 		setAdjustRadarForRobotTurn(true);
 		setAdjustRadarForGunTurn(true);
 		setAdjustGunForRobotTurn(true);
@@ -38,55 +38,55 @@ public class Robot07 extends robocode.TeamRobot {
 		setTurnRadarRight(360);
 		// Robot main loop
 		while (true) {
-			//flyttar vapnet
+			// flyttar vapnet
 			doMoveGun();
-			//flyttar roboten
+			// flyttar roboten
 			doMoveRobot();
-			//har koll på scannern
+			// har koll på scannern
 			doScan();
-			
-			//behövs för att alla set commands ska köra
+
+			// behövs för att alla set commands ska köra
 			execute();
 		}
 	}
-	
-	//Flyttar vapnet om man har en target
+
+	// Flyttar vapnet om man har en target
 	private void doMoveGun() {
-		if(target == null) return;
-		setTurnGunRight(getHeading() + target.getBearing() - getGunHeading());
-		doShootGun();
-	}
-	
-	//Skjuter med en viss kraft
-	private void doShootGun() {
-		if (getGunHeat() == 0 && Math.abs(getGunTurnRemaining()) < 5 && target.getDistance() < 500)
-		{
-			setFire(Math.min(400 / target.getDistance(), 3));
-		}		
+		if (target != null) {
+
+			setTurnGunRight(getHeading() + target.getBearing() - getGunHeading());
+			doShootGun();
+		}
 	}
 
+	// Skjuter med en viss kraft
+	private void doShootGun() {
+		if (getGunHeat() == 0 && Math.abs(getGunTurnRemaining()) < 5 && target.getDistance() < 500) {
+			setFire(Math.min(400 / target.getDistance(), 3));
+		}
+	}
 
 	/**
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
-		//Checks if Scanned is Team
-		if (isTeammate(e.getName())) return;
-		//New target
-		target = new AdvancedEnemyBot(e,this);
-		radarFollowTarget();
+		// Checks if Scanned is Team
+		if (!(isTeammate(e.getName()))) {
 
-		// Sends message of ScannedEnemy to team
-//		[0-1] leadership;[followMe|leadMe]
-//		[0-1] teamMode;[offensive|defensive]
-//		[0-1] myPos;x;y
-//		[0-*] enemyPos;x;y
-//		[0-1] targetEnemy;name
-//		[0-1] targetPos;x;y
-//		[0-1] moveTo;x;y
-
-		
+			// New target
+			target = new AdvancedEnemyBot(e, this);
+			radarFollowTarget();
 		}
+		// Sends message of ScannedEnemy to team
+		// [0-1] leadership;[followMe|leadMe]
+		// [0-1] teamMode;[offensive|defensive]
+		// [0-1] myPos;x;y
+		// [0-*] enemyPos;x;y
+		// [0-1] targetEnemy;name
+		// [0-1] targetPos;x;y
+		// [0-1] moveTo;x;y
+
+	}
 
 	public void doScan() {
 		// Kollar om scannern har tappat fokus
@@ -96,11 +96,11 @@ public class Robot07 extends robocode.TeamRobot {
 			setTurnRadarRight(360);
 		}
 	}
-	//Följer radarn på target
-	public void radarFollowTarget()
-	{
+
+	// Följer radarn på target
+	public void radarFollowTarget() {
 		double d = getHeading() - getRadarHeading() + target.getBearing();
-		setTurnRadarRight(d);	
+		setTurnRadarRight(d);
 		lastScan = 0;
 	}
 
@@ -108,7 +108,7 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onMessageReceived: What to do when you receive a message
 	 */
 	public void onMessageReceived(MessageEvent e) {
-		//removed
+		// removed
 	}
 
 	/**
@@ -127,14 +127,14 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onDeath(RobotDeathEvent event) {
 		ArrayList<Serializable> msg = new ArrayList<Serializable>();
 		msg.add("2");
-		msg.add((Serializable)this); //Vet inte om detta funkar
+		msg.add((Serializable) this); // Vet inte om detta funkar
 		try {
 			sendMessage("Robot07", msg);
 		} catch (IOException error) {
 			// TODO Auto-generated catch block
 		}
 	}
-	
+
 	public void onRobotDeath(RobotDeathEvent e) {
 		if (e.getName().equals(target.getName())) {
 			target.reset();
@@ -142,7 +142,9 @@ public class Robot07 extends robocode.TeamRobot {
 	}
 
 	private void doMoveRobot() {
-		if (target == null) return;
+		if (target == null) {
+			return;
+		}
 		double degreeCloser = 0;
 		if (target.getDistance() > 200) {
 			degreeCloser = 10;
