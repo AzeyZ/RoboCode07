@@ -76,11 +76,24 @@ public class Robot07 extends robocode.TeamRobot {
 		boolean m_Same = e.getSender().contains("Robot07");
 		//checks is message was of type 1(scannedRobotEvent)
 		if(m_Same && (int)msg.get(1) == 1) {
+			ScannedRobotEvent e2 = (ScannedRobotEvent)msg.get(2);
 			//follows our com protocol
-			enemies.add((ScannedRobotEvent)msg.get(2));
+			for(int i = 0; i<enemies.size(); i++) {
+				if(e2.equals(enemies.get(i))) {
+					if(e2.getTime() > enemies.get(i).getTime()) {
+						enemies.remove(i);
+						enemies.add(e2);
+						break;
+					}
+				}
+			}
+			if(!enemies.contains(e2)) {
+				enemies.add(e2);
+			}
+			
 		}
 		else if(m_Same && (int)msg.get(1) == 2) {
-			
+			//remove dead robot see onDeath()
 		}
 		else {
 			
@@ -108,7 +121,7 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onDeath(RobotDeathEvent event) {
 		ArrayList< Serializable> msg = new ArrayList< Serializable>();
 		msg.add("2");
-		//msg.add(this.get);
+		//msg.add();
 		try {
 			sendMessage("Robot07", msg);
 		} catch (IOException error) {
