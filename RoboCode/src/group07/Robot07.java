@@ -42,13 +42,9 @@ public class Robot07 extends robocode.TeamRobot {
 			doMoveGun();
 			//flyttar roboten
 			doMoveRobot();
-			// Kollar om scannern har tappat fokus
-			lastScan++;
-			if (lastScan % 5 == 0) {
-				target.reset();
-				setTurnRadarRight(360);
-			}
-
+			//har koll på scannern
+			doScan();
+			
 			//behövs för att alla set commands ska köra
 			execute();
 		}
@@ -93,6 +89,14 @@ public class Robot07 extends robocode.TeamRobot {
 			}
 		}
 
+	public void doScan() {
+		// Kollar om scannern har tappat fokus
+		lastScan++;
+		if (lastScan % 5 == 0 && target != null) {
+			target.reset();
+			setTurnRadarRight(360);
+		}
+	}
 	//Följer radarn på target
 	public void radarFollowTarget()
 	{
