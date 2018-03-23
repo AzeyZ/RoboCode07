@@ -8,20 +8,18 @@ public class Robot07 extends robocode.TeamRobot {
 	/**
 	 * run: Robot's default behavior
 	 */
-	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private ArrayList<ScannedRobotEvent> enemies = new ArrayList<ScannedRobotEvent>();
+	private ArrayList<Ally> allies = new ArrayList<Ally>();
 	double angleTurret;
 	public void run() {
 		// Initialization of the robot should be put here
 		setColors(Color.red,Color.blue,Color.red); // body,gun,radar
-		//String[] teamm8 = getTeammates();
+		//adding allies
+		String[] teamm8 = getTeammates();
+		for(int i = 0; i<teamm8.length;i++) {
+			allies.add(new Ally(teamm8[i]));
+		}
 		
-		
-		
-		// After trying out your robot, try uncommenting the import at the top,
-		// and the next line:
-
-		 
-
 		// Robot main loop
 		while(true) {
 			// Replace the next 4 lines with any behavior you would like
@@ -41,12 +39,13 @@ public class Robot07 extends robocode.TeamRobot {
 		}
 	}
 	
-
+	
 	
 	/**
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
+<<<<<<< HEAD
 		
 		stop();
 		enemies.add(new Enemy(e.getEnergy()));
@@ -55,17 +54,27 @@ public class Robot07 extends robocode.TeamRobot {
 		turnRight(e.getBearing()-90);
 		setTurnRadarRight(getHeading() - getRadarHeading() + e.getBearing());
 		
+=======
+		//check if scannedRobot already exists, else adds it.
+		for(int i = 0; i<enemies.size(); i++) {
+			if(!e.equals(enemies.get(i))) {
+				enemies.add(e);
+			}
+		}
+
+>>>>>>> branch 'Alpha.1.1.1' of https://github.com/AzeyZ/RoboCode07.git
 	}
 	/**
 	 * onMessageReceived: What to do when you receive a message
 	 */
 	public void onMessageReceived(MessageEvent e) {
 		//Check if Message was from same type
-		
-		boolean m_Same = isTeammate("Robot07");
+		boolean m_Same = event.getSender() == "Robot07";
 		if(m_Same) {
-			
-			
+			//follows our com protocol
+		}
+		else {
+			//doesn't
 		}
 
 	}
