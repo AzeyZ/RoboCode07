@@ -56,10 +56,9 @@ public class Robot07 extends robocode.TeamRobot {
 	
 	//Flyttar vapnet om man har en target
 	private void doMoveGun() {
-		if(!target.none()) {
-			setTurnGunRight(getHeading() + target.getBearing() - getGunHeading());
-			doShootGun();
-		}
+		if(target == null) return;
+		setTurnGunRight(getHeading() + target.getBearing() - getGunHeading());
+		doShootGun();
 	}
 	
 	//Skjuter med en viss kraft
@@ -75,7 +74,9 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
-		//Sätter en target
+		//Checks if Scanned is Team
+		if (isTeammate(e.getName())) return;
+		//New target
 		target = new AdvancedEnemyBot(e,this);
 		radarFollowTarget();
 
@@ -146,6 +147,7 @@ public class Robot07 extends robocode.TeamRobot {
 	}
 
 	private void doMoveRobot() {
+		if (target == null) return;
 		double degreeCloser = 0;
 		if (target.getDistance() > 200) {
 			degreeCloser = 10;
