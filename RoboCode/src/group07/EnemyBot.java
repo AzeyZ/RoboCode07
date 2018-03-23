@@ -3,12 +3,18 @@ package group07;
 import robocode.*;
 
 public class EnemyBot {
+	private ScannedRobotEvent e;
 
 	private double bearing, distance, energy, heading, velocity;
 	private String name;
 	
-	public EnemyBot() {
-		reset();
+	public EnemyBot(ScannedRobotEvent e) {
+		this.e = e;
+		update(e);
+	}
+	
+	public ScannedRobotEvent getEvent() {
+		return e;
 	}
 	
 	public double getBearing() {

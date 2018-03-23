@@ -10,7 +10,7 @@ public class Robot07 extends robocode.TeamRobot {
 	/**
 	 * run: Robot's default behavior
 	 */
-	private ArrayList<ScannedRobotEvent> enemies = new ArrayList<ScannedRobotEvent>();
+	private ArrayList<EnemyBot> enemies = new ArrayList<EnemyBot>();
 	private ArrayList<Ally> allies = new ArrayList<Ally>();
 	double angleTurret;
 
@@ -50,19 +50,20 @@ public class Robot07 extends robocode.TeamRobot {
 		setTurnRadarRight(getHeading() - getRadarHeading() + e.getBearing());
 
 		// check if scannedRobot already exists, else adds it.
+		// under progress
 		for (int i = 0; i < enemies.size(); i++) {
 			if (!e.equals(enemies.get(i))) {
-				enemies.add(e);
+				enemies.add(new EnemyBot(e));
 				// notifies Allies(Robot07) of new Enemy
 				ArrayList<Serializable> msg = new ArrayList<Serializable>();
 				msg.add("1");
-				msg.add(e);
+				msg.add((Serializable) enemies.get(i));
 				try {
 					sendMessage("Robot07", msg);
 				} catch (IOException error) {
 					// TODO Auto-generated catch block
 				}
-
+				break;
 			}
 		}
 
@@ -77,29 +78,13 @@ public class Robot07 extends robocode.TeamRobot {
 		// Check if Message was from same type
 		boolean m_Same = e.getSender().contains("Robot07");
 
-		//checks is message was of type 1(scannedRobotEvent)
+		//checks is message was of type 1(EnemyBot)
 		if(m_Same && (int)msg.get(1) == 1) {
-			//creates local copy of ScannedRobot
-			ScannedRobotEvent e2 = (ScannedRobotEvent)msg.get(2);
-			//Updates enemies list
-			for(int i = 0; i<enemies.size(); i++) {
-				if(e2.equals(enemies.get(i))) {
-					if(e2.getTime() > enemies.get(i).getTime()) {
-
-						enemies.remove(i);
-						enemies.add(e2);
-						break;
-					}
-				}
-			}
-			if (!enemies.contains(e2)) {
-				enemies.add(e2);
-			}
-
+			//TODO update local enemies list
 		} else if (m_Same && (int) msg.get(1) == 2) {
 			// remove dead robot see onDeath()
 		} else {
-
+			
 		}
 
 	}
@@ -124,7 +109,7 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onDeath(RobotDeathEvent event) {
 		ArrayList<Serializable> msg = new ArrayList<Serializable>();
 		msg.add("2");
-		// msg.add();
+		msg.add((Serializable)this); //Vet inte om detta funkar
 		try {
 			sendMessage("Robot07", msg);
 		} catch (IOException error) {
