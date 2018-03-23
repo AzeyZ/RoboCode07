@@ -75,29 +75,22 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
-
+		//Sätter en target
 		target = new AdvancedEnemyBot(e,this);
 		radarFollowTarget();
 
-		// check if scannedRobot already exists, else adds it.
-		// under progress
-		for (int i = 0; i < enemies.size(); i++) {
-			if (!e.equals(enemies.get(i))) {
-				enemies.add(new EnemyBot(e));
-				// notifies Allies(Robot07) of new Enemy
-				ArrayList<Serializable> msg = new ArrayList<Serializable>();
-				msg.add("1");
-				msg.add((Serializable) enemies.get(i));
-				try {
-					sendMessage("Robot07", msg);
-				} catch (IOException error) {
-					// TODO Auto-generated catch block
-				}
-				break;
+		// Sends message of ScannedEnemy to team
+			EnemyBot enemy = new EnemyBot(e);
+			//enemies.add(enemy);
+			ArrayList<Serializable> msg = new ArrayList<Serializable>();
+			msg.add("1");
+			msg.add((Serializable)enemy);
+			try {
+				sendMessage("Robot07", msg);
+			} catch (IOException error) {
+				// TODO Auto-generated catch block
 			}
 		}
-
-	}
 
 	//Följer radarn på target
 	public void radarFollowTarget()
@@ -125,7 +118,7 @@ public class Robot07 extends robocode.TeamRobot {
 		} else {
 			
 		}
-
+		
 	}
 
 	/**
