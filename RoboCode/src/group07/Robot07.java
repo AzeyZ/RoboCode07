@@ -42,13 +42,7 @@ public class Robot07 extends robocode.TeamRobot {
 			// flyttar vapnet
 			doMoveGun();
 			// flyttar roboten
-			if (!(robotMovement.isTargetNull(target))) {
-				setTurnRight(robotMovement.doMoveRobot(moveDirection, getVelocity(), getTime()));
-				if (robotMovement.hasStopped()) {
-					setAhead(robotMovement.setAhead());
-				}
-			}
-
+			robotMovement.doMoveRobot(target, moveDirection, this);
 			// har koll på scannern
 			doScan();
 			// behövs för att alla set commands ska köra
@@ -90,7 +84,6 @@ public class Robot07 extends robocode.TeamRobot {
 				// Update target
 				target.update(e, this);
 				radarFollowTarget();
-
 			}
 
 		}

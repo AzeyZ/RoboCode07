@@ -1,16 +1,32 @@
 package group07;
 
+import robocode.*;
+
 public class RobotMovement {
 	private int moveDirection;
 	private double velocity;
 	private long time;
 	private double degreeCloser;
 	private TargetEnemyBot target;
+	private TeamRobot robot07;
 
 	public RobotMovement() {
 
 	}
-
+	
+	public void doMoveRobot(TargetEnemyBot target, int moveDirection, TeamRobot robot) {
+		this.degreeCloser = 0;
+		this.moveDirection = moveDirection;
+		this.velocity = robot.getVelocity();
+		this.time = robot.getTime();
+		this.robot07 = robot;
+		if (!(isTargetNull(target))) {
+			robot07.setTurnRight(doMoveRobot());
+			if (hasStopped()) {
+				robot07.ahead(setAhead());
+			}
+		}
+	}
 	public boolean isTargetNull(TargetEnemyBot target) {
 		if (target == null) {
 			return true;
@@ -22,11 +38,8 @@ public class RobotMovement {
 		}
 	}
 
-	public double doMoveRobot(int moveDirection, double velocity, long time) {
-		degreeCloser = 0;
-		this.moveDirection = moveDirection;
-		this.velocity = velocity;
-		this.time = time;
+	public double doMoveRobot() {
+		
 		
 
 		if (target.getDistance() > 200) {
@@ -46,10 +59,3 @@ public class RobotMovement {
 		return (100 * moveDirection);
 	}
 }
-// setTurnRight(target.getBearing() + 90 - (degreeCloser * moveDirection));
-//
-//// bytar riktning om vi stannat eller det gått 20 ticks
-// if (velocity == 0 || time % 20 == 0) {
-// moveDirection *= -1;
-// setAhead(100 * moveDirection);
-// }
