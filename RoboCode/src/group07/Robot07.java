@@ -1,5 +1,4 @@
 package group07;
-
 import robocode.*;
 import java.awt.Color;
 import java.io.IOException;
@@ -77,23 +76,23 @@ public class Robot07 extends robocode.TeamRobot {
 			} else {
 				enemies.add(new EnemyBot());
 				enemies.get(enemies.size()-1).update(e);
+
+
+				// Update target
+				target.update(e, this);
+				radarFollowTarget();
 			}
-
-			// Update target
-			target.update(e, this);
-			radarFollowTarget();
+			// Sends message of ScannedEnemy to team
+			// [0-1] leadership;[followMe|leadMe]
+			// [0-1] teamMode;[offensive|defensive]
+			// [0-1] myPos;x;y
+			// [0-*] enemyPos;x;y
+			// [0-1] targetEnemy;name
+			// [0-1] targetPos;x;y
+			// [0-1] moveTo;x;y
 		}
-		// Sends message of ScannedEnemy to team
-		// [0-1] leadership;[followMe|leadMe]
-		// [0-1] teamMode;[offensive|defensive]
-		// [0-1] myPos;x;y
-		// [0-*] enemyPos;x;y
-		// [0-1] targetEnemy;name
-		// [0-1] targetPos;x;y
-		// [0-1] moveTo;x;y
-
 	}
-	
+
 	public int getEnemyIndex(ScannedRobotEvent e) {
 		for(int i = 0; i < enemies.size(); i++)
 		{
@@ -103,7 +102,7 @@ public class Robot07 extends robocode.TeamRobot {
 		}
 		return -1;
 	}
-	
+
 	public boolean isNewEnemy(ScannedRobotEvent e) {
 		for(int i = 0; i < enemies.size(); i++)
 		{
@@ -151,14 +150,15 @@ public class Robot07 extends robocode.TeamRobot {
 	}
 
 	public void onDeath(RobotDeathEvent event) {
-		ArrayList<Serializable> msg = new ArrayList<Serializable>();
-		msg.add("2");
-		msg.add((Serializable) this); // Vet inte om detta funkar
-		try {
-			sendMessage("Robot07", msg);
-		} catch (IOException error) {
-			// TODO Auto-generated catch block
-		}
+		//should probably be removed
+//		ArrayList<Serializable> msg = new ArrayList<Serializable>();
+//		msg.add("2");
+//		msg.add((Serializable) this); // Vet inte om detta funkar
+//		try {
+//			sendMessage("Robot07", msg);
+//		} catch (IOException error) {
+//			// TODO Auto-generated catch block
+//		}
 	}
 
 	public void onRobotDeath(RobotDeathEvent e) {
