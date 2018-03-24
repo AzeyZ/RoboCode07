@@ -1,4 +1,5 @@
 package group07;
+
 import robocode.*;
 import java.awt.Color;
 import java.io.IOException;
@@ -14,6 +15,8 @@ public class Robot07 extends robocode.TeamRobot {
 	private ArrayList<Ally> allies = new ArrayList<Ally>();
 	private TargetEnemyBot target = new TargetEnemyBot(startTarget);
 	private RobotMovement robotMovement = new RobotMovement();
+	private Radar radar = new Radar(this);
+	private Gun gun = new Gun(this);
 	double angleTurret;
 	// går upp varje efter varje tick då scan ej fokuserad
 	private int lastScan = 0;
@@ -40,11 +43,14 @@ public class Robot07 extends robocode.TeamRobot {
 		// Robot main loop
 		while (true) {
 			// flyttar vapnet
-			doMoveGun();
+			gun.update(target);
+			gun.aim();
+			gun.fire();
 			// flyttar roboten
 			robotMovement.doMoveRobot(target, moveDirection, this);
 			// har koll på scannern
-			doScan();
+			radar.update(target);
+			radar.scan();
 			// behövs för att alla set commands ska köra
 			execute();
 		}
@@ -52,22 +58,6 @@ public class Robot07 extends robocode.TeamRobot {
 
 	public TargetEnemyBot getAdvancedEnemyBot() {
 		return target;
-	}
-
-	// Flyttar vapnet om man har en target
-	private void doMoveGun() {
-		if (target != null) {
-
-			setTurnGunRight(getHeading() + target.getBearing() - getGunHeading());
-			doShootGun();
-		}
-	}
-
-	// Skjuter med en viss kraft
-	private void doShootGun() {
-		if (getGunHeat() == 0 && Math.abs(getGunTurnRemaining()) < 5 && target.getDistance() < 500) {
-			setFire(Math.min(400 / target.getDistance(), 3));
-		}
 	}
 
 	/**
@@ -83,44 +73,27 @@ public class Robot07 extends robocode.TeamRobot {
 				enemies.add(new EnemyBot(e));
 				// Update target
 				target.update(e, this);
-				radarFollowTarget();
 			}
 
 		}
 	}
 
-	//	public EnemyBot getEnemyIndex(ScannedRobotEvent e) {
-	//		for (EnemyBot k: enemies) {
-	//			if (e.getName().equals(k.getName())) {
-	//				return k;
-	//			}
-	//		}
-	//		return null;
-	//	}
+	// public EnemyBot getEnemyIndex(ScannedRobotEvent e) {
+	// for (EnemyBot k: enemies) {
+	// if (e.getName().equals(k.getName())) {
+	// return k;
+	// }
+	// }
+	// return null;
+	// }
 
 	public EnemyBot isNewEnemy(ScannedRobotEvent e) {
-		for (EnemyBot k: enemies) {
+		for (EnemyBot k : enemies) {
 			if (e.getName().equals(k.getName())) {
 				return k;
 			}
 		}
 		return null;
-	}
-
-	public void doScan() {
-		// Kollar om scannern har tappat fokus
-		lastScan++;
-		if (lastScan % 5 == 0 && target != null) {
-			target.reset();
-			setTurnRadarRight(360);
-		}
-	}
-
-	// Följer radarn på target
-	public void radarFollowTarget() {
-		double d = getHeading() - getRadarHeading() + target.getBearing();
-		setTurnRadarRight(d);
-		lastScan = 0;
 	}
 
 	/**
@@ -137,37 +110,44 @@ public class Robot07 extends robocode.TeamRobot {
 		// [0-1] moveTo;x;y
 	}
 
-/**
- * onHitByBullet: What to do when you're hit by a bullet
- */
-public void onHitByBullet(HitByBulletEvent e) {
-}
-
-/**
- * onHitWall: What to do when you hit a wall
- */
-public void onHitWall(HitWallEvent e) {
-
-}
-
-public void onDeath(RobotDeathEvent event) {
-	//should probably be removed
-	//		ArrayList<Serializable> msg = new ArrayList<Serializable>();
-	//		msg.add("2");
-	//		msg.add((Serializable) this); // Vet inte om detta funkar
-	//		try {
-	//			sendMessage("Robot07", msg);
-	//		} catch (IOException error) {
-	//			// TODO Auto-generated catch block
-	//		}
-}
-
-public void onRobotDeath(RobotDeathEvent e) {
-	if (e.getName().equals(target.getName())) {
-		target.reset();
+	/**
+	 * onHitByBullet: What to do when you're hit by a bullet
+	 */
+	public void onHitByBullet(HitByBulletEvent e) {
 	}
-}
 
+	/**
+	 * onHitWall: What to do when you hit a wall
+	 */
+	public void onHitWall(HitWallEvent e) {
 
+	}
+
+	public void onDeath(RobotDeathEvent event) {
+		// should probably be removed
+		// ArrayList<Serializable> msg = new ArrayList<Serializable>();
+		// msg.add("2");
+		// msg.add((Serializable) this); // Vet inte om detta funkar
+		// try {
+		// sendMessage("Robot07", msg);
+		// } catch (IOException error) {
+		// // TODO Auto-generated catch block
+		// }
+	}
+
+	public void onRobotDeath(RobotDeathEvent e) {
+		if (e.getName().equals(target.getName())) {
+			target.reset();
+		}
+	}
+
+	// Ger en vinkel mellan -180 och 180
+	public double normalizeBearing(double angle) {
+		while (angle > 180)
+			angle -= 360;
+		while (angle < -180)
+			angle += 360;
+		return angle;
+	}
 
 }
