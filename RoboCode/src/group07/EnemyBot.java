@@ -8,10 +8,18 @@ public class EnemyBot {
 	private double bearing, distance, energy, heading, velocity;
 	private String name;
 	
-	public EnemyBot() {
-		reset();
+	public EnemyBot(ScannedRobotEvent e) {
+//		this.e = e;
+//		bearing = e.getBearing();
+//		distance = e.getDistance();
+//		energy = e.getEnergy();
+//		heading = e.getHeading();
+//		velocity = e.getVelocity();
+//		name = e.getName();
 	}
 	
+	
+
 	public ScannedRobotEvent getEvent() {
 		return e;
 	}

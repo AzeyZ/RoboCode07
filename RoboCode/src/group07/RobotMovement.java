@@ -5,13 +5,13 @@ public class RobotMovement {
 	private double velocity;
 	private long time;
 	private double degreeCloser;
-	private AdvancedEnemyBot target;
+	private TargetEnemyBot target;
 
 	public RobotMovement() {
 
 	}
 
-	public boolean isTargetNull(AdvancedEnemyBot target) {
+	public boolean isTargetNull(TargetEnemyBot target) {
 		if (target == null) {
 			return true;
 		}
@@ -23,9 +23,6 @@ public class RobotMovement {
 	}
 
 	public double doMoveRobot(int moveDirection, double velocity, long time) {
-		if (target == null) {
-			return 0;
-		}
 		degreeCloser = 0;
 		this.moveDirection = moveDirection;
 		this.velocity = velocity;

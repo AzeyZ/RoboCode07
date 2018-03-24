@@ -2,14 +2,14 @@
 
 import java.awt.Color;
 
-import group07.AdvancedEnemyBot;
+import group07.TargetEnemyBot;
 import robocode.*;
 
 // API help : http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html
 
 public class polyBot extends AdvancedRobot {
 
-	private AdvancedEnemyBot target = new AdvancedEnemyBot();
+	private TargetEnemyBot target = new TargetEnemyBot();
 	private Radar radar = new Radar();
 	private Gun gun = new Gun();
 	private Tank tank = new Tank();

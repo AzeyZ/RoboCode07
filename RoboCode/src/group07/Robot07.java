@@ -9,9 +9,10 @@ public class Robot07 extends robocode.TeamRobot {
 	/**
 	 * run: Robot's default behavior
 	 */
+	private ScannedRobotEvent startTarget = null;
 	private ArrayList<EnemyBot> enemies = new ArrayList<EnemyBot>();
 	private ArrayList<Ally> allies = new ArrayList<Ally>();
-	private AdvancedEnemyBot target = new AdvancedEnemyBot();
+	private TargetEnemyBot target = new TargetEnemyBot(startTarget);
 	private RobotMovement robotMovement = new RobotMovement();
 	double angleTurret;
 	// går upp varje efter varje tick då scan ej fokuserad
@@ -55,7 +56,7 @@ public class Robot07 extends robocode.TeamRobot {
 		}
 	}
 
-	public AdvancedEnemyBot getAdvancedEnemyBot() {
+	public TargetEnemyBot getAdvancedEnemyBot() {
 		return target;
 	}
 
@@ -81,18 +82,17 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// Checks if Scanned is Team
 		if (!(isTeammate(e.getName()))) {
-
-			if (!isNewEnemy(e)) {
-				enemies.get(getEnemyIndex(e)).update(e);
+			EnemyBot m_team = isNewEnemy(e);
+			if ((isNewEnemy(e) != null)) {
+				m_team.update(e);
 			} else {
-				enemies.add(new EnemyBot());
-				enemies.get(enemies.size()-1).update(e);
-
+				enemies.add(new EnemyBot(e));
 				// Update target
 				target.update(e, this);
 				radarFollowTarget();
 
 			}
+			
 			// Sends message of ScannedEnemy to team
 			// [0-1] leadership;[followMe|leadMe]
 			// [0-1] teamMode;[offensive|defensive]
@@ -104,22 +104,22 @@ public class Robot07 extends robocode.TeamRobot {
 		}
 	}
 
-	public int getEnemyIndex(ScannedRobotEvent e) {
-		for (int i = 0; i < enemies.size(); i++) {
-			if (e.getName().equals(enemies.get(i).getName())) {
-				return i;
-			}
-		}
-		return -1;
-	}
+//	public EnemyBot getEnemyIndex(ScannedRobotEvent e) {
+//		for (EnemyBot k: enemies) {
+//			if (e.getName().equals(k.getName())) {
+//				return k;
+//			}
+//		}
+//		return null;
+//	}
 
-	public boolean isNewEnemy(ScannedRobotEvent e) {
+	public EnemyBot isNewEnemy(ScannedRobotEvent e) {
 		for (EnemyBot k: enemies) {
 			if (e.getName().equals(k.getName())) {
-				return false;
+				return k;
 			}
 		}
-		return true;
+		return null;
 	}
 
 	public void doScan() {

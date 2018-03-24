@@ -1,6 +1,6 @@
 
 
-import group07.AdvancedEnemyBot;
+import group07.TargetEnemyBot;
 import robocode.*;
 
 
@@ -9,7 +9,7 @@ import robocode.*;
 public class MatRobot extends AdvancedRobot
 {
 	//doesn't work anymore since changes in AdvancedEnemyBot constructor
-	private AdvancedEnemyBot enemy = new AdvancedEnemyBot();
+	private TargetEnemyBot enemy = new TargetEnemyBot();
 	private int lastScan = 0;
 	
 	private int moveDirection = 1;

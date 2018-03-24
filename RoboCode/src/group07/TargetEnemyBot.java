@@ -2,10 +2,11 @@ package group07;
 
 import robocode.*;
 
-public class AdvancedEnemyBot extends EnemyBot {
+public class TargetEnemyBot extends EnemyBot {
 	private double x, y;
 	
-	public AdvancedEnemyBot() {
+	public TargetEnemyBot(ScannedRobotEvent e) {
+		super(e);
 		reset();
 	}
 	
