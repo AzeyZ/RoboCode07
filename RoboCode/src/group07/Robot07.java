@@ -48,7 +48,7 @@ public class Robot07 extends robocode.TeamRobot {
 					setAhead(robotMovement.setAhead());
 				}
 			}
-			
+
 			// har koll på scannern
 			doScan();
 			// behövs för att alla set commands ska köra
@@ -92,26 +92,18 @@ public class Robot07 extends robocode.TeamRobot {
 				radarFollowTarget();
 
 			}
-			
-			// Sends message of ScannedEnemy to team
-			// [0-1] leadership;[followMe|leadMe]
-			// [0-1] teamMode;[offensive|defensive]
-			// [0-1] myPos;x;y
-			// [0-*] enemyPos;x;y
-			// [0-1] targetEnemy;name
-			// [0-1] targetPos;x;y
-			// [0-1] moveTo;x;y
+
 		}
 	}
 
-//	public EnemyBot getEnemyIndex(ScannedRobotEvent e) {
-//		for (EnemyBot k: enemies) {
-//			if (e.getName().equals(k.getName())) {
-//				return k;
-//			}
-//		}
-//		return null;
-//	}
+	//	public EnemyBot getEnemyIndex(ScannedRobotEvent e) {
+	//		for (EnemyBot k: enemies) {
+	//			if (e.getName().equals(k.getName())) {
+	//				return k;
+	//			}
+	//		}
+	//		return null;
+	//	}
 
 	public EnemyBot isNewEnemy(ScannedRobotEvent e) {
 		for (EnemyBot k: enemies) {
@@ -142,40 +134,47 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onMessageReceived: What to do when you receive a message
 	 */
 	public void onMessageReceived(MessageEvent e) {
-		// removed
+		// Sends message of ScannedEnemy to team
+		// [0-1] leadership;[followMe|leadMe]
+		// [0-1] teamMode;[offensive|defensive]
+		// [0-1] myPos;x;y
+		// [0-*] enemyPos;x;y
+		// [0-1] targetEnemy;name
+		// [0-1] targetPos;x;y
+		// [0-1] moveTo;x;y
 	}
 
-	/**
-	 * onHitByBullet: What to do when you're hit by a bullet
-	 */
-	public void onHitByBullet(HitByBulletEvent e) {
+/**
+ * onHitByBullet: What to do when you're hit by a bullet
+ */
+public void onHitByBullet(HitByBulletEvent e) {
+}
+
+/**
+ * onHitWall: What to do when you hit a wall
+ */
+public void onHitWall(HitWallEvent e) {
+
+}
+
+public void onDeath(RobotDeathEvent event) {
+	//should probably be removed
+	//		ArrayList<Serializable> msg = new ArrayList<Serializable>();
+	//		msg.add("2");
+	//		msg.add((Serializable) this); // Vet inte om detta funkar
+	//		try {
+	//			sendMessage("Robot07", msg);
+	//		} catch (IOException error) {
+	//			// TODO Auto-generated catch block
+	//		}
+}
+
+public void onRobotDeath(RobotDeathEvent e) {
+	if (e.getName().equals(target.getName())) {
+		target.reset();
 	}
+}
 
-	/**
-	 * onHitWall: What to do when you hit a wall
-	 */
-	public void onHitWall(HitWallEvent e) {
 
-	}
-
-	public void onDeath(RobotDeathEvent event) {
-		//should probably be removed
-//		ArrayList<Serializable> msg = new ArrayList<Serializable>();
-//		msg.add("2");
-//		msg.add((Serializable) this); // Vet inte om detta funkar
-//		try {
-//			sendMessage("Robot07", msg);
-//		} catch (IOException error) {
-//			// TODO Auto-generated catch block
-//		}
-	}
-
-	public void onRobotDeath(RobotDeathEvent e) {
-		if (e.getName().equals(target.getName())) {
-			target.reset();
-		}
-	}
-
-	
 
 }
