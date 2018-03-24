@@ -1,4 +1,5 @@
 package group07;
+
 import robocode.*;
 import java.awt.Color;
 import java.io.IOException;
@@ -46,13 +47,7 @@ public class Robot07 extends robocode.TeamRobot {
 			gun.aim();
 			gun.fire();
 			// flyttar roboten
-			if (!(robotMovement.isTargetNull(target))) {
-				setTurnRight(robotMovement.doMoveRobot(moveDirection, getVelocity(), getTime()));
-				if (robotMovement.hasStopped()) {
-					setAhead(robotMovement.setAhead());
-				}
-			}
-			
+			robotMovement.doMoveRobot(target, moveDirection, this);
 			// har koll på scannern
 			radar.update(target);
 			radar.scan();
@@ -64,7 +59,6 @@ public class Robot07 extends robocode.TeamRobot {
 	public TargetEnemyBot getAdvancedEnemyBot() {
 		return target;
 	}
-
 
 	/**
 	 * onScannedRobot: What to do when you see another robot
@@ -79,31 +73,22 @@ public class Robot07 extends robocode.TeamRobot {
 				enemies.add(new EnemyBot(e));
 				// Update target
 				target.update(e, this);
-
 			}
-			
-			// Sends message of ScannedEnemy to team
-			// [0-1] leadership;[followMe|leadMe]
-			// [0-1] teamMode;[offensive|defensive]
-			// [0-1] myPos;x;y
-			// [0-*] enemyPos;x;y
-			// [0-1] targetEnemy;name
-			// [0-1] targetPos;x;y
-			// [0-1] moveTo;x;y
+
 		}
 	}
 
-//	public EnemyBot getEnemyIndex(ScannedRobotEvent e) {
-//		for (EnemyBot k: enemies) {
-//			if (e.getName().equals(k.getName())) {
-//				return k;
-//			}
-//		}
-//		return null;
-//	}
+	// public EnemyBot getEnemyIndex(ScannedRobotEvent e) {
+	// for (EnemyBot k: enemies) {
+	// if (e.getName().equals(k.getName())) {
+	// return k;
+	// }
+	// }
+	// return null;
+	// }
 
 	public EnemyBot isNewEnemy(ScannedRobotEvent e) {
-		for (EnemyBot k: enemies) {
+		for (EnemyBot k : enemies) {
 			if (e.getName().equals(k.getName())) {
 				return k;
 			}
@@ -115,7 +100,14 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onMessageReceived: What to do when you receive a message
 	 */
 	public void onMessageReceived(MessageEvent e) {
-		// removed
+		// Sends message of ScannedEnemy to team
+		// [0-1] leadership;[followMe|leadMe]
+		// [0-1] teamMode;[offensive|defensive]
+		// [0-1] myPos;x;y
+		// [0-*] enemyPos;x;y
+		// [0-1] targetEnemy;name
+		// [0-1] targetPos;x;y
+		// [0-1] moveTo;x;y
 	}
 
 	/**
@@ -132,15 +124,15 @@ public class Robot07 extends robocode.TeamRobot {
 	}
 
 	public void onDeath(RobotDeathEvent event) {
-		//should probably be removed
-//		ArrayList<Serializable> msg = new ArrayList<Serializable>();
-//		msg.add("2");
-//		msg.add((Serializable) this); // Vet inte om detta funkar
-//		try {
-//			sendMessage("Robot07", msg);
-//		} catch (IOException error) {
-//			// TODO Auto-generated catch block
-//		}
+		// should probably be removed
+		// ArrayList<Serializable> msg = new ArrayList<Serializable>();
+		// msg.add("2");
+		// msg.add((Serializable) this); // Vet inte om detta funkar
+		// try {
+		// sendMessage("Robot07", msg);
+		// } catch (IOException error) {
+		// // TODO Auto-generated catch block
+		// }
 	}
 
 	public void onRobotDeath(RobotDeathEvent e) {
@@ -149,13 +141,13 @@ public class Robot07 extends robocode.TeamRobot {
 		}
 	}
 
-	//Ger en vinkel mellan -180 och 180
+	// Ger en vinkel mellan -180 och 180
 	public double normalizeBearing(double angle) {
 		while (angle > 180)
 			angle -= 360;
 		while (angle < -180)
 			angle += 360;
 		return angle;
-	}	
+	}
 
 }
