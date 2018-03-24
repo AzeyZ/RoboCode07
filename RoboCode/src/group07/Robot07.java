@@ -84,7 +84,6 @@ public class Robot07 extends robocode.TeamRobot {
 
 			if (!isNewEnemy(e)) {
 				enemies.get(getEnemyIndex(e)).update(e);
-				;
 			} else {
 				enemies.add(new EnemyBot());
 				enemies.get(enemies.size()-1).update(e);
