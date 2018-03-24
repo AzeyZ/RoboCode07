@@ -14,6 +14,8 @@ public class Robot07 extends robocode.TeamRobot {
 	private ArrayList<Ally> allies = new ArrayList<Ally>();
 	private TargetEnemyBot target = new TargetEnemyBot(startTarget);
 	private RobotMovement robotMovement = new RobotMovement();
+	private Radar radar = new Radar(this);
+	private Gun gun = new Gun(this);
 	double angleTurret;
 	// går upp varje efter varje tick då scan ej fokuserad
 	private int lastScan = 0;
@@ -40,7 +42,9 @@ public class Robot07 extends robocode.TeamRobot {
 		// Robot main loop
 		while (true) {
 			// flyttar vapnet
-			doMoveGun();
+			gun.update(target);
+			gun.aim();
+			gun.fire();
 			// flyttar roboten
 			if (!(robotMovement.isTargetNull(target))) {
 				setTurnRight(robotMovement.doMoveRobot(moveDirection, getVelocity(), getTime()));
@@ -50,7 +54,8 @@ public class Robot07 extends robocode.TeamRobot {
 			}
 			
 			// har koll på scannern
-			doScan();
+			radar.update(target);
+			radar.scan();
 			// behövs för att alla set commands ska köra
 			execute();
 		}
@@ -60,21 +65,6 @@ public class Robot07 extends robocode.TeamRobot {
 		return target;
 	}
 
-	// Flyttar vapnet om man har en target
-	private void doMoveGun() {
-		if (target != null) {
-
-			setTurnGunRight(getHeading() + target.getBearing() - getGunHeading());
-			doShootGun();
-		}
-	}
-
-	// Skjuter med en viss kraft
-	private void doShootGun() {
-		if (getGunHeat() == 0 && Math.abs(getGunTurnRemaining()) < 5 && target.getDistance() < 500) {
-			setFire(Math.min(400 / target.getDistance(), 3));
-		}
-	}
 
 	/**
 	 * onScannedRobot: What to do when you see another robot
@@ -89,7 +79,6 @@ public class Robot07 extends robocode.TeamRobot {
 				enemies.add(new EnemyBot(e));
 				// Update target
 				target.update(e, this);
-				radarFollowTarget();
 
 			}
 			
@@ -120,22 +109,6 @@ public class Robot07 extends robocode.TeamRobot {
 			}
 		}
 		return null;
-	}
-
-	public void doScan() {
-		// Kollar om scannern har tappat fokus
-		lastScan++;
-		if (lastScan % 5 == 0 && target != null) {
-			target.reset();
-			setTurnRadarRight(360);
-		}
-	}
-
-	// Följer radarn på target
-	public void radarFollowTarget() {
-		double d = getHeading() - getRadarHeading() + target.getBearing();
-		setTurnRadarRight(d);
-		lastScan = 0;
 	}
 
 	/**
@@ -176,6 +149,13 @@ public class Robot07 extends robocode.TeamRobot {
 		}
 	}
 
-	
+	//Ger en vinkel mellan -180 och 180
+	public double normalizeBearing(double angle) {
+		while (angle > 180)
+			angle -= 360;
+		while (angle < -180)
+			angle += 360;
+		return angle;
+	}	
 
 }
