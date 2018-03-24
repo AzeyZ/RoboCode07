@@ -48,7 +48,7 @@ public class Robot07 extends robocode.TeamRobot {
 					setAhead(robotMovement.setAhead());
 				}
 			}
-			//doMoveRobot();
+			
 			// har koll på scannern
 			doScan();
 			// behövs för att alla set commands ska köra
@@ -176,23 +176,6 @@ public class Robot07 extends robocode.TeamRobot {
 		}
 	}
 
-	private void doMoveRobot() {
-		if (target == null) {
-			return;
-		}
-		double degreeCloser = 0;
-		if (target.getDistance() > 200) {
-			degreeCloser = 10;
-		} else {
-			degreeCloser = 0;
-		}
-		setTurnRight(target.getBearing() + 90 - (degreeCloser * moveDirection));
-
-		// bytar riktning om vi stannat eller det gått 20 ticks
-		if (getVelocity() == 0 || getTime() % 20 == 0) {
-			moveDirection *= -1;
-			setAhead(100 * moveDirection);
-		}
-	}
+	
 
 }
