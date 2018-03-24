@@ -47,7 +47,7 @@ public class Robot07 extends robocode.TeamRobot {
 					setAhead(robotMovement.setAhead());
 				}
 			}
-			doMoveRobot();
+			//doMoveRobot();
 			// har koll på scannern
 			doScan();
 			// behövs för att alla set commands ska köra
@@ -114,8 +114,8 @@ public class Robot07 extends robocode.TeamRobot {
 	}
 
 	public boolean isNewEnemy(ScannedRobotEvent e) {
-		for (int i = 0; i < enemies.size(); i++) {
-			if (e.getName().equals(enemies.get(i).getName())) {
+		for (EnemyBot k: enemies) {
+			if (e.getName().equals(k.getName())) {
 				return false;
 			}
 		}
