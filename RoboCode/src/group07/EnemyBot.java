@@ -9,13 +9,13 @@ public class EnemyBot {
 	private String name;
 	
 	public EnemyBot(ScannedRobotEvent e) {
-//		this.e = e;
-//		bearing = e.getBearing();
-//		distance = e.getDistance();
-//		energy = e.getEnergy();
-//		heading = e.getHeading();
-//		velocity = e.getVelocity();
-//		name = e.getName();
+		this.e = e;
+		bearing = e.getBearing();
+		distance = e.getDistance();
+		energy = e.getEnergy();
+		heading = e.getHeading();
+		velocity = e.getVelocity();
+		name = e.getName();
 	}
 	
 	
