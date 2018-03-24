@@ -1,7 +1,8 @@
-package group07;
+
 
 import java.awt.Color;
 
+import group07.AdvancedEnemyBot;
 import robocode.*;
 
 // API help : http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html

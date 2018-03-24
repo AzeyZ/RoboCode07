@@ -1,5 +1,6 @@
-package group07;
 
+
+import group07.AdvancedEnemyBot;
 import robocode.*;
 
 

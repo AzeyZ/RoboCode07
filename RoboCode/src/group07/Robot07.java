@@ -44,7 +44,6 @@ public class Robot07 extends robocode.TeamRobot {
 			doMoveRobot();
 			// har koll på scannern
 			doScan();
-
 			// behövs för att alla set commands ska köra
 			execute();
 		}
