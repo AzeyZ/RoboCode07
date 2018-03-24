@@ -80,11 +80,11 @@ public class Robot07 extends robocode.TeamRobot {
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// Checks if Scanned is Team
-		//if (!(isTeammate(e.getName()))) {
+		if (!(isTeammate(e.getName()))) {
 
 			if (!isNewEnemy(e)) {
 				enemies.get(getEnemyIndex(e)).update(e);
-				;
+				
 			} else {
 				enemies.add(new EnemyBot());
 				enemies.get(enemies.size()-1).update(e);
@@ -102,7 +102,7 @@ public class Robot07 extends robocode.TeamRobot {
 			// [0-1] targetEnemy;name
 			// [0-1] targetPos;x;y
 			// [0-1] moveTo;x;y
-		//}
+		}
 	}
 
 	public int getEnemyIndex(ScannedRobotEvent e) {
@@ -125,7 +125,7 @@ public class Robot07 extends robocode.TeamRobot {
 
 	public void doScan() {
 		// Kollar om scannern har tappat fokus
-		//lastScan++;
+		lastScan++;
 		if (lastScan % 5 == 0 && target != null) {
 			target.reset();
 			setTurnRadarRight(360);
