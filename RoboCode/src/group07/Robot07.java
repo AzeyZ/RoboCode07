@@ -13,6 +13,7 @@ public class Robot07 extends robocode.TeamRobot {
 	private ArrayList<EnemyBot> enemies = new ArrayList<EnemyBot>();
 	private ArrayList<Ally> allies = new ArrayList<Ally>();
 	private AdvancedEnemyBot target = new AdvancedEnemyBot();
+	private RobotMovement robotMovement = new RobotMovement();
 	double angleTurret;
 	// går upp varje efter varje tick då scan ej fokuserad
 	private int lastScan = 0;
@@ -41,12 +42,22 @@ public class Robot07 extends robocode.TeamRobot {
 			// flyttar vapnet
 			doMoveGun();
 			// flyttar roboten
+			if (!(robotMovement.isTargetNull(target))) {
+				setTurnRight(robotMovement.doMoveRobot(moveDirection, getVelocity(), getTime()));
+				if (robotMovement.hasStopped()) {
+					setAhead(robotMovement.setAhead());
+				}
+			}
 			doMoveRobot();
 			// har koll på scannern
 			doScan();
 			// behövs för att alla set commands ska köra
 			execute();
 		}
+	}
+
+	public AdvancedEnemyBot getAdvancedEnemyBot() {
+		return target;
 	}
 
 	// Flyttar vapnet om man har en target
@@ -72,11 +83,12 @@ public class Robot07 extends robocode.TeamRobot {
 		// Checks if Scanned is Team
 		if (!(isTeammate(e.getName()))) {
 
-			if(!isNewEnemy(e)) {
-				enemies.get(getEnemyIndex(e)).update(e);;
+			if (!isNewEnemy(e)) {
+				enemies.get(getEnemyIndex(e)).update(e);
+				;
 			} else {
 				enemies.add(new EnemyBot());
-				enemies.get(enemies.size()-1).update(e);
+				enemies.get(enemies.size() - 1).update(e);
 			}
 
 			// Update target
@@ -93,21 +105,19 @@ public class Robot07 extends robocode.TeamRobot {
 		// [0-1] moveTo;x;y
 
 	}
-	
+
 	public int getEnemyIndex(ScannedRobotEvent e) {
-		for(int i = 0; i < enemies.size(); i++)
-		{
-			if(e.getName().equals(enemies.get(i).getName())) {
+		for (int i = 0; i < enemies.size(); i++) {
+			if (e.getName().equals(enemies.get(i).getName())) {
 				return i;
 			}
 		}
 		return -1;
 	}
-	
+
 	public boolean isNewEnemy(ScannedRobotEvent e) {
-		for(int i = 0; i < enemies.size(); i++)
-		{
-			if(e.getName().equals(enemies.get(i).getName())) {
+		for (int i = 0; i < enemies.size(); i++) {
+			if (e.getName().equals(enemies.get(i).getName())) {
 				return false;
 			}
 		}
@@ -185,4 +195,5 @@ public class Robot07 extends robocode.TeamRobot {
 			setAhead(100 * moveDirection);
 		}
 	}
+
 }
