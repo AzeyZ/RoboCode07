@@ -1,0 +1,5 @@
+Bara en tanke
+  - Vi andvänder listan ordning för att hålla koll på vilken robot som är vårat nuvarande "wanted target".
+  Det kan göras genom att ha en metod som sorterar listan efter olika kriterier t.ex hp, typ, antal motståndare. Alt även pos.
+  Denna metod kan kallas på varje gång en robot av våran typ träffar en annan robot "onBulletHit(BulletHitEvent event)".
+  Sedan skickar man hela listan till våra andra robotar. Då vet alla vilket target som är gemensamt högst prio.
