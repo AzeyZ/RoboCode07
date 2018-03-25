@@ -4,9 +4,9 @@ import robocode.*;
 
 public class TargetEnemyBot extends EnemyBot {
 	private double x, y;
+	private boolean isUpdated;
 	
-	public TargetEnemyBot(ScannedRobotEvent e) {
-		super(e);
+	public TargetEnemyBot() {
 		reset();
 	}
 	
@@ -15,6 +15,7 @@ public class TargetEnemyBot extends EnemyBot {
 		super.reset();
 		x = 0;
 		y = 0;
+		isUpdated = false;
 	}
 	
 	public void update(ScannedRobotEvent e, Robot robot) {
@@ -24,6 +25,7 @@ public class TargetEnemyBot extends EnemyBot {
 		
 		x = robot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * e.getDistance();
 		y = robot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * e.getDistance();
+		isUpdated = true;
 	}
 	
 	public double getFutureX(double time) {
@@ -32,5 +34,9 @@ public class TargetEnemyBot extends EnemyBot {
 	
 	public double getFutureY(double time) {
 		return y + Math.cos(Math.toRadians(getHeading())) * getVelocity() * time;
+	}
+	
+	public boolean getIsUpdated() {
+		return isUpdated;
 	}
 }

@@ -9,6 +9,7 @@ import robocode.*;
 
 public class polyBot extends AdvancedRobot {
 
+	private ScannedRobotEvent t = null;
 	private TargetEnemyBot target = new TargetEnemyBot();
 	private Radar radar = new Radar();
 	private Gun gun = new Gun();

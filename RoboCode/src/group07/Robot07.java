@@ -10,19 +10,13 @@ public class Robot07 extends robocode.TeamRobot {
 	/**
 	 * run: Robot's default behavior
 	 */
-	private ScannedRobotEvent startTarget = null;
 	private ArrayList<EnemyBot> enemies = new ArrayList<EnemyBot>();
 	private ArrayList<Ally> allies = new ArrayList<Ally>();
-	private TargetEnemyBot target = new TargetEnemyBot(startTarget);
-	private RobotMovement robotMovement = new RobotMovement();
+	private TargetEnemyBot target = new TargetEnemyBot();
+	private RobotMovement robotMovement = new RobotMovement(this);
 	private Radar radar = new Radar(this);
 	private Gun gun = new Gun(this);
-	double angleTurret;
-	// går upp varje efter varje tick då scan ej fokuserad
-	private int lastScan = 0;
-	// bytas till -1 om man vill åka baklänges
-	private int moveDirection = 1;
-
+	
 	public void run() {
 		// Initialization of the robot should be put here
 		setColors(Color.red, Color.blue, Color.red); // body,gun,radar
@@ -42,15 +36,16 @@ public class Robot07 extends robocode.TeamRobot {
 		setTurnRadarRight(360);
 		// Robot main loop
 		while (true) {
+			// flyttar roboten
+			robotMovement.update(target);
+			robotMovement.move();
+			// scannar 
+			radar.update(target);
+			radar.scan();
 			// flyttar vapnet
 			gun.update(target);
 			gun.aim();
 			gun.fire();
-			// flyttar roboten
-			robotMovement.doMoveRobot(target, moveDirection, this);
-			// har koll på scannern
-			radar.update(target);
-			radar.scan();
 			// behövs för att alla set commands ska köra
 			execute();
 		}
@@ -66,14 +61,19 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// Checks if Scanned is Team
 		if (!(isTeammate(e.getName()))) {
+			
+			// Här är något fel (else kallades aldrig även 1v1)
 			EnemyBot m_team = isNewEnemy(e);
 			if ((isNewEnemy(e) != null)) {
 				m_team.update(e);
 			} else {
-				enemies.add(new EnemyBot(e));
-				// Update target
-				target.update(e, this);
+				EnemyBot bot = new EnemyBot();
+				bot.update(e);
+				enemies.add(bot);
 			}
+			// Flyttade ur update från else
+			// Update target
+			target.update(e, this);
 
 		}
 	}

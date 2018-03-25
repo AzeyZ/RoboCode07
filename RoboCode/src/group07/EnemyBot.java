@@ -8,44 +8,8 @@ public class EnemyBot {
 	private double bearing, distance, energy, heading, velocity;
 	private String name;
 	
-	public EnemyBot(ScannedRobotEvent e) {
-		this.e = e;
-		bearing = e.getBearing();
-		distance = e.getDistance();
-		energy = e.getEnergy();
-		heading = e.getHeading();
-		velocity = e.getVelocity();
-		name = e.getName();
-	}
-	
-	
-
-	public ScannedRobotEvent getEvent() {
-		return e;
-	}
-	
-	public double getBearing() {
-		return bearing;
-	}
-	
-	public double getDistance() {
-		return distance;
-	}
-	
-	public double getEnergy() {
-		return energy;
-	}
-	
-	public double getHeading() {
-		return heading;
-	}
-	
-	public double getVelocity() {
-		return velocity;
-	}
-	
-	public String getName() {
-		return name;
+	public EnemyBot() {
+		reset();
 	}
 	
 	public void update(ScannedRobotEvent e) {
@@ -75,4 +39,34 @@ public class EnemyBot {
 			return false;
 		}
 	}
+
+	public ScannedRobotEvent getEvent() {
+		return e;
+	}
+	
+	public double getBearing() {
+		return bearing;
+	}
+	
+	public double getDistance() {
+		return distance;
+	}
+	
+	public double getEnergy() {
+		return energy;
+	}
+	
+	public double getHeading() {
+		return heading;
+	}
+	
+	public double getVelocity() {
+		return velocity;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+
 }

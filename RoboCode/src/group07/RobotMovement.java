@@ -1,47 +1,47 @@
 package group07;
 
-import robocode.*;
-
 public class RobotMovement {
-	private int moveDirection;
+	private int moveDirection = 1;
 	private double velocity;
 	private long time;
-	private double degreeCloser;
+	private double degreeCloser = 0;
 	private TargetEnemyBot target;
-	private TeamRobot robot07;
+	private Robot07 robot;
 
-	public RobotMovement() {
-
+	public RobotMovement(Robot07 robot) {
+		this.robot = robot;
 	}
 	
-	public void doMoveRobot(TargetEnemyBot target, int moveDirection, TeamRobot robot) {
-		this.degreeCloser = 0;
-		this.moveDirection = moveDirection;
+	// Uppdaterar
+	public void update(TargetEnemyBot target) {
+		this.target = target;
 		this.velocity = robot.getVelocity();
 		this.time = robot.getTime();
-		this.robot07 = robot;
-		if (!(isTargetNull(target))) {
-			robot07.setTurnRight(doMoveRobot());
+	}
+	
+	// Sköter flyttandet
+	public void move() {
+		if (!isTargetNull()) {
+			robot.setTurnRight(rotation());
 			if (hasStopped()) {
-				robot07.ahead(setAhead());
+				robot.setAhead(ahead());
 			}
 		}
 	}
-	public boolean isTargetNull(TargetEnemyBot target) {
+	
+	// Kollar om target är null
+	public boolean isTargetNull() {
 		if (target == null) {
 			return true;
 		}
 		else
 		{
-			this.target = target;
 			return false;
 		}
 	}
 
-	public double doMoveRobot() {
-		
-		
-
+	// Beräknar hur vi ska roteras
+	public double rotation() {
 		if (target.getDistance() > 200) {
 			degreeCloser = 10;
 		} else {
@@ -50,11 +50,13 @@ public class RobotMovement {
 		return (target.getBearing() + 90 - (degreeCloser * moveDirection));
 	}
 
+	// Kollar om vi stannat eller det gått 20 ticks
 	public boolean hasStopped() {
 		return velocity == 0 || time % 20 == 0;
 	}
 
-	public double setAhead() {
+	// Hur långt vi ska gå i vilken riktning
+	public double ahead() {
 		moveDirection *= -1;
 		return (100 * moveDirection);
 	}
