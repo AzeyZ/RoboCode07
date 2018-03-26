@@ -16,13 +16,14 @@ public class Robot07 extends robocode.TeamRobot {
 	private RobotMovement robotMovement = new RobotMovement(this);
 	private Radar radar = new Radar(this);
 	private Gun gun = new Gun(this);
-	
+
 	private MessageHandler messageHandler = new MessageHandler(this);
 	private Message msg = new Message();
-	
+
 	public void run() {
 		// Initialization of the robot should be put here
 		setColors(Color.red, Color.blue, Color.red); // body,gun,radar
+
 		// adding allies
 		String[] teamm8 = getTeammates();
 		if (teamm8 != null) {
@@ -35,7 +36,6 @@ public class Robot07 extends robocode.TeamRobot {
 		setAdjustRadarForRobotTurn(true);
 		setAdjustRadarForGunTurn(true);
 		setAdjustGunForRobotTurn(true);
-		System.out.println(getName());
 		setTurnRadarRight(360);
 		// Robot main loop
 		while (true) {
@@ -49,7 +49,7 @@ public class Robot07 extends robocode.TeamRobot {
 			gun.update(target);
 			gun.aim();
 			gun.fire();
-			
+
 			// Skickar ett meddelande om vi har en target WIP
 			if(target.getName() != "") {
 				msg.update("1;2", "1;2", "1;2", "1;2", target.getName(), "1;2", "1;2");
@@ -70,7 +70,7 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// Checks if Scanned is Team
 		if (!(isTeammate(e.getName()))) {
-			
+
 			// Här är något fel (else kallades aldrig även 1v1)
 			EnemyBot m_team = isNewEnemy(e);
 			if ((isNewEnemy(e) != null)) {
@@ -84,6 +84,11 @@ public class Robot07 extends robocode.TeamRobot {
 			// Update target
 			target.update(e, this);
 
+			//Test send own position
+			if(target.getName() != "") {
+				msg.update("1;2", "1;2", this.getX()+";"+this.getY(), "1;2", target.getName(), "1;2", "1;2");
+				messageHandler.send(msg);
+			}
 		}
 	}
 
@@ -117,23 +122,23 @@ public class Robot07 extends robocode.TeamRobot {
 		// [0-1] targetEnemy;name
 		// [0-1] targetPos;x;y
 		// [0-1] moveTo;x;y
-		
+
 		// Tar meddelandet till rec, skickar det till Message Handler
 		Message rec = (Message) e.getMessage();
 		messageHandler.recieve(rec);
-		
+
 		// WIP
 		updateFromMessage(messageHandler);
-		
+
 		// Test om det funkar (Samma target så blir de svarta)
 		if(target.getName().equals(messageHandler.getTargetName())) {
 			setColors(Color.black, Color.black, Color.black);
 		}
 	}
-	
+
 	// WIP ska ta informationen från message handler
 	public void updateFromMessage(MessageHandler mh) {
-		
+
 	}
 
 	/**
@@ -147,18 +152,6 @@ public class Robot07 extends robocode.TeamRobot {
 	 */
 	public void onHitWall(HitWallEvent e) {
 
-	}
-
-	public void onDeath(RobotDeathEvent event) {
-		// should probably be removed
-		// ArrayList<Serializable> msg = new ArrayList<Serializable>();
-		// msg.add("2");
-		// msg.add((Serializable) this); // Vet inte om detta funkar
-		// try {
-		// sendMessage("Robot07", msg);
-		// } catch (IOException error) {
-		// // TODO Auto-generated catch block
-		// }
 	}
 
 	public void onRobotDeath(RobotDeathEvent e) {
