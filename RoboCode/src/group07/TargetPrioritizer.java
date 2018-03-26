@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 // Kanske borde lägga till mer på hur mycket hp som EnemyBot har kvar.
 public class TargetPrioritizer {
-	public static final int LEADER_BOT = 0;
+	public static final int LEADER_BOT = 0; // LEADER_BOT används istället för att skriva en 0:a för att göra det tydligare.
 	public static final int DROID = 1;
 	public static final int NORMAL_BOT = 2;
 	private int amountEnemyBot = 0;
@@ -17,7 +17,7 @@ public class TargetPrioritizer {
 
 	}
 
-	public ArrayList<EnemyBot> sort(ArrayList<EnemyBot> enemyBot) {
+	public ArrayList<EnemyBot> sort(ArrayList<EnemyBot> enemyBot) { 
 		amountLeader = 0;
 		amountDroid = 0;
 		amountNormalRobot = 0;
@@ -25,7 +25,7 @@ public class TargetPrioritizer {
 		if (amountEnemyBot < enemyBot.size()) {
 			amountEnemyBot = enemyBot.size();
 		}
-		for (EnemyBot k : enemyBot) {
+		for (EnemyBot k : enemyBot) { // Räknar antalet av varje typ av motståndare som inte har 0 Energy.
 			if (k.getEnergy() != 0) {
 				switch (k.getType()) {
 				case LEADER_BOT: {
@@ -47,13 +47,13 @@ public class TargetPrioritizer {
 			}
 		}
 		sortLivingBots(temp.size() - (placeDeadLast(enemyBot) + 1));
-		placeDeadLast(enemyBot);
-		return temp;
+		placeDeadLast(enemyBot);   //Flyttar alla "döda" robotar sist i listan.
+		return temp;  
 	}
 
 	private void sortLivingBots(int amountAlive) {
-		switch (amountAlive) {
-		case 1: {
+		switch (amountAlive) { //Sorterar beroende på antal levande robotar. Fråga mig (martin) om vilket mål den tar när.
+		case 1: { // vid en levande robot så gör den inget då alla döda är sist i listan ändå.
 			break;
 		}
 		case 2: {
@@ -193,7 +193,7 @@ public class TargetPrioritizer {
 		}
 	}
 
-	private int placeDeadLast(ArrayList<EnemyBot> enemyBot) {
+	private int placeDeadLast(ArrayList<EnemyBot> enemyBot) { //Placera alla döda robotar sist i listan.
 		int deadBot = 0;
 		for (EnemyBot k : enemyBot) {
 			if (k.getEnergy() == 0) {
@@ -205,12 +205,13 @@ public class TargetPrioritizer {
 		return deadBot;
 	}
 
-	private void placeLast(EnemyBot bot) {
+	private void placeLast(EnemyBot bot) { //flyttar plats på roboten och sätter den sist i listan.
 		temp.remove(bot);
 		temp.add(bot);
 	}
 
-	private void placeFirst(EnemyBot bot) {
+	private void placeFirst(EnemyBot bot) { //placerar roboten som skickas in först om den inte har 0 Energy. 
+											//Om roboten är samma typ som den som redan är först i listan så jämförs energy på robotarna. 
 		if (bot.getEnergy() == 0) {
 			return;
 		}

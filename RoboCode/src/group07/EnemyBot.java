@@ -8,7 +8,7 @@ public class EnemyBot {
 	private double bearing, distance, energy, heading, velocity;
 	private String name;
 	private int type;
-	private static boolean scanned = true;
+	private boolean scanned = true;
 	public EnemyBot() {
 		reset();
 	}
