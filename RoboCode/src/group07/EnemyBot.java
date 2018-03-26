@@ -67,6 +67,9 @@ public class EnemyBot {
 	public String getName() {
 		return name;
 	}
+	public int getType() {
+		return 0;
+	}
 	
 
 }
