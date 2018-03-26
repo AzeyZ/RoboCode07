@@ -48,8 +48,8 @@ public class MessageHandler {
 			parts = pos.split(";");
 			x = parts[0];
 			y = parts[1];
-			myX = Integer.parseInt(x);
-			myY = Integer.parseInt(y);
+			myX = Double.parseDouble(x);
+			myY = Double.parseDouble(y);
 		}
 
 		

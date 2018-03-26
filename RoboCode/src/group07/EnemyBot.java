@@ -7,7 +7,8 @@ public class EnemyBot {
 
 	private double bearing, distance, energy, heading, velocity;
 	private String name;
-	
+	private int type;
+	private static boolean scanned = true;
 	public EnemyBot() {
 		reset();
 	}
@@ -20,6 +21,19 @@ public class EnemyBot {
 		heading = e.getHeading();
 		velocity = e.getVelocity();
 		name = e.getName();
+		//first time enemy is scanned gives its type 0 = leader, 1 = droid, 2 = normal
+		if(scanned) {
+			scanned = false;
+			if(e.getEnergy()<=105) {
+				type = 2;
+			}
+			else if(e.getEnergy()<130) {
+				type = 1;
+			}
+			else {
+				type = 0;
+			}
+		}
 	}
 	
 	public void reset() {
@@ -39,7 +53,7 @@ public class EnemyBot {
 			return false;
 		}
 	}
-
+	
 	public ScannedRobotEvent getEvent() {
 		return e;
 	}
@@ -68,7 +82,7 @@ public class EnemyBot {
 		return name;
 	}
 	public int getType() {
-		return 0;
+		return type;
 	}
 	
 
