@@ -32,7 +32,7 @@ public class Radar {
 	
 	// Scan the target
 	public void scanTarget() {
-		double turn = robot.getHeading() - robot.getRadarHeading() + target.getBearing();
+		double turn = robot.normalizeBearing(robot.getHeading() - robot.getRadarHeading() + target.getBearing());
 		turn += wiggle * radarDirection;
 		robot.setTurnRadarRight(robot.normalizeBearing(turn));
 		radarDirection *= -1;

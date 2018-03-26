@@ -17,6 +17,9 @@ public class Robot07 extends robocode.TeamRobot {
 	private Radar radar = new Radar(this);
 	private Gun gun = new Gun(this);
 	
+	private MessageHandler messageHandler = new MessageHandler(this);
+	private Message msg = new Message();
+	
 	public void run() {
 		// Initialization of the robot should be put here
 		setColors(Color.red, Color.blue, Color.red); // body,gun,radar
@@ -32,7 +35,7 @@ public class Robot07 extends robocode.TeamRobot {
 		setAdjustRadarForRobotTurn(true);
 		setAdjustRadarForGunTurn(true);
 		setAdjustGunForRobotTurn(true);
-
+		System.out.println(getName());
 		setTurnRadarRight(360);
 		// Robot main loop
 		while (true) {
@@ -46,6 +49,12 @@ public class Robot07 extends robocode.TeamRobot {
 			gun.update(target);
 			gun.aim();
 			gun.fire();
+			
+			// Skickar ett meddelande om vi har en target WIP
+			if(target.getName() != "") {
+				msg.update("1;2", "1;2", "1;2", "1;2", target.getName(), "1;2", "1;2");
+				messageHandler.send(msg);
+			}
 			// behövs för att alla set commands ska köra
 			execute();
 		}
@@ -108,6 +117,23 @@ public class Robot07 extends robocode.TeamRobot {
 		// [0-1] targetEnemy;name
 		// [0-1] targetPos;x;y
 		// [0-1] moveTo;x;y
+		
+		// Tar meddelandet till rec, skickar det till Message Handler
+		Message rec = (Message) e.getMessage();
+		messageHandler.recieve(rec);
+		
+		// WIP
+		updateFromMessage(messageHandler);
+		
+		// Test om det funkar (Samma target så blir de svarta)
+		if(target.getName().equals(messageHandler.getTargetName())) {
+			setColors(Color.black, Color.black, Color.black);
+		}
+	}
+	
+	// WIP ska ta informationen från message handler
+	public void updateFromMessage(MessageHandler mh) {
+		
 	}
 
 	/**

@@ -28,6 +28,15 @@ public class TargetEnemyBot extends EnemyBot {
 		isUpdated = true;
 	}
 	
+	
+	public double getX() {
+		return x;
+	}
+	
+	public double getY() {
+		return y;
+	}
+	
 	public double getFutureX(double time) {
 		return x + Math.sin(Math.toRadians(getHeading())) * getVelocity() * time;
 	}

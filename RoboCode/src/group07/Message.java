@@ -5,12 +5,27 @@ import java.io.Serializable;
 import robocode.MessageEvent;
 // https://stackoverflow.com/questions/3429921/what-does-serializable-mean
 public class Message implements Serializable  {
-	// behövs en private static final long seralVersionUID = ???;
+	
 	private String leadership, teamMode, myPos, enemyPos, targetEnemy, targetPos, moveTo;
 	
-	public Message(String leadership, String teamMode, String myPos, String enemyPos, String targetEnemy,
+	public Message() {
+		reset();
+	}
+	
+	// Ett tomt meddelande
+	public void reset() {
+		leadership = "";
+		teamMode = "";
+		myPos = "";
+		enemyPos = "";
+		targetEnemy = "";
+		targetPos = "";
+		moveTo = "";
+	}
+	
+	// Uppdaterar meddelandet
+	public void update(String leadership, String teamMode, String myPos, String enemyPos, String targetEnemy,
 			String targetPos, String moveTo) {
-		super();
 		this.leadership = leadership;
 		this.teamMode = teamMode;
 		this.myPos = myPos;
@@ -19,7 +34,7 @@ public class Message implements Serializable  {
 		this.targetPos = targetPos;
 		this.moveTo = moveTo;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Message [leadership=" + leadership + ", teamMode=" + teamMode + ", myPos=" + myPos + ", enemyPos="

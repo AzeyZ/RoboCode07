@@ -15,7 +15,7 @@ public class Gun {
 	
 	// Aim straight at the target
 	public void aim() {
-		robot.setTurnGunRight(robot.getHeading() + target.getBearing() - robot.getGunHeading());
+		robot.setTurnGunRight(robot.normalizeBearing(robot.getHeading() + target.getBearing() - robot.getGunHeading()));
 	}
 	
 	// Fires with a certain firepower once we have rotated the gun
