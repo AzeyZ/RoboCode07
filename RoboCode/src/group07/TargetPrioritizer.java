@@ -107,7 +107,7 @@ public class TargetPrioritizer {
 		m_temp.addAll(EnemyList);
 		for (EnemyBot k : EnemyList) {
 			if (k.getType() == NORMAL_BOT) {
-				if (m_temp.get(0).getType() == NORMAL_BOT && m_temp.get(0).getEnergy() > k.getEnergy() && amountAlive > 1) {
+				if (m_temp.get(0).getType() == NORMAL_BOT && m_temp.get(0).getEnergy() < k.getEnergy() && amountAlive > 1) {
 					
 					m_temp.remove(k);
 					m_temp.add(1, k);
