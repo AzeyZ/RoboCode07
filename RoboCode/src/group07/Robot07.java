@@ -61,10 +61,6 @@ public class Robot07 extends robocode.TeamRobot {
 		}
 	}
 
-	public TargetEnemyBot getAdvancedEnemyBot() {
-		return target;
-	}
-
 	/**
 	 * onScannedRobot: What to do when you see another robot
 	 */
@@ -86,13 +82,6 @@ public class Robot07 extends robocode.TeamRobot {
 			if(!enemies.isEmpty()) {
 			enemies = targetPrio.sortList(enemies);
 			target.update(enemies.get(0).getEvent(), this);
-			System.out.println(target.getName());
-			System.out.println("-----------------------");
-//			for(EnemyBot k : enemies)
-//			{
-//				System.out.println(k.getName());
-//			}
-//			System.out.println("-----------------------");
 			}
 			//Test send own position
 			if(target.getName() != "") {
@@ -102,14 +91,6 @@ public class Robot07 extends robocode.TeamRobot {
 		}
 	}
 
-	// public EnemyBot getEnemyIndex(ScannedRobotEvent e) {
-	// for (EnemyBot k: enemies) {
-	// if (e.getName().equals(k.getName())) {
-	// return k;
-	// }
-	// }
-	// return null;
-	// }
 
 	public EnemyBot isNewEnemy(ScannedRobotEvent e) {
 		for (EnemyBot k : enemies) {
