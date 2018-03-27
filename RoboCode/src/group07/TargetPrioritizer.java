@@ -25,11 +25,11 @@ public class TargetPrioritizer {
 		if(leaderAlive)
 		{
 			amountAlive ++;
-			System.out.println("leader");
+			System.out.println("Ledaren lever");
 		}
-		System.out.println(amountAlive + "");
-		System.out.println(amountDroidAlive + "");
-		System.out.println(amountNormalBotAlive + "");
+		System.out.println("Antal levande motståndare: " + amountAlive);
+		System.out.println("Antal levande motståndar droids: " + amountDroidAlive);
+		System.out.println("Antal levande motståndar NormalBots: " + amountNormalBotAlive);
 		
 		if (leaderAlive && amountDroidAlive > amountNormalBotAlive) {
 			EnemyList = placeLeaderBotFirst(EnemyList);
@@ -40,6 +40,7 @@ public class TargetPrioritizer {
 		}
 
 		EnemyList = placeDeadBotsLast(EnemyList);
+		System.out.println("Lista över alla robotar i ordning");
 		for(EnemyBot k : EnemyList)
 		{
 			System.out.println(k.getName());
