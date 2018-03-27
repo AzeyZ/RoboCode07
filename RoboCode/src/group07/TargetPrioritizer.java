@@ -4,225 +4,133 @@ import java.util.ArrayList;
 
 // Kanske borde lägga till mer på hur mycket hp som EnemyBot har kvar.
 public class TargetPrioritizer {
-	public static final int LEADER_BOT = 0; // LEADER_BOT används istället för att skriva en 0:a för att göra det tydligare.
+	public static final int LEADER_BOT = 0; // LEADER_BOT används istället för att skriva en 0:a för att göra det
+											// tydligare.
 	public static final int DROID = 1;
 	public static final int NORMAL_BOT = 2;
-	private int amountEnemyBot = 0;
-	private int amountLeader;
-	private int amountDroid;
-	private int amountNormalRobot;
-	private ArrayList<EnemyBot> temp;
+	private int amountAlive;
+	private int amountDroidAlive;
+	private boolean leaderAlive;
+	private int amountNormalBotAlive;
 
 	public TargetPrioritizer() {
 
 	}
 
-	public ArrayList<EnemyBot> sort(ArrayList<EnemyBot> enemyBot) { 
-		amountLeader = 0;
-		amountDroid = 0;
-		amountNormalRobot = 0;
-		temp = enemyBot;
-		if (amountEnemyBot < enemyBot.size()) {
-			amountEnemyBot = enemyBot.size();
+	public ArrayList<EnemyBot> sortList(ArrayList<EnemyBot> EnemyList) {
+		amountDroidAlive = amountDroidAlive(EnemyList);
+		amountNormalBotAlive = amountNormalBotAlive(EnemyList);
+		leaderAlive = leaderAlive(EnemyList);
+		amountAlive = amountNormalBotAlive + amountDroidAlive;
+		if(leaderAlive)
+		{
+			amountAlive ++;
+			System.out.println("leader");
 		}
-		for (EnemyBot k : enemyBot) { // Räknar antalet av varje typ av motståndare som inte har 0 Energy.
-			if (k.getEnergy() != 0) {
-				switch (k.getType()) {
-				case LEADER_BOT: {
-					amountLeader++;
-					break;
-				}
-				case DROID: {
-					amountDroid++;
-					break;
-				}
-				case NORMAL_BOT: {
-					amountNormalRobot++;
-					break;
-				}
-				default: {
-					break;
-				}
-				}
-			}
-		}
-		sortLivingBots(temp.size() - (placeDeadLast(enemyBot) + 1));
-		placeDeadLast(enemyBot);   //Flyttar alla "döda" robotar sist i listan.
-		return temp;  
-	}
-
-	private void sortLivingBots(int amountAlive) {
-		switch (amountAlive) { //Sorterar beroende på antal levande robotar. Fråga mig (martin) om vilket mål den tar när.
-		case 1: { // vid en levande robot så gör den inget då alla döda är sist i listan ändå.
-			break;
-		}
-		case 2: {
-			for (EnemyBot k : temp) {
-				if (amountDroid == 1) {
-					if (k.getType() == LEADER_BOT && !(k.getEnergy() == 0)) {
-						placeFirst(k);
-						break;
-					} else if (k.getType() == NORMAL_BOT) {
-						placeFirst(k);
-					}
-				} else if (k.getType() == NORMAL_BOT) {
-					placeFirst(k);
-				}
-			}
-			break;
-		}
-		case 3: {
-			switch (amountDroid) {
-
-			case 0:
-			case 1: {
-				for (EnemyBot k : temp) {
-					if (k.getType() == NORMAL_BOT) {
-						placeFirst(k);
-					}
-				}
-				break;
-			}
-			case 2: {
-				for (EnemyBot k : temp) {
-					if (k.getType() == LEADER_BOT && !(k.getEnergy() == 0)) {
-						placeFirst(k);
-						break;
-					} else if (k.getType() == NORMAL_BOT) {
-						placeFirst(k);
-					}
-				}
-				break;
-			}
-			case 3: {
-				for (EnemyBot k : temp) {
-					if (k.getType() == DROID) {
-						placeFirst(k);
-					}
-				}
-				break;
-			}
-			default: {
-
-			}
-
-			}
-
-			break;
-
-		}
-		case 4: {
-			switch (amountDroid) {
-			case 0:
-			case 1: {
-				for (EnemyBot k : temp) {
-					if (k.getType() == NORMAL_BOT) {
-						placeFirst(k);
-					}
-				}
-				break;
-			}
-			case 2: {
-				for (EnemyBot k : temp) {
-					if (k.getType() == LEADER_BOT && !(k.getEnergy() == 0)) {
-						placeFirst(k);
-						break;
-					} else if (k.getType() == NORMAL_BOT) {
-						placeFirst(k);
-					}
-				}
-				break;
-			}
-			case 3: {
-				for (EnemyBot k : temp) {
-					if (k.getType() == LEADER_BOT && !(k.getEnergy() == 0)) {
-						placeFirst(k);
-						break;
-					} else if (k.getType() == NORMAL_BOT) {
-						placeFirst(k);
-					}
-				}
-				break;
-			}
-			case 4: {
-				{
-					for (EnemyBot k : temp) {
-						if (k.getType() == DROID) {
-							placeFirst(k);
-						}
-					}
-					break;
-				}
-
-			}
-			default: {
-
-			}
-
-			}
-			break;
-		}
-		case 5: {
-			switch (amountDroid) {
-			case 0:
-			case 1: {
-				for (EnemyBot k : temp) {
-					if (k.getType() == NORMAL_BOT) {
-						placeFirst(k);
-					}
-				}
-				break;
-			}
-			case 2:
-			case 3:
-			case 4: {
-				for (EnemyBot k : temp) {
-					if (k.getType() == LEADER_BOT) {
-						placeFirst(k);
-					}
-				}
-				break;
-			}
-
-			}
-
-		}
-		default: {
-
-		}
-		}
-	}
-
-	private int placeDeadLast(ArrayList<EnemyBot> enemyBot) { //Placera alla döda robotar sist i listan.
-		int deadBot = 0;
-		for (EnemyBot k : enemyBot) {
-			if (k.getEnergy() == 0) {
-				placeLast(k);
-				deadBot++;
-			}
-
-		}
-		return deadBot;
-	}
-
-	private void placeLast(EnemyBot bot) { //flyttar plats på roboten och sätter den sist i listan.
-		temp.remove(bot);
-		temp.add(bot);
-	}
-
-	private void placeFirst(EnemyBot bot) { //placerar roboten som skickas in först om den inte har 0 Energy. 
-											//Om roboten är samma typ som den som redan är först i listan så jämförs energy på robotarna. 
-		if (bot.getEnergy() == 0) {
-			return;
-		}
-		if (bot.getType() == temp.get(0).getType()
-				&& (temp.get(0).getEnergy() < bot.getEnergy() || temp.get(0).getEnergy() == 0)) {
-			temp.remove(bot);
-			temp.add(1, bot);
+		System.out.println(amountAlive + "");
+		System.out.println(amountDroidAlive + "");
+		System.out.println(amountNormalBotAlive + "");
+		
+		if (leaderAlive && amountDroidAlive > amountNormalBotAlive) {
+			EnemyList = placeLeaderBotFirst(EnemyList);
+		} else if (amountNormalBotAlive != 0) {
+			EnemyList = placeNormalBotFirst(EnemyList);
 		} else {
-			temp.remove(bot);
-			temp.add(0, bot);
+			EnemyList = placeDroidFirst(EnemyList);
 		}
+
+		EnemyList = placeDeadBotsLast(EnemyList);
+		for(EnemyBot k : EnemyList)
+		{
+			System.out.println(k.getName());
+		}
+		System.out.println("-----------------------");
+		return EnemyList;
+	}
+
+	private int amountDroidAlive(ArrayList<EnemyBot> EnemyList) {
+		int m_amountDroids = 0;
+		for (EnemyBot k : EnemyList) {
+			if (k.getEnergy() != 0 && k.getType() == DROID) {
+				m_amountDroids++;
+			}
+		}
+		return m_amountDroids;
+	}
+
+	private int amountNormalBotAlive(ArrayList<EnemyBot> EnemyList) {
+		int m_amountNormalBot = 0;
+		for (EnemyBot k : EnemyList) {
+			if (k.getEnergy() != 0 && k.getType() == NORMAL_BOT) {
+				m_amountNormalBot++;
+			}
+		}
+		return m_amountNormalBot;
+	}
+
+	private boolean leaderAlive(ArrayList<EnemyBot> EnemyList) {
+		for (EnemyBot k : EnemyList) {
+			if (k.getEnergy() != 0 && k.getType() == LEADER_BOT) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private ArrayList<EnemyBot> placeLeaderBotFirst(ArrayList<EnemyBot> EnemyList) {
+		ArrayList<EnemyBot> m_temp = new ArrayList<>();
+		m_temp.addAll(EnemyList);
+		for (EnemyBot k : EnemyList) {
+			if (k.getType() == LEADER_BOT) {
+				m_temp.remove(k);
+				m_temp.add(0, k);
+			}
+		}
+		return m_temp;
+	}
+	private ArrayList<EnemyBot> placeDeadBotsLast(ArrayList<EnemyBot> EnemyList)
+	{
+		ArrayList<EnemyBot> m_temp = new ArrayList<>();
+		m_temp.addAll(EnemyList);
+		for (EnemyBot k : EnemyList) {
+			if (k.getEnergy() == 0) {
+				m_temp.remove(k);
+				m_temp.add(k);
+			}
+		}
+		return m_temp;
+	}
+
+	private ArrayList<EnemyBot> placeNormalBotFirst(ArrayList<EnemyBot> EnemyList) {
+		ArrayList<EnemyBot> m_temp = new ArrayList<>();
+		m_temp.addAll(EnemyList);
+		for (EnemyBot k : EnemyList) {
+			if (k.getType() == NORMAL_BOT) {
+				if (m_temp.get(0).getType() == NORMAL_BOT && m_temp.get(0).getEnergy() > k.getEnergy() && amountAlive > 1) {
+					
+					m_temp.remove(k);
+					m_temp.add(1, k);
+				}
+				else
+				{
+					m_temp.remove(k);
+					m_temp.add(0, k);
+				}
+			}
+		}
+		return m_temp;
+	}
+
+	private ArrayList<EnemyBot> placeDroidFirst(ArrayList<EnemyBot> EnemyList) {
+		ArrayList<EnemyBot> m_temp = new ArrayList<>();
+		m_temp.addAll(EnemyList);
+		for (EnemyBot k : EnemyList) {
+			if (k.getType() == DROID) {
+				m_temp.remove(k);
+				m_temp.add(0, k);
+			}
+		}
+		return m_temp;
 	}
 
 }

@@ -84,6 +84,10 @@ public class EnemyBot {
 	public int getType() {
 		return type;
 	}
+	public void setEnergy(int Energy) {
+		this.energy = Energy;
+		
+	}
 	
 
 }

@@ -20,7 +20,7 @@ public class Radar {
 		// Lost focus then rotate radar
 		lastScan++;
 		if (lastScan % 5 == 0) {
-			target.reset();
+			//target.reset();
 			robot.setTurnRadarRight(360);
 		}
 		

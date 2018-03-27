@@ -16,6 +16,7 @@ public class Robot07 extends robocode.TeamRobot {
 	private RobotMovement robotMovement = new RobotMovement(this);
 	private Radar radar = new Radar(this);
 	private Gun gun = new Gun(this);
+	private TargetPrioritizer targetPrio = new TargetPrioritizer();
 
 	private MessageHandler messageHandler = new MessageHandler(this);
 	private Message msg = new Message();
@@ -82,8 +83,17 @@ public class Robot07 extends robocode.TeamRobot {
 			}
 			// Flyttade ur update från else
 			// Update target
-			target.update(e, this);
-
+			if(!enemies.isEmpty()) {
+			enemies = targetPrio.sortList(enemies);
+			target.update(enemies.get(0).getEvent(), this);
+			System.out.println(target.getName());
+			System.out.println("-----------------------");
+//			for(EnemyBot k : enemies)
+//			{
+//				System.out.println(k.getName());
+//			}
+//			System.out.println("-----------------------");
+			}
 			//Test send own position
 			if(target.getName() != "") {
 				msg.update("1;2", "1;2", this.getX()+";"+this.getY(), "1;2", target.getName(), "1;2", "1;2");
@@ -155,9 +165,12 @@ public class Robot07 extends robocode.TeamRobot {
 	}
 
 	public void onRobotDeath(RobotDeathEvent e) {
-		if (e.getName().equals(target.getName())) {
-			target.reset();
-		}
+		for(int k = 0; k < enemies.size(); k++) {
+		if (e.getName().equals(enemies.get(k).getName())) {
+			enemies.get(k).setEnergy(0);
+			System.out.println(enemies.get(k).getEnergy() + "");
+		}}
+		enemies = targetPrio.sortList(enemies);
 	}
 
 	// Ger en vinkel mellan -180 och 180
