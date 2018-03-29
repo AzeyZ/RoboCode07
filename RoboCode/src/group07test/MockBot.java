@@ -144,4 +144,10 @@ public class MockBot extends Robot07 {
 	public double getTurnRemaining() {
 		return fakeTurnRight;
 	}
+	
+	@Override
+	public boolean isTeammate(String name){
+		if (name.contains("Ally")) return true;
+		return false;
+	}
 }
