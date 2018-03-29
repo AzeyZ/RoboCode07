@@ -1,0 +1,79 @@
+package group07;
+
+import java.util.ArrayList;
+
+import robocode.RobotDeathEvent;
+import robocode.ScannedRobotEvent;
+
+public class EnemyTracker {
+	private ArrayList<EnemyBot> enemies = new ArrayList<EnemyBot>();
+	private TargetEnemyBot target = new TargetEnemyBot();
+	private TargetPrioritizer targetPrio = new TargetPrioritizer();
+	private Robot07 robot;
+	
+	public EnemyTracker(Robot07 robot) {
+		this.robot = robot;
+	}
+	
+	// Update enemy list
+	public void update(ScannedRobotEvent e) {
+		EnemyBot m_team = isNewEnemy(e);
+		if ((isNewEnemy(e) != null)) {
+			m_team.update(e);
+		} else {
+			addEnemy(e);
+		}
+	}
+	
+	// Enemies
+	public void addEnemy(ScannedRobotEvent e) {
+		EnemyBot bot = new EnemyBot();
+		bot.update(e);
+		enemies.add(bot);
+	}
+	
+	// Check if exist (if exist return enemy)
+	public EnemyBot isNewEnemy(ScannedRobotEvent e) {
+		for (EnemyBot k : enemies) {
+			if (e.getName().equals(k.getName())) {
+				return k;
+			}
+		}
+		return null;
+	}
+	
+	// Updates dead robot
+	public void robotDeath(RobotDeathEvent e) {
+		for(int k = 0; k < enemies.size(); k++) {
+		if (e.getName().equals(enemies.get(k).getName())) {
+			enemies.get(k).setEnergy(0);
+			System.out.println(enemies.get(k).getEnergy() + "");
+		}}
+		enemies = targetPrio.sortList(enemies);
+	}
+	
+	// Target prio
+	public void updateTarget() {
+		if(!enemies.isEmpty()) {
+			enemies = targetPrio.sortList(enemies);
+			robot.out.println(enemies.size());
+			robot.out.println(robot.getOthers());
+			if(allEnemiesScanned()) {
+				target.update(enemies.get(0).getEvent(), robot);				
+			}
+		}
+	}
+	
+	public boolean allEnemiesScanned() {
+		return enemies.size() >= robot.getOthers() - robot.getAllies().size();
+	}
+	
+	// Getters
+	public ArrayList<EnemyBot> getEnemies() {
+		return enemies;
+	}
+	
+	public TargetEnemyBot getTarget() {
+		return target;
+	}
+}

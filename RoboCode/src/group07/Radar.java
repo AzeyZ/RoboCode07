@@ -3,12 +3,15 @@ package group07;
 public class Radar {
 	private Robot07 robot;
 	private EnemyBot target;
-	private int radarDirection = 1;
-	private int wiggle = 15;
-	private int lastScan = 0;
+	private int radarDirection;
+	private int wiggle;
+	private int lastScan;
 	
 	public Radar(Robot07 robot) {
 		this.robot = robot;
+		radarDirection = 1;
+		wiggle = 15;
+		lastScan = 0;
 	}
 	
 	// Gives the radar a target

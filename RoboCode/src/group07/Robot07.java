@@ -10,13 +10,11 @@ public class Robot07 extends robocode.TeamRobot {
 	/**
 	 * run: Robot's default behavior
 	 */
-	private ArrayList<EnemyBot> enemies = new ArrayList<EnemyBot>();
+	private EnemyTracker enemyTracker = new EnemyTracker(this);
 	private ArrayList<Ally> allies = new ArrayList<Ally>();
-	private TargetEnemyBot target = new TargetEnemyBot();
 	private RobotMovement robotMovement = new RobotMovement(this);
 	private Radar radar = new Radar(this);
 	private Gun gun = new Gun(this);
-	private TargetPrioritizer targetPrio = new TargetPrioritizer();
 
 	private MessageHandler messageHandler = new MessageHandler(this);
 	private Message msg = new Message();
@@ -41,21 +39,16 @@ public class Robot07 extends robocode.TeamRobot {
 		// Robot main loop
 		while (true) {
 			// flyttar roboten
-			robotMovement.update(target);
+			robotMovement.update(enemyTracker.getTarget());
 			robotMovement.move();
 			// scannar 
-			radar.update(target);
+			radar.update(enemyTracker.getTarget());
 			radar.scan();
 			// flyttar vapnet
-			gun.update(target);
+			gun.update(enemyTracker.getTarget());
 			gun.aim();
 			gun.fire();
 
-			// Skickar ett meddelande om vi har en target WIP
-			if(target.getName() != "") {
-				msg.update("1;2", "1;2", "1;2", "1;2", target.getName(), "1;2", "1;2");
-				messageHandler.send(msg);
-			}
 			// behövs för att alla set commands ska köra
 			execute();
 		}
@@ -67,38 +60,11 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// Checks if Scanned is Team
 		if (!(isTeammate(e.getName()))) {
-
 			// Här är något fel (else kallades aldrig även 1v1)
-			EnemyBot m_team = isNewEnemy(e);
-			if ((isNewEnemy(e) != null)) {
-				m_team.update(e);
-			} else {
-				EnemyBot bot = new EnemyBot();
-				bot.update(e);
-				enemies.add(bot);
-			}
-			// Flyttade ur update från else
+			enemyTracker.update(e);
 			// Update target
-			if(!enemies.isEmpty()) {
-			enemies = targetPrio.sortList(enemies);
-			target.update(enemies.get(0).getEvent(), this);
-			}
-			//Test send own position
-			if(target.getName() != "") {
-				msg.update("1;2", "1;2", this.getX()+";"+this.getY(), "1;2", target.getName(), "1;2", "1;2");
-				messageHandler.send(msg);
-			}
+			enemyTracker.updateTarget();
 		}
-	}
-
-
-	public EnemyBot isNewEnemy(ScannedRobotEvent e) {
-		for (EnemyBot k : enemies) {
-			if (e.getName().equals(k.getName())) {
-				return k;
-			}
-		}
-		return null;
 	}
 
 	/**
@@ -122,7 +88,7 @@ public class Robot07 extends robocode.TeamRobot {
 		updateFromMessage(messageHandler);
 
 		// Test om det funkar (Samma target så blir de svarta)
-		if(target.getName().equals(messageHandler.getTargetName())) {
+		if(enemyTracker.getTarget().getName().equals(messageHandler.getTargetName())) {
 			setColors(Color.black, Color.black, Color.black);
 		}
 	}
@@ -146,14 +112,14 @@ public class Robot07 extends robocode.TeamRobot {
 	}
 
 	public void onRobotDeath(RobotDeathEvent e) {
-		for(int k = 0; k < enemies.size(); k++) {
-		if (e.getName().equals(enemies.get(k).getName())) {
-			enemies.get(k).setEnergy(0);
-			System.out.println(enemies.get(k).getEnergy() + "");
-		}}
-		enemies = targetPrio.sortList(enemies);
+		enemyTracker.robotDeath(e);
 	}
 
+	
+	public ArrayList<Ally> getAllies() {
+		return allies;
+	}
+	
 	// Ger en vinkel mellan -180 och 180
 	public double normalizeBearing(double angle) {
 		while (angle > 180)
