@@ -88,7 +88,7 @@ public class EnemyBot {
 	public int getType() {
 		return type;
 	}
-	public long getTimme() {
+	public long getTurn() {
 		return time;
 	}
 	public void setEnergy(int Energy) {

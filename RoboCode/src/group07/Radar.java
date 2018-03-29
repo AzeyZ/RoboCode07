@@ -26,10 +26,10 @@ public class Radar {
 			//target.reset();
 			robot.setTurnRadarRight(360);
 		}
-		System.out.println(robot.getTime() - target.getTimme());
-		System.out.println(target.getTimme());
+		System.out.println(robot.getTime() - target.getTurn());
+		System.out.println(target.getTurn());
 		// Focus the existing target
-		if(robot.getTime() - target.getTimme() < 5) {
+		if(robot.getTime() - target.getTurn() < 5) {
 			scanTarget();
 		}
 	}
