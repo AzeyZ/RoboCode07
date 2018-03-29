@@ -11,7 +11,7 @@ public class Robot07 extends robocode.TeamRobot {
 	 * run: Robot's default behavior
 	 */
 	private EnemyTracker enemyTracker = new EnemyTracker(this);
-	private ArrayList<Ally> allies = new ArrayList<Ally>();
+	private AllyTracker allyTracker = new AllyTracker(this);
 	private RobotMovement robotMovement = new RobotMovement(this);
 	private Radar radar = new Radar(this);
 	private Gun gun = new Gun(this);
@@ -24,12 +24,7 @@ public class Robot07 extends robocode.TeamRobot {
 		setColors(Color.red, Color.blue, Color.red); // body,gun,radar
 
 		// adding allies
-		String[] teamm8 = getTeammates();
-		if (teamm8 != null) {
-			for (int i = 0; i < teamm8.length; i++) {
-				allies.add(new Ally(teamm8[i]));
-			}
-		}
+		allyTracker.addAllAllies();
 
 		// ser till att alla delar kan rotera individuellt
 		setAdjustRadarForRobotTurn(true);
@@ -64,6 +59,9 @@ public class Robot07 extends robocode.TeamRobot {
 			enemyTracker.update(e);
 			// Update target
 			enemyTracker.updateTarget();
+		}
+		else {
+			allyTracker.update(e);
 		}
 	}
 
@@ -113,10 +111,11 @@ public class Robot07 extends robocode.TeamRobot {
 
 	public void onRobotDeath(RobotDeathEvent e) {
 		enemyTracker.robotDeath(e);
+		allyTracker.robotDeath(e);
 	}
 
 	
 	public ArrayList<Ally> getAllies() {
-		return allies;
+		return allyTracker.getAllyList();
 	}
 }

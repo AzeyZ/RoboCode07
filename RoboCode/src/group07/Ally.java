@@ -3,16 +3,21 @@ package group07;
 
 public class Ally {
 	private String name;
-	private int X;
-	private int Y;
+	private double x;
+	private double y;
 	//etc
 	
 	public Ally(String name) {
 		this.name = name;
 	}
+	public void update(double x, double y)
+	{
+		this.x = x;
+		this.y = y;
+	}
 		
-	public boolean isSame() {
-		return this.name.contains("Robot07");
+	public boolean isMrRobot() {
+		return this.name.contains("Robot07"); //Behövs ändras som vi bytar namn till MrRobot
 	}
 
 	public String getName() {
@@ -23,19 +28,19 @@ public class Ally {
 		this.name = name;
 	}
 
-	public int getX() {
-		return X;
+	public double getX() {
+		return x;
 	}
 
+	public double getY() {
+		return y;
+	}
+	
 	public void setX(int x) {
-		X = x;
-	}
-
-	public int getY() {
-		return Y;
+		this.x = x;
 	}
 
 	public void setY(int y) {
-		Y = y;
+		this.y = y;
 	}
 }
