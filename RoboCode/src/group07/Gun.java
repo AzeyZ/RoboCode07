@@ -4,6 +4,7 @@ public class Gun {
 
 	private Robot07 robot;
 	private TargetEnemyBot target;
+	private GunControl gunControl = new GunControl();
 	
 	public Gun(Robot07 robot) {
 		this.robot = robot;
@@ -35,7 +36,7 @@ public class Gun {
 	
 	// Fires with a certain firepower once we have rotated the gun
 	public void fire() {
-		if (robot.getGunHeat() == 0 && Math.abs(robot.getGunTurnRemaining()) < 2 && target.getDistance() < 500) {
+		if(gunControl.takeShot(robot, target)) {
 			robot.setFire(Math.min(400 / target.getDistance(), 3));
 		}
 	}

@@ -22,7 +22,7 @@ public class Radar {
 	public void scan() {
 		// Lost focus then rotate radar
 		lastScan++;
-		if (lastScan % 5 == 0) {
+		if (lastScan >= 5) {
 			//target.reset();
 			robot.setTurnRadarRight(360);
 		}
@@ -40,5 +40,9 @@ public class Radar {
 		robot.setTurnRadarRight(MathUtils.normalizeBearing(turn));
 		radarDirection *= -1;
 		lastScan = 0;
+	}
+	public boolean gotFocus()
+	{
+		return lastScan <= 2;
 	}
 }

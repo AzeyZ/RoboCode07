@@ -118,4 +118,8 @@ public class Robot07 extends robocode.TeamRobot {
 	public ArrayList<Ally> getAllies() {
 		return allyTracker.getAllyList();
 	}
+	public Radar getRadar()
+	{
+		return radar;
+	}
 }
