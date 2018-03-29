@@ -119,14 +119,4 @@ public class Robot07 extends robocode.TeamRobot {
 	public ArrayList<Ally> getAllies() {
 		return allies;
 	}
-	
-	// Ger en vinkel mellan -180 och 180
-	public double normalizeBearing(double angle) {
-		while (angle > 180)
-			angle -= 360;
-		while (angle < -180)
-			angle += 360;
-		return angle;
-	}
-
 }
