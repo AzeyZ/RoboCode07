@@ -4,12 +4,14 @@ import robocode.*;
 
 public class EnemyBot {
 	private ScannedRobotEvent e;
-
+	private Robot07	MrRobot;
 	private double bearing, distance, energy, heading, velocity;
+	private long time;
 	private String name;
 	private int type;
 	private boolean scanned = true;
-	public EnemyBot() {
+	public EnemyBot(Robot07 MrRobot) {
+		this.MrRobot = MrRobot;
 		reset();
 	}
 	
@@ -21,6 +23,7 @@ public class EnemyBot {
 		heading = e.getHeading();
 		velocity = e.getVelocity();
 		name = e.getName();
+		time = MrRobot.getTime();
 		//first time enemy is scanned gives its type 0 = leader, 1 = droid, 2 = normal
 		if(scanned) {
 			scanned = false;
@@ -44,6 +47,7 @@ public class EnemyBot {
 		heading = 0.0;
 		velocity = 0.0;
 		name = "";
+		
 	}
 	
 	public boolean none() {
@@ -83,6 +87,9 @@ public class EnemyBot {
 	}
 	public int getType() {
 		return type;
+	}
+	public long getTimme() {
+		return time;
 	}
 	public void setEnergy(int Energy) {
 		this.energy = Energy;

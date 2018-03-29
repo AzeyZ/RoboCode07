@@ -10,7 +10,7 @@ public class GunControl {
 	public boolean takeShot(Robot07 MrRobot, TargetEnemyBot target){
 		this.MrRobot = MrRobot;
 		this.target = target;
-		return distance() && target();
+		return (distance() && target());
 	}
 	private boolean distance()
 	{

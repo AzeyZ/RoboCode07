@@ -7,19 +7,23 @@ import robocode.ScannedRobotEvent;
 
 public class EnemyTracker {
 	private ArrayList<EnemyBot> enemies = new ArrayList<EnemyBot>();
-	private TargetEnemyBot target = new TargetEnemyBot();
+	private TargetEnemyBot target;
 	private TargetPrioritizer targetPrio = new TargetPrioritizer();
 	private Robot07 robot;
 
 	public EnemyTracker(Robot07 robot) {
 		this.robot = robot;
+		target = new TargetEnemyBot(robot);
 	}
 
 	// Update enemy list
 	public void update(ScannedRobotEvent e) {
-		EnemyBot m_team = isNewEnemy(e);
 		if ((isNewEnemy(e) != null)) {
-			m_team.update(e);
+			for (int k = 0; k < enemies.size(); k++) {
+				if (e.getName().equals(enemies.get(k).getName())) {
+					enemies.get(k).update(e);
+				}
+			}
 		} else {
 			addEnemy(e);
 		}
@@ -27,7 +31,7 @@ public class EnemyTracker {
 
 	// Enemies
 	public void addEnemy(ScannedRobotEvent e) {
-		EnemyBot bot = new EnemyBot();
+		EnemyBot bot = new EnemyBot(robot);
 		bot.update(e);
 		enemies.add(bot);
 	}

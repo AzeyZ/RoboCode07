@@ -122,4 +122,8 @@ public class Robot07 extends robocode.TeamRobot {
 	{
 		return radar;
 	}
+	public Robot07 getRobot()
+	{
+		return this;
+	}
 }
