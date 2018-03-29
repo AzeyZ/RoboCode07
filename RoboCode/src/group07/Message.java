@@ -96,7 +96,4 @@ public class Message implements Serializable  {
 	public void setMoveTo(String moveTo) {
 		this.moveTo = moveTo;
 	}
-
-
-
 }
