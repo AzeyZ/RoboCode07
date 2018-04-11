@@ -78,8 +78,8 @@ public class Robot07 extends robocode.TeamRobot {
 		// [0-1] moveTo;x;y
 
 		// Tar meddelandet till rec, skickar det till Message Handler
-		Message rec = (Message) e.getMessage();
-		messageHandler.recieve(rec);
+		//Message rec = (Message) e.getMessage();
+		messageHandler.recieve(e, allyTracker);
 
 		// WIP
 		updateFromMessage(messageHandler);

@@ -20,17 +20,17 @@ import java.util.ArrayList;
 
 //[our1] myPos;x;y
 //[our1] targetEnemy;name
-//[our1] shot;x,y,tick/time (many rows)
+//[our1] rShot;x,y,tick/time (many rows)
 
 //AllyList update
 
 //[our2] myPos;x;y
-//[our2] ally;name;x;y;tick
+//[our2] rAlly;name;x;y;tick
 
 //EnemyList update
 
 //[our3] myPos;x;y
-//[our3] enemy;name;type;x;y;tick
+//[our3] rEnemy;name;type;x;y;tick
 
 
 
@@ -78,7 +78,7 @@ public class MessageWriter {
 		{
 			for(Shots k : shot )
 			{
-				message = message + "\nshot;" + k.getX() + ";" + k.getY() + ";" + k.getTick();
+				message = message + "\nrShot;" + k.getX() + ";" + k.getY() + ";" + k.getTick();
 			}
 		}
 		return message;
@@ -89,7 +89,7 @@ public class MessageWriter {
 		String message = "myPos;" + myXPos + ";" + myYPos;
 		if (!allyList.isEmpty()) {
 			for (Ally k : allyList) {
-				message = message + "\nally;" + k.getName() +";"+ k.getX() + ";" + k.getY() + ";" + k.getTick();
+				message = message + "\nrAlly;" + k.getName() +";"+ k.getX() + ";" + k.getY() + ";" + k.getTick();
 			}
 		}
 		return message;
@@ -107,7 +107,7 @@ public class MessageWriter {
 
 				double x = MrRobot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * k.getDistance();
 				double y = MrRobot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * k.getDistance();
-				message = message + "\nenemy;" + k.getName() + ";" + k.getType() + ";" + x + ";" + y + ";" + k.getTick();
+				message = message + "\nrEnemy;" + k.getName() + ";" + k.getType() + ";" + x + ";" + y + ";" + k.getTick();
 
 			}
 		}
