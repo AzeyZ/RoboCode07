@@ -5,15 +5,18 @@ public class Ally {
 	private String name;
 	private double x;
 	private double y;
+	private long tick;
 	//etc
 	
 	public Ally(String name) {
 		this.name = name;
 	}
-	public void update(double x, double y)
+	public void update(double x, double y, long tick)
 	{
 		this.x = x;
 		this.y = y;
+		this.tick = tick;
+		
 	}
 		
 	public boolean isMrRobot() {
@@ -34,6 +37,9 @@ public class Ally {
 
 	public double getY() {
 		return y;
+	}
+	public long getTick() {
+		return tick;
 	}
 	
 	public void setX(int x) {

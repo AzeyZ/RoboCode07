@@ -9,7 +9,7 @@ public class EnemyBot {
 	private ScannedRobotEvent e;
 	private Robot07 MrRobot;
 	private double bearing, distance, energy, heading, velocity;
-	private long time;
+	private long tick;
 	private String name;
 	private int type;
 	private boolean scanned = true;
@@ -27,7 +27,7 @@ public class EnemyBot {
 		heading = e.getHeading();
 		velocity = e.getVelocity();
 		name = e.getName();
-		time = MrRobot.getTime();
+		tick = MrRobot.getTime();
 		// first time enemy is scanned gives its type 0 = leader, 1 = droid, 2 = normal
 		if (scanned) {
 			scanned = false;
@@ -92,8 +92,8 @@ public class EnemyBot {
 		return type;
 	}
 
-	public long getTurn() {
-		return time;
+	public long getTick() {
+		return tick;
 	}
 
 	public void setEnergy(int Energy) {

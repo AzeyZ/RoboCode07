@@ -1,0 +1,115 @@
+package group07;
+
+import java.util.ArrayList;
+//Standard Protocol
+
+//[0-1] leadership;[followMe|leadMe]
+//[0-1] teamMode;[offensive|defensive]
+//[0-1] myPos;x;y
+//[0-1] friendPos;x;y
+//[0-*] enemyPos;x;y
+//[0-1] targetEnemy;name
+//[0-1] targetPos;x;y
+//[0-1] moveTo;x;y
+
+//messageWriter.standardMessage(this.getX(), 
+//this.getY(), allyTracker.getAllyList(), enemyTracker.getEnemies(), enemyTracker.getTarget().getName(), 
+//enemyTracker.getTarget().getX(), enemyTracker.getTarget().getY());
+
+//Shooting at an ally that has to move
+
+//[our1] myPos;x;y
+//[our1] targetEnemy;name
+//[our1] shot;x,y,tick/time (many rows)
+
+//AllyList update
+
+//[our2] myPos;x;y
+//[our2] ally;name;x;y;tick
+
+//EnemyList update
+
+//[our3] myPos;x;y
+//[our3] enemy;name;x;y;tick
+
+
+// The code to get the standard string to send to teammates.
+
+
+public class MessageWriter {
+	Robot07 MrRobot;
+
+	public MessageWriter(Robot07 MrRobot) {
+		this.MrRobot = MrRobot;
+	}
+
+	public String standardMessage(double myXPos, double myYPos, ArrayList<Ally> allyList, ArrayList<EnemyBot> enemyList,
+			String targetEnemy, double tarXPos, double tarYPos) {
+		String message = "myPos;" + myXPos + ";" + myYPos;
+		if (!allyList.isEmpty()) {
+			for (Ally k : allyList) {
+				message = message + "\nfriendPos;" + k.getX() + ";" + k.getY();
+			}
+		}
+		if (!enemyList.isEmpty()) {
+
+			for (EnemyBot k : enemyList) {
+				double absBearingDeg = (MrRobot.getHeading() + k.getBearing());
+				if (absBearingDeg < 0) {
+					absBearingDeg += 360;
+				}
+
+				double x = MrRobot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * k.getDistance();
+				double y = MrRobot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * k.getDistance();
+				message = message + "\nenemyPos;" + x + ";" + y;
+
+			}
+		}
+		message = message + "\ntargetEnemy;" + targetEnemy;
+		message = message + "\ntargetPos;" + tarXPos + ";" + tarYPos;
+		return message;
+	}
+	public String shotTowardsAlly(double myXPos, double myYPos, String targetEnemy, ArrayList<Shots> shot)
+	{
+		String message = "myPos;" + myXPos + ";" + myYPos +"\ntargetEnemy;" + targetEnemy;
+		if(!shot.isEmpty())
+		{
+			for(Shots k : shot )
+			{
+				message = message + "\nshot;" + k.getX() + ";" + k.getY() + ";" + k.getTick();
+			}
+		}
+		return message;
+		
+	}
+	public String allyListUpdate(double myXPos, double myYPos, ArrayList<Ally> allyList)
+	{
+		String message = "myPos;" + myXPos + ";" + myYPos;
+		if (!allyList.isEmpty()) {
+			for (Ally k : allyList) {
+				message = message + "\nally;" + k.getName() +";"+ k.getX() + ";" + k.getY() + ";" + k.getTick();
+			}
+		}
+		return message;
+	}
+	public String enemyListUpdate(double myXPos, double myYPos,ArrayList<EnemyBot> enemyList)
+	{
+		String message = "myPos;" + myXPos + ";" + myYPos;
+		if (!enemyList.isEmpty()) {
+
+			for (EnemyBot k : enemyList) {
+				double absBearingDeg = (MrRobot.getHeading() + k.getBearing());
+				if (absBearingDeg < 0) {
+					absBearingDeg += 360;
+				}
+
+				double x = MrRobot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * k.getDistance();
+				double y = MrRobot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * k.getDistance();
+				message = message + "\nenemy;" + k.getName() + x + ";" + y + ";" + k.getTick();
+
+			}
+		}
+		return message;
+	}
+
+}

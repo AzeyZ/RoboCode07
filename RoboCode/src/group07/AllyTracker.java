@@ -27,7 +27,7 @@ public class AllyTracker {
 			if(k.getName().equalsIgnoreCase(e.getName()))
 			{
 				k.update(MrRobot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * e.getDistance(),
-				MrRobot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * e.getDistance());
+				MrRobot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * e.getDistance(), MrRobot.getTime());
 			}
 		}
 	}

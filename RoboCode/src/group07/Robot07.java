@@ -18,6 +18,7 @@ public class Robot07 extends robocode.TeamRobot {
 
 	private MessageHandler messageHandler = new MessageHandler(this);
 	private Message msg = new Message();
+	private MessageWriter messageWriter = new MessageWriter(this);
 
 	public void run() {
 		// Initialization of the robot should be put here
@@ -36,14 +37,13 @@ public class Robot07 extends robocode.TeamRobot {
 			// flyttar roboten
 			robotMovement.update(enemyTracker.getTarget());
 			robotMovement.move();
-			// scannar 
+			// scannar
 			radar.update(enemyTracker.getTarget());
 			radar.scan();
 			// flyttar vapnet
 			gun.update(enemyTracker.getTarget());
 			gun.aim();
 			gun.fire();
-
 			// behövs för att alla set commands ska köra
 			execute();
 		}
@@ -59,8 +59,7 @@ public class Robot07 extends robocode.TeamRobot {
 			enemyTracker.update(e);
 			// Update target
 			enemyTracker.updateTarget();
-		}
-		else {
+		} else {
 			allyTracker.update(e);
 		}
 	}
@@ -86,7 +85,7 @@ public class Robot07 extends robocode.TeamRobot {
 		updateFromMessage(messageHandler);
 
 		// Test om det funkar (Samma target så blir de svarta)
-		if(enemyTracker.getTarget().getName().equals(messageHandler.getTargetName())) {
+		if (enemyTracker.getTarget().getName().equals(messageHandler.getTargetName())) {
 			setColors(Color.black, Color.black, Color.black);
 		}
 	}
@@ -114,16 +113,15 @@ public class Robot07 extends robocode.TeamRobot {
 		allyTracker.robotDeath(e);
 	}
 
-	
 	public ArrayList<Ally> getAllies() {
 		return allyTracker.getAllyList();
 	}
-	public Radar getRadar()
-	{
+
+	public Radar getRadar() {
 		return radar;
 	}
-	public Robot07 getRobot()
-	{
+
+	public Robot07 getRobot() {
 		return this;
 	}
 }
