@@ -30,7 +30,9 @@ import java.util.ArrayList;
 //EnemyList update
 
 //[our3] myPos;x;y
-//[our3] enemy;name;x;y;tick
+//[our3] enemy;name;type;x;y;tick
+
+
 
 
 // The code to get the standard string to send to teammates.
@@ -105,7 +107,7 @@ public class MessageWriter {
 
 				double x = MrRobot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * k.getDistance();
 				double y = MrRobot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * k.getDistance();
-				message = message + "\nenemy;" + k.getName() + x + ";" + y + ";" + k.getTick();
+				message = message + "\nenemy;" + k.getName() + ";" + k.getType() + ";" + x + ";" + y + ";" + k.getTick();
 
 			}
 		}
