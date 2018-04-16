@@ -20,22 +20,9 @@ public class Robot07 extends robocode.TeamRobot {
 	private Message msg = new Message();
 
 	public void run() {
-		// Initialization of the robot should be put here
-		setColors(Color.red, Color.blue, Color.red); // body,gun,radar
-
-		// adding allies
-		String[] teamm8 = getTeammates();
-		if (teamm8 != null) {
-			for (int i = 0; i < teamm8.length; i++) {
-				allies.add(new Ally(teamm8[i]));
-			}
-		}
-
-		// ser till att alla delar kan rotera individuellt
-		setAdjustRadarForRobotTurn(true);
-		setAdjustRadarForGunTurn(true);
-		setAdjustGunForRobotTurn(true);
-		setTurnRadarRight(360);
+		// Init robot
+		initialize();
+		
 		// Robot main loop
 		while (true) {
 			// flyttar roboten
@@ -53,6 +40,26 @@ public class Robot07 extends robocode.TeamRobot {
 			execute();
 		}
 	}
+	
+	// Settings when starting robot
+	public void initialize() {
+		// Initialization of the robot should be put here
+		setColors(Color.red, Color.blue, Color.red); // body,gun,radar
+
+		// adding allies
+		String[] teamm8 = getTeammates();
+		if (teamm8 != null) {
+			for (int i = 0; i < teamm8.length; i++) {
+				allies.add(new Ally(teamm8[i]));
+			}
+		}
+
+		// ser till att alla delar kan rotera individuellt
+		setAdjustRadarForRobotTurn(true);
+		setAdjustRadarForGunTurn(true);
+		setAdjustGunForRobotTurn(true);
+		setTurnRadarRight(360);
+	}
 
 	/**
 	 * onScannedRobot: What to do when you see another robot
@@ -60,7 +67,6 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// Checks if Scanned is Team
 		if (!(isTeammate(e.getName()))) {
-			// Här är något fel (else kallades aldrig även 1v1)
 			enemyTracker.update(e);
 			// Update target
 			enemyTracker.updateTarget();
