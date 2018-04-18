@@ -21,17 +21,12 @@ public class Robot07 extends robocode.TeamRobot {
 	private MessageWriter messageWriter = new MessageWriter(this);
 
 	public void run() {
-		// Initialization of the robot should be put here
-		setColors(Color.red, Color.blue, Color.red); // body,gun,radar
+		// Init robot
+		initialize();
 
 		// adding allies
 		allyTracker.addAllAllies();
 
-		// ser till att alla delar kan rotera individuellt
-		setAdjustRadarForRobotTurn(true);
-		setAdjustRadarForGunTurn(true);
-		setAdjustGunForRobotTurn(true);
-		setTurnRadarRight(360);
 		// Robot main loop
 		while (true) {
 			// flyttar roboten
@@ -48,6 +43,18 @@ public class Robot07 extends robocode.TeamRobot {
 			execute();
 		}
 	}
+	
+	// Settings when starting robot
+	public void initialize() {
+		// Initialization of the robot should be put here
+		setColors(Color.red, Color.blue, Color.red); // body,gun,radar
+
+		// ser till att alla delar kan rotera individuellt
+		setAdjustRadarForRobotTurn(true);
+		setAdjustRadarForGunTurn(true);
+		setAdjustGunForRobotTurn(true);
+		setTurnRadarRight(360);
+	}
 
 	/**
 	 * onScannedRobot: What to do when you see another robot
@@ -55,7 +62,6 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// Checks if Scanned is Team
 		if (!(isTeammate(e.getName()))) {
-			// Här är något fel (else kallades aldrig även 1v1)
 			enemyTracker.update(e);
 			// Update target
 			enemyTracker.updateTarget();

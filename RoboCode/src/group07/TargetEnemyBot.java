@@ -38,6 +38,11 @@ public class TargetEnemyBot extends EnemyBot {
 		return MathUtils.getFutureLinearY(y, getHeading(), getVelocity(), time);
 	}
 	
+	public double getFutureDistance(Robot robot, double time) {
+		double d = MathUtils.absoluteBearing(robot.getX(), robot.getY(), getFutureX(time), getFutureY(time));
+		return d;
+	}
+	
 	public double getX() {
 		return x;
 	}
