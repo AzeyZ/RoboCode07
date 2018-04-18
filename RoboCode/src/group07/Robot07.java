@@ -11,31 +11,34 @@ public class Robot07 extends robocode.TeamRobot {
 	 * run: Robot's default behavior
 	 */
 	private EnemyTracker enemyTracker = new EnemyTracker(this);
-	private ArrayList<Ally> allies = new ArrayList<Ally>();
+	private AllyTracker allyTracker = new AllyTracker(this);
 	private RobotMovement robotMovement = new RobotMovement(this);
 	private Radar radar = new Radar(this);
 	private Gun gun = new Gun(this);
 
 	private MessageHandler messageHandler = new MessageHandler(this);
 	private Message msg = new Message();
+	private MessageWriter messageWriter = new MessageWriter(this);
 
 	public void run() {
 		// Init robot
 		initialize();
-		
+
+		// adding allies
+		allyTracker.addAllAllies();
+
 		// Robot main loop
 		while (true) {
 			// flyttar roboten
 			robotMovement.update(enemyTracker.getTarget());
 			robotMovement.move();
-			// scannar 
+			// scannar
 			radar.update(enemyTracker.getTarget());
 			radar.scan();
 			// flyttar vapnet
 			gun.update(enemyTracker.getTarget());
 			gun.aim();
 			gun.fire();
-
 			// behövs för att alla set commands ska köra
 			execute();
 		}
@@ -45,14 +48,6 @@ public class Robot07 extends robocode.TeamRobot {
 	public void initialize() {
 		// Initialization of the robot should be put here
 		setColors(Color.red, Color.blue, Color.red); // body,gun,radar
-
-		// adding allies
-		String[] teamm8 = getTeammates();
-		if (teamm8 != null) {
-			for (int i = 0; i < teamm8.length; i++) {
-				allies.add(new Ally(teamm8[i]));
-			}
-		}
 
 		// ser till att alla delar kan rotera individuellt
 		setAdjustRadarForRobotTurn(true);
@@ -70,6 +65,8 @@ public class Robot07 extends robocode.TeamRobot {
 			enemyTracker.update(e);
 			// Update target
 			enemyTracker.updateTarget();
+		} else {
+			allyTracker.update(e);
 		}
 	}
 
@@ -87,14 +84,14 @@ public class Robot07 extends robocode.TeamRobot {
 		// [0-1] moveTo;x;y
 
 		// Tar meddelandet till rec, skickar det till Message Handler
-		Message rec = (Message) e.getMessage();
-		messageHandler.recieve(rec);
+		//Message rec = (Message) e.getMessage();
+		messageHandler.recieve(e, allyTracker);
 
 		// WIP
 		updateFromMessage(messageHandler);
 
 		// Test om det funkar (Samma target så blir de svarta)
-		if(enemyTracker.getTarget().getName().equals(messageHandler.getTargetName())) {
+		if (enemyTracker.getTarget().getName().equals(messageHandler.getTargetName())) {
 			setColors(Color.black, Color.black, Color.black);
 		}
 	}
@@ -119,10 +116,18 @@ public class Robot07 extends robocode.TeamRobot {
 
 	public void onRobotDeath(RobotDeathEvent e) {
 		enemyTracker.robotDeath(e);
+		allyTracker.robotDeath(e);
 	}
 
-	
 	public ArrayList<Ally> getAllies() {
-		return allies;
+		return allyTracker.getAllyList();
+	}
+
+	public Radar getRadar() {
+		return radar;
+	}
+
+	public Robot07 getRobot() {
+		return this;
 	}
 }

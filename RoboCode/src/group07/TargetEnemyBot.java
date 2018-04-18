@@ -4,8 +4,10 @@ import robocode.*;
 
 public class TargetEnemyBot extends EnemyBot {
 	private double x, y;
+	private long time;
 	
-	public TargetEnemyBot() {
+	public TargetEnemyBot(Robot07 MrRobot) {
+		super(MrRobot);
 		reset();
 	}
 	
@@ -14,10 +16,13 @@ public class TargetEnemyBot extends EnemyBot {
 		super.reset();
 		x = 0;
 		y = 0;
+		time = 0;
 	}
 	
 	public void update(ScannedRobotEvent e, Robot robot) {
 		super.update(e);
+		
+		e.getTime();
 		double absBearingDeg = (robot.getHeading() + e.getBearing());
 		if (absBearingDeg < 0) { absBearingDeg += 360; }
 		
@@ -44,6 +49,10 @@ public class TargetEnemyBot extends EnemyBot {
 	
 	public double getY() {
 		return y;
+	}
+	public long getTime()
+	{
+		return time;
 	}
 	
 }

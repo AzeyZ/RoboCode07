@@ -41,8 +41,13 @@ public class MockScannedRobotEvent extends ScannedRobotEvent {
 	private boolean fakeIsSentryRobot;
 	
 	public MockScannedRobotEvent(String fakeName, double fakeEnergy, double fakeBearing, double fakeDistance,
-			double fakeHeading, double fakeVelocity, boolean fakeIsSentryRobot) {
-		this.fakeName = fakeName;
+			double fakeHeading, double fakeVelocity, boolean fakeIsSentryRobot, boolean teammate) {
+		
+		String teamStatus;
+		if (teammate) teamStatus = "Ally";
+		else teamStatus = "Enemy";
+		
+		this.fakeName = fakeName + teamStatus;
 		this.fakeEnergy = fakeEnergy;
 		this.fakeBearing = fakeBearing;
 		this.fakeDistance = fakeDistance;

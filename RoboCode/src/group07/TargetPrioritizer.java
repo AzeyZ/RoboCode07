@@ -2,7 +2,6 @@ package group07;
 
 import java.util.ArrayList;
 
-
 public class TargetPrioritizer {
 	public static final int LEADER_BOT = 0; // LEADER_BOT används istället för att skriva en 0:a för att göra det
 											// tydligare.
@@ -21,7 +20,8 @@ public class TargetPrioritizer {
 		amountDroidAlive = amountDroidAlive(EnemyList); // Count the amount of each type to be able to
 		amountNormalBotAlive = amountNormalBotAlive(EnemyList); // determine how class should be sorted
 		leaderAlive = leaderAlive(EnemyList);
-		amountAlive = amountNormalBotAlive + amountDroidAlive; //Counts the amount of living enemybots. if is used to count if leader is alive.
+		amountAlive = amountNormalBotAlive + amountDroidAlive; // Counts the amount of living enemybots. if is used to
+																// count if leader is alive.
 		if (leaderAlive) {
 			amountAlive++;
 			System.out.println("Ledaren lever");
@@ -30,15 +30,16 @@ public class TargetPrioritizer {
 		System.out.println("Antal levande motståndar droids: " + amountDroidAlive);
 		System.out.println("Antal levande motståndar NormalBots: " + amountNormalBotAlive);
 
-		if (leaderAlive && amountDroidAlive > amountNormalBotAlive) {  // checks if leader is alive and if we should focus it.
+		if (leaderAlive && amountDroidAlive > amountNormalBotAlive) { // checks if leader is alive and if we should
+																		// focus it.
 			EnemyList = placeLeaderBotFirst(EnemyList);
-		} else if (amountNormalBotAlive != 0) {					//Checks if the got any NormalEnemyBots if we do we focus it.
+		} else if (amountNormalBotAlive != 0) { // Checks if the got any NormalEnemyBots if we do we focus it.
 			EnemyList = placeNormalBotFirst(EnemyList);
 		} else {
-			EnemyList = placeDroidFirst(EnemyList); 			//Place the droids first in case we just got droids left.
+			EnemyList = placeDroidFirst(EnemyList); // Place the droids first in case we just got droids left.
 		}
 
-		EnemyList = placeDeadBotsLast(EnemyList);				//Place all dead bots last so we dont try to focus at a dead bot.
+		EnemyList = placeDeadBotsLast(EnemyList); // Place all dead bots last so we dont try to focus at a dead bot.
 		System.out.println("Lista över alla robotar i ordning");
 		for (EnemyBot k : EnemyList) {
 			System.out.println(k.getName());
@@ -47,7 +48,7 @@ public class TargetPrioritizer {
 		return EnemyList;
 	}
 
-	private int amountDroidAlive(ArrayList<EnemyBot> EnemyList) {	
+	private int amountDroidAlive(ArrayList<EnemyBot> EnemyList) {
 		int m_amountDroids = 0;
 		for (EnemyBot k : EnemyList) {
 			if (k.getEnergy() != 0 && k.getType() == DROID) {
@@ -104,9 +105,9 @@ public class TargetPrioritizer {
 		ArrayList<EnemyBot> m_temp = new ArrayList<>();
 		m_temp.addAll(EnemyList);
 		for (EnemyBot k : EnemyList) {
-			if (k.getType() == NORMAL_BOT) {
+			if (k.getType() == NORMAL_BOT && k.getEnergy() != 0) {
 				if (m_temp.get(0).getType() == NORMAL_BOT && m_temp.get(0).getEnergy() < k.getEnergy()
-						&& amountAlive > 1) {
+						&& amountAlive > 1 && m_temp.get(0).getEnergy() != 0) {
 
 					m_temp.remove(k);
 					m_temp.add(1, k);
@@ -123,9 +124,15 @@ public class TargetPrioritizer {
 		ArrayList<EnemyBot> m_temp = new ArrayList<>();
 		m_temp.addAll(EnemyList);
 		for (EnemyBot k : EnemyList) {
-			if (k.getType() == DROID) {
-				m_temp.remove(k);
-				m_temp.add(0, k);
+			if (k.getType() == DROID && k.getEnergy() != 0) {
+				if (m_temp.get(0).getType() == DROID && m_temp.get(0).getEnergy() < k.getEnergy() && amountAlive > 1
+						&& m_temp.get(0).getEnergy() != 0) {
+					m_temp.remove(k);
+					m_temp.add(1, k);
+				} else {
+					m_temp.remove(k);
+					m_temp.add(0, k);
+				}
 			}
 		}
 		return m_temp;
