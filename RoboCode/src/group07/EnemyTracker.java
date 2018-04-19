@@ -61,7 +61,7 @@ public class EnemyTracker {
 		if (!enemies.isEmpty()) {
 			enemies = targetPrio.sortList(enemies);
 			if (allEnemiesScanned()) {
-				target.update(enemies.get(0).getEvent(), robot);
+				target.update(enemies.get(0).getEvent());
 			}
 		}
 	}

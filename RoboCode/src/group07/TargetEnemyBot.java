@@ -19,15 +19,15 @@ public class TargetEnemyBot extends EnemyBot {
 		time = 0;
 	}
 	
-	public void update(ScannedRobotEvent e, Robot robot) {
+	public void update(ScannedRobotEvent e) {
 		super.update(e);
 		
 		e.getTime();
-		double absBearingDeg = (robot.getHeading() + e.getBearing());
+		double absBearingDeg = (MrRobot.getHeading() + e.getBearing());
 		if (absBearingDeg < 0) { absBearingDeg += 360; }
 		
-		x = robot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * e.getDistance();
-		y = robot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * e.getDistance();
+		x = MrRobot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * e.getDistance();
+		y = MrRobot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * e.getDistance();
 	}
 	
 	public double getFutureX(double time) {

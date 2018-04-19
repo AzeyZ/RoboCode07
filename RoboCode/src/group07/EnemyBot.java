@@ -7,7 +7,7 @@ public class EnemyBot {
 	public static final int DROID = 1;
 	public static final int NORMAL_BOT = 2;
 	private ScannedRobotEvent e;
-	private Robot07 MrRobot;
+	protected Robot07 MrRobot;
 	private double bearing, distance, energy, heading, velocity;
 	private long tick;
 	private String name;
