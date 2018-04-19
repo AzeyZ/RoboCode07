@@ -61,6 +61,7 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
+		surfing.updateSurf(this, e);
 		// Checks if Scanned is Team
 		if (!(isTeammate(e.getName()))) {
 			enemyTracker.update(e.getBearing(), e.getDistance(), e.getEnergy(), e.getHeading(), e.getVelocity(), e.getTime(), e.getName());
@@ -69,7 +70,7 @@ public class Robot07 extends robocode.TeamRobot {
 		} else {
 			allyTracker.update(e);
 		}
-		surfing.updateSurf(this, e);
+		
 	}
 
 

@@ -19,10 +19,10 @@ public class SurfMovement {
 	private ArrayList _surfDirections;
 	private ArrayList _surfAbsBearings;
 
-	public static double _oppEnergy = 100.0;
+	private static double _oppEnergy = 100.0;
 
-	public static Rectangle2D.Double _fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, 764, 564);
-	public static double WALL_STICK = 160;
+	private static Rectangle2D.Double _fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, 764, 564);
+	private static double WALL_STICK = 160;
 
 	public SurfMovement() {
 		_enemyWaves = new ArrayList();
@@ -32,8 +32,8 @@ public class SurfMovement {
 	
 	public void updateSurf(TeamRobot r, ScannedRobotEvent e) {
 		_myLocation = new Point2D.Double(r.getX(), r.getY());
-		double lateralVelocity = r.getVelocity()*Math.sin(e.getBearing()*Math.PI/180);
-		double absBearing = e.getBearing()*Math.PI/180 + r.getHeadingRadians();
+		double lateralVelocity = r.getVelocity()*Math.sin(e.getBearingRadians());
+		double absBearing = e.getBearingRadians() + r.getHeadingRadians();
 		r.setTurnRadarRightRadians(Utils.normalRelativeAngle(absBearing - r.getRadarHeadingRadians()) * 2);
 		_surfDirections.add(0, new Integer((lateralVelocity >= 0) ? 1 : -1));
 	    _surfAbsBearings.add(0, new Double(absBearing + Math.PI));
@@ -47,8 +47,9 @@ public class SurfMovement {
 	            ew.distanceTraveled = bulletVelocity(bulletPower);
 	            ew.direction = ((Integer)_surfDirections.get(2)).intValue();
 	            ew.directAngle = ((Double)_surfAbsBearings.get(2)).doubleValue();
-	            ew.fireLocation = (Point2D.Double)_enemyLocation.clone(); // last tick
-	 
+	            //ew.fireLocation = (Point2D.Double)_enemyLocation.clone();
+	            ew.fireLocation = new Point2D.Double(r.getX() + Math.sin(absBearing)*e.getDistance() , r.getY() + Math.sin(absBearing)*e.getDistance() );
+	            
 	            _enemyWaves.add(ew);
 	            _oppEnergy = e.getEnergy();
 	            
@@ -56,8 +57,18 @@ public class SurfMovement {
 	            
 	            updateWaves(r);
 	            doSurfing(r);
+	            System.out.println("test: ");
 	        }
 	}
+	
+    class EnemyWave {
+        Point2D.Double fireLocation;
+        long fireTime;
+        double bulletVelocity, directAngle, distanceTraveled;
+        int direction;
+ 
+        public EnemyWave() { }
+    }
 	
 	public double checkDanger(EnemyWave surfWave, int direction, TeamRobot r) {
         int index = getFactorIndex(surfWave,

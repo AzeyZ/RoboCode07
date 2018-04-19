@@ -52,8 +52,9 @@ public class Gun {
 	
 	//Wave functions
 	public void Wave (EnemyTracker track) {
-		double absBearing = Math.PI/180*MathUtils.absoluteBearing(robot.getX(), robot.getY(), track.getTarget().getX(), track.getTarget().getY());
-
+		
+		//double absBearing = Math.PI/180*MathUtils.absoluteBearing(robot.getX(), robot.getY(), track.getTarget().getX(), track.getTarget().getY());
+		double absBearing = track.getTarget().getBearing()*Math.PI/180 + robot.getHeadingRadians();
 		// find our enemy's location:
 		double ex = robot.getX() + Math.sin(absBearing) * track.getTarget().getDistance();
 		double ey = robot.getY() + Math.cos(absBearing) * track.getTarget().getDistance();
