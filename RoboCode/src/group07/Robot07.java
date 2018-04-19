@@ -17,6 +17,7 @@ public class Robot07 extends robocode.TeamRobot {
 	private Gun gun = new Gun(this);
 	private MessageHandler messageHandler = new MessageHandler(this);
 	private MessageWriter messageWriter = new MessageWriter(this);
+	private SurfMovement surfing = new SurfMovement();
 
 	public void run() {
 		// Init robot
@@ -28,8 +29,8 @@ public class Robot07 extends robocode.TeamRobot {
 		// Robot main loop
 		while (true) {
 			// flyttar roboten
-			robotMovement.update(enemyTracker.getTarget());
-			robotMovement.move();
+			//robotMovement.update(enemyTracker.getTarget());
+			//robotMovement.move();
 			// scannar
 			radar.update(enemyTracker.getTarget());
 			radar.scan();
@@ -39,6 +40,7 @@ public class Robot07 extends robocode.TeamRobot {
 			//gun.aim();
 			// starts Wave calculations
 			gun.Wave(enemyTracker);
+			surfing.updateSurf(this, enemyTracker);
 			// behövs för att alla set commands ska köra
 			execute();
 		}
@@ -116,6 +118,7 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onHitByBullet: What to do when you're hit by a bullet
 	 */
 	public void onHitByBullet(HitByBulletEvent e) {
+		surfing.onHitByBulletSurf(e);
 	}
 
 	/**
