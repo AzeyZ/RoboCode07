@@ -38,8 +38,7 @@ public class Robot07 extends robocode.TeamRobot {
 			
 			//gun.aim();
 			// starts Wave calculations
-			gun.Wave(enemyTracker , this);
-			gun.fireWave(enemyTracker, this);
+			gun.Wave(enemyTracker);
 			// behövs för att alla set commands ska köra
 			execute();
 		}
