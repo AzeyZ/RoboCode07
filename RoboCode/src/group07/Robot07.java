@@ -1,6 +1,7 @@
 package group07;
 
 import robocode.*;
+
 import java.awt.Color;
 import java.io.IOException;
 import java.io.Serializable;
@@ -17,26 +18,33 @@ public class Robot07 extends robocode.TeamRobot {
 	private Gun gun = new Gun(this);
 	private MessageHandler messageHandler = new MessageHandler(this);
 	private MessageWriter messageWriter = new MessageWriter(this);
-	private SurfMovement surfing = new SurfMovement();
+	private MovementModeSwitcher mode = new MovementModeSwitcher(this);
+	private SurfMovement surfing = new SurfMovement(mode);
+	
 
 	public void run() {
 		// Init robot
 		initialize();
-
+		
 		// adding allies
 		allyTracker.addAllAllies();
 
 		// Robot main loop
 		while (true) {
+			// counting turns
+			mode.NewTurn();
 			// flyttar roboten
-			//robotMovement.update(enemyTracker.getTarget());
-			//robotMovement.move();
+			if(mode.getCurrentMode() == 0) {
+				robotMovement.update(enemyTracker.getTarget());
+				robotMovement.move();
+			}
+			
 			// scannar
 			radar.update(enemyTracker.getTarget());
 			radar.scan();
 			// flyttar vapnet
 			//gun.update(enemyTracker.getTarget());
-			
+
 			//gun.aim();
 			// starts Wave calculations
 			//gun.Wave(enemyTracker);
@@ -51,9 +59,8 @@ public class Robot07 extends robocode.TeamRobot {
 		setColors(Color.red, Color.blue, Color.red); // body,gun,radar
 
 		// ser till att alla delar kan rotera individuellt
-		setAdjustRadarForRobotTurn(true);
-		setAdjustRadarForGunTurn(true);
 		setAdjustGunForRobotTurn(true);
+		setAdjustRadarForGunTurn(true);
 		setTurnRadarRight(360);
 	}
 
@@ -70,7 +77,7 @@ public class Robot07 extends robocode.TeamRobot {
 		} else {
 			allyTracker.update(e);
 		}
-		
+
 	}
 
 
@@ -78,16 +85,16 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onMessageReceived: What to do when you receive a message
 	 */
 	public void onMessageReceived(MessageEvent e) {
-		
-//		// Check if message from Mr. Robot and is of type MessageScannedEvent
-//		if(e.getSender().contains("Robot07")) {
-//			try {
-//				MessageScannedEvent msg = (ScannedRobotEvent)e.getMessage();
-//			} catch (Exception error) {
-//				// TODO: handle exception
-//			}
-//		}
-		
+
+		//		// Check if message from Mr. Robot and is of type MessageScannedEvent
+		//		if(e.getSender().contains("Robot07")) {
+		//			try {
+		//				MessageScannedEvent msg = (ScannedRobotEvent)e.getMessage();
+		//			} catch (Exception error) {
+		//				// TODO: handle exception
+		//			}
+		//		}
+
 		// Sends message of ScannedEnemy to team
 		// [0-1] leadership;[followMe|leadMe]
 		// [0-1] teamMode;[offensive|defensive]
@@ -99,15 +106,15 @@ public class Robot07 extends robocode.TeamRobot {
 
 		// Tar meddelandet till rec, skickar det till Message Handler
 		//Message rec = (Message) e.getMessage();
-		messageHandler.recieve(e, allyTracker, enemyTracker);
-
-		// WIP
-		updateFromMessage(messageHandler);
-
-		// Test om det funkar (Samma target så blir de svarta)
-		if (enemyTracker.getTarget().getName().equals(messageHandler.getTargetName())) {
-			setColors(Color.black, Color.black, Color.black);
-		}
+		//		messageHandler.recieve(e, allyTracker, enemyTracker);
+		//
+		//		// WIP
+		//		updateFromMessage(messageHandler);
+		//
+		//		// Test om det funkar (Samma target så blir de svarta)
+		//		if (enemyTracker.getTarget().getName().equals(messageHandler.getTargetName())) {
+		//			setColors(Color.black, Color.black, Color.black);
+		//		}
 	}
 
 	// WIP ska ta informationen från message handler
@@ -118,7 +125,12 @@ public class Robot07 extends robocode.TeamRobot {
 	/**
 	 * onHitByBullet: What to do when you're hit by a bullet
 	 */
+	
+	
 	public void onHitByBullet(HitByBulletEvent e) {
+		
+		//TODO:switch target to the one that hit us
+		
 		surfing.onHitByBulletSurf(e);
 	}
 

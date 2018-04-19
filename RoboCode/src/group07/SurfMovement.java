@@ -11,54 +11,69 @@ import robocode.util.Utils;
 
 public class SurfMovement {
 	private static int BINS = 47;
-	private static double _surfStats[] = new double[BINS];
-	private Point2D.Double _myLocation;     // our bot's location
-	private Point2D.Double _enemyLocation;  // enemy bot's location
-
-	private ArrayList _enemyWaves;
-	private ArrayList _surfDirections;
-	private ArrayList _surfAbsBearings;
+    private static double _surfStats[] = new double[BINS]; // we'll use 47 bins
+    private Point2D.Double _myLocation;     // our bot's location
+    private Point2D.Double _enemyLocation;  // enemy bot's location
+    private MovementModeSwitcher mode;
+    
+    private ArrayList _enemyWaves;
+    private ArrayList _surfDirections;
+    private ArrayList _surfAbsBearings;
 
 	private static double _oppEnergy = 100.0;
 
 	private static Rectangle2D.Double _fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, 764, 564);
 	private static double WALL_STICK = 160;
 
-	public SurfMovement() {
+	public SurfMovement(MovementModeSwitcher mode) {
+		this.mode = mode;
 		_enemyWaves = new ArrayList();
 		_surfDirections = new ArrayList();
 		_surfAbsBearings = new ArrayList();
 	}
 	
 	public void updateSurf(TeamRobot r, ScannedRobotEvent e) {
-		_myLocation = new Point2D.Double(r.getX(), r.getY());
-		double lateralVelocity = r.getVelocity()*Math.sin(e.getBearingRadians());
-		double absBearing = e.getBearingRadians() + r.getHeadingRadians();
-		r.setTurnRadarRightRadians(Utils.normalRelativeAngle(absBearing - r.getRadarHeadingRadians()) * 2);
-		_surfDirections.add(0, new Integer((lateralVelocity >= 0) ? 1 : -1));
-	    _surfAbsBearings.add(0, new Double(absBearing + Math.PI));
-	    double bulletPower = _oppEnergy - e.getEnergy();
-	    
-	    if (bulletPower < 3.01 && bulletPower > 0.09
-	            && _surfDirections.size() > 2) {
-	            EnemyWave ew = new EnemyWave();
-	            ew.fireTime = r.getTime() - 1;
-	            ew.bulletVelocity = bulletVelocity(bulletPower);
-	            ew.distanceTraveled = bulletVelocity(bulletPower);
-	            ew.direction = ((Integer)_surfDirections.get(2)).intValue();
-	            ew.directAngle = ((Double)_surfAbsBearings.get(2)).doubleValue();
-	            //ew.fireLocation = (Point2D.Double)_enemyLocation.clone();
-	            ew.fireLocation = new Point2D.Double(r.getX() + Math.sin(absBearing)*e.getDistance() , r.getY() + Math.sin(absBearing)*e.getDistance() );
-	            
-	            _enemyWaves.add(ew);
-	            _oppEnergy = e.getEnergy();
-	            
-	            _enemyLocation = project(_myLocation, absBearing, e.getDistance());
-	            
-	            updateWaves(r);
-	            doSurfing(r);
-	            System.out.println("test: ");
-	        }
+		
+        _myLocation = new Point2D.Double(r.getX(), r.getY());
+        
+        double lateralVelocity = r.getVelocity()*Math.sin(e.getBearingRadians());
+        double absBearing = e.getBearingRadians() + r.getHeadingRadians();
+ 
+        r.setTurnRadarRightRadians(Utils.normalRelativeAngle(absBearing - r.getRadarHeadingRadians()) * 2);
+ 
+        _surfDirections.add(0, new Integer((lateralVelocity >= 0) ? 1 : -1));
+        _surfAbsBearings.add(0, new Double(absBearing + Math.PI));
+ 
+ 
+        double bulletPower = _oppEnergy - e.getEnergy();
+        if (bulletPower < 3.01 && bulletPower > 0.09
+            && _surfDirections.size() > 2) {
+        	
+        	mode.SurfMode();
+        	
+            EnemyWave ew = new EnemyWave();
+            ew.fireTime = r.getTime() - 1;
+            ew.bulletVelocity = bulletVelocity(bulletPower);
+            ew.distanceTraveled = bulletVelocity(bulletPower);
+            ew.direction = ((Integer)_surfDirections.get(2)).intValue();
+            ew.directAngle = ((Double)_surfAbsBearings.get(2)).doubleValue();
+            ew.fireLocation = (Point2D.Double)_enemyLocation.clone(); // last tick
+ 
+            _enemyWaves.add(ew);
+        }
+ 
+        _oppEnergy = e.getEnergy();
+ 
+        // update after EnemyWave detection, because that needs the previous
+        // enemy location as the source of the wave
+        _enemyLocation = project(_myLocation, absBearing, e.getDistance());
+ 
+        updateWaves(r);
+        doSurfing(r);
+ 
+        // gun code would go here...
+
+	        
 	}
 	
     class EnemyWave {
@@ -150,16 +165,14 @@ public class SurfMovement {
         // If the _enemyWaves collection is empty, we must have missed the
         // detection of this wave somehow.
         if (!_enemyWaves.isEmpty()) {
-            Point2D.Double hitBulletLocation = new Point2D.Double(
-                e.getBullet().getX(), e.getBullet().getY());
+            Point2D.Double hitBulletLocation = new Point2D.Double(e.getBullet().getX(), e.getBullet().getY());
             EnemyWave hitWave = null;
  
             // look through the EnemyWaves, and find one that could've hit us.
             for (int x = 0; x < _enemyWaves.size(); x++) {
                 EnemyWave ew = (EnemyWave)_enemyWaves.get(x);
  
-                if (Math.abs(ew.distanceTraveled -
-                    _myLocation.distance(ew.fireLocation)) < 50
+                if (Math.abs(ew.distanceTraveled - _myLocation.distance(ew.fireLocation)) < 50
                     && Math.abs(bulletVelocity(e.getBullet().getPower()) 
                         - ew.bulletVelocity) < 0.001) {
                     hitWave = ew;
@@ -261,8 +274,7 @@ public class SurfMovement {
     }
  
     public static void setBackAsFront(TeamRobot robot, double goAngle) {
-        double angle =
-            Utils.normalRelativeAngle(goAngle - robot.getHeadingRadians());
+        double angle = Utils.normalRelativeAngle(goAngle - robot.getHeadingRadians());
         if (Math.abs(angle) > (Math.PI/2)) {
             if (angle < 0) {
                 robot.setTurnRightRadians(Math.PI + angle);

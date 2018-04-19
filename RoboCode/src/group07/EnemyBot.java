@@ -62,6 +62,9 @@ public class EnemyBot {
 	public double getBearing() {
 		return bearing;
 	}
+	public double getBearingRadians() {
+		return Math.toRadians(bearing);
+	}
 
 	public double getDistance() {
 		return distance;
