@@ -37,7 +37,7 @@ public class MessageHandler {
 	}
 
 	// Tar emot ett Message och uppdaterar alla variablar här
-	public void recieve(MessageEvent e, AllyTracker allyTracker) {
+	public void recieve(MessageEvent e, AllyTracker allyTracker, EnemyTracker enemyTracker) {
 		ArrayList<String> rowsInMessage = new ArrayList<>();
 		rowsInMessage.addAll(Arrays.asList(e.getMessage().toString().split("\n")));
 		for (String k : rowsInMessage) {
@@ -86,10 +86,17 @@ public class MessageHandler {
 				}
 			} else if (k.contains("rEnemy")) {
 				// Uppdatera listan om infon e nyare
+				if (infoInRow.size() == 8) {
+							enemyTracker.update(Double.parseDouble(infoInRow.get(1)), Double.parseDouble(infoInRow.get(2)),
+									Double.parseDouble(infoInRow.get(3)), Double.parseDouble(infoInRow.get(4)),
+									Double.parseDouble(infoInRow.get(5)), Long.parseLong(infoInRow.get(6)), infoInRow.get(7));
 
+						}
+					}
+				}
 			}
-		}
-	}
+		
+	
 
 	// Getters
 	public double getEnemyX() {
