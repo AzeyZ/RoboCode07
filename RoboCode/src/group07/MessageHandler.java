@@ -27,7 +27,7 @@ public class MessageHandler {
 	}
 
 	// Skickar iväg ett meddelande
-	public void send(Message message) {
+	public void send(message) {
 		try {
 			robot.broadcastMessage(message);
 		} catch (IOException e) {

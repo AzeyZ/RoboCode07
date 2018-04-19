@@ -47,5 +47,4 @@ public class WaveBullet {
 		}
 		return false;
 	}
-} // end WaveBullet class
-
+}
