@@ -43,9 +43,10 @@ public class Robot07 extends robocode.TeamRobot {
 			radar.update(enemyTracker.getTarget());
 			radar.scan();
 			// flyttar vapnet
-			//gun.update(enemyTracker.getTarget());
+			gun.update(enemyTracker.getTarget());
 
-			//gun.aim();
+			gun.aim();
+			gun.fire();
 			// starts Wave calculations
 			//gun.Wave(enemyTracker);
 			// behövs för att alla set commands ska köra
