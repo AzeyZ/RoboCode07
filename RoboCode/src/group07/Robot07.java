@@ -35,12 +35,11 @@ public class Robot07 extends robocode.TeamRobot {
 			radar.update(enemyTracker.getTarget());
 			radar.scan();
 			// flyttar vapnet
-			gun.update(enemyTracker.getTarget());
+			//gun.update(enemyTracker.getTarget());
 			
 			//gun.aim();
 			// starts Wave calculations
-			gun.Wave(enemyTracker);
-			surfing.updateSurf(this, enemyTracker);
+			//gun.Wave(enemyTracker);
 			// behövs för att alla set commands ska köra
 			execute();
 		}
@@ -70,6 +69,7 @@ public class Robot07 extends robocode.TeamRobot {
 		} else {
 			allyTracker.update(e);
 		}
+		surfing.updateSurf(this, e);
 	}
 
 

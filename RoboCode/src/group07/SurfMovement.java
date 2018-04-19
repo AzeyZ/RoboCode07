@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import robocode.HitByBulletEvent;
+import robocode.ScannedRobotEvent;
 import robocode.TeamRobot;
 import robocode.util.Utils;
 
@@ -20,7 +21,7 @@ public class SurfMovement {
 
 	public static double _oppEnergy = 100.0;
 
-	public static Rectangle2D.Double _fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, 1164, 1164);
+	public static Rectangle2D.Double _fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, 764, 564);
 	public static double WALL_STICK = 160;
 
 	public SurfMovement() {
@@ -29,14 +30,14 @@ public class SurfMovement {
 		_surfAbsBearings = new ArrayList();
 	}
 	
-	public void updateSurf(TeamRobot r, EnemyTracker t) {
+	public void updateSurf(TeamRobot r, ScannedRobotEvent e) {
 		_myLocation = new Point2D.Double(r.getX(), r.getY());
-		double lateralVelocity = r.getVelocity()*Math.sin(t.getTarget().getBearing()*Math.PI/180);
-		double absBearing = t.getTarget().getBearing()*Math.PI/180 + r.getHeadingRadians();
+		double lateralVelocity = r.getVelocity()*Math.sin(e.getBearing()*Math.PI/180);
+		double absBearing = e.getBearing()*Math.PI/180 + r.getHeadingRadians();
 		r.setTurnRadarRightRadians(Utils.normalRelativeAngle(absBearing - r.getRadarHeadingRadians()) * 2);
 		_surfDirections.add(0, new Integer((lateralVelocity >= 0) ? 1 : -1));
 	    _surfAbsBearings.add(0, new Double(absBearing + Math.PI));
-	    double bulletPower = _oppEnergy - t.getTarget().getEnergy();
+	    double bulletPower = _oppEnergy - e.getEnergy();
 	    
 	    if (bulletPower < 3.01 && bulletPower > 0.09
 	            && _surfDirections.size() > 2) {
@@ -49,9 +50,9 @@ public class SurfMovement {
 	            ew.fireLocation = (Point2D.Double)_enemyLocation.clone(); // last tick
 	 
 	            _enemyWaves.add(ew);
-	            _oppEnergy = t.getTarget().getEnergy();
+	            _oppEnergy = e.getEnergy();
 	            
-	            _enemyLocation = project(_myLocation, absBearing, t.getTarget().getDistance());
+	            _enemyLocation = project(_myLocation, absBearing, e.getDistance());
 	            
 	            updateWaves(r);
 	            doSurfing(r);
