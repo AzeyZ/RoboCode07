@@ -12,6 +12,7 @@ import group07.Ally;
 
 public class AllyTest {
 	private Ally ally;
+	private Ally otherAlly;
 	Random rand = new Random();
 	@Before
 	public void setUp() {
@@ -31,7 +32,9 @@ public class AllyTest {
 	@Test
 	public void isSameType() {
 		ally = new Ally("IAmYourFriendRobot07546wasd_k l");
-		assertEquals("Test if name is correct", true, ally.isSame());
+		otherAlly = new Ally("IAmYourFriendR546wasd_k l");
+		assertEquals("Test if name is correct", true, ally.isMrRobot());
+		assertEquals(false, otherAlly.isMrRobot());
 	}
 	@Test
 	public void testXnY() {
@@ -40,8 +43,8 @@ public class AllyTest {
 		int y = rand.nextInt(401);
 		ally.setX(x);
 		ally.setY(y);
-		assertEquals("Test if x-cord is correct", x, ally.getX());
-		assertEquals("Test if y-cord is correct", y, ally.getY());
+		assertEquals("Test if x-cord is correct", x, ally.getX(), 0.01d);
+		assertEquals("Test if y-cord is correct", y, ally.getY(), 0.01d);
 	}
 	
 }
