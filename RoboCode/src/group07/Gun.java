@@ -89,7 +89,7 @@ public class Gun {
 
 	public void fireWave(EnemyTracker track, TeamRobot r) {
 		
-	       if (r.setFireBullet() != null) {
+	       if (r.setFireBullet(Math.min(400 / target.getDistance(), 3)) != null) {
                waves.add(newWave);
 	       }
 
@@ -103,7 +103,7 @@ public class Gun {
 		double angleOffset = direction * guessfactor * newWave.maxEscapeAngle();
 		double gunAdjust = Utils.normalRelativeAngle(absBearing - r.getGunHeadingRadians() + angleOffset);
 		r.setTurnGunRightRadians(gunAdjust);
-		if (r.getGunHeat() == 0 && gunAdjust < Math.atan2(9, track.getTarget().getDistance()) && r.setFireBullet() != null) {
+		if (r.getGunHeat() == 0 && gunAdjust < Math.atan2(9, track.getTarget().getDistance()) && r.setFireBullet(Math.min(400 / target.getDistance(), 3)) != null) {
 			
 		}
 	}
