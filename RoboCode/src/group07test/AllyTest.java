@@ -32,6 +32,7 @@ public class AllyTest {
 	@Test
 	public void isSameType() {
 		ally = new Ally("IAmYourFriendRobot07546wasd_k l");
+
 		otherAlly = new Ally("IAmYourFriendR546wasd_k l");
 		assertEquals("Test if name is correct", true, ally.isMrRobot());
 		assertEquals(false, otherAlly.isMrRobot());

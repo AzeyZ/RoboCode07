@@ -70,6 +70,7 @@ public class Robot07 extends robocode.TeamRobot {
 		}
 	}
 
+	
 	/**
 	 * onMessageReceived: What to do when you receive a message
 	 */
