@@ -49,21 +49,20 @@ public class Gun {
 			robot.setFire(Math.min(400 / target.getDistance(), 3));
 		}
 	}
+	
 	//Wave functions
 	public void Wave (EnemyTracker track) {
-		// Enemy absolute bearing, you can use your one if you already declare it.
-		//double absBearing = robot.getHeadingRadians() + track.getTarget().getBearing()*Math.PI/180;
 		double absBearing = Math.PI/180*MathUtils.absoluteBearing(robot.getX(), robot.getY(), track.getTarget().getX(), track.getTarget().getY());
 
 		// find our enemy's location:
-		//double ex = robot.getX() + Math.sin(absBearing) * track.getTarget().getDistance();
-		//double ey = robot.getY() + Math.cos(absBearing) * track.getTarget().getDistance();
+		double ex = robot.getX() + Math.sin(absBearing) * track.getTarget().getDistance();
+		double ey = robot.getY() + Math.cos(absBearing) * track.getTarget().getDistance();
 
 		// Let's process the waves now:
 		for (int i=0; i < waves.size(); i++)
 		{
 			WaveBullet currentWave = (WaveBullet)waves.get(i);
-			if (currentWave.checkHit(track.getTarget().getX(), track.getTarget().getY(), robot.getTime()))
+			if (currentWave.checkHit(ex, ey, robot.getTime()))
 			{
 				waves.remove(currentWave);
 				i--;
@@ -92,8 +91,8 @@ public class Gun {
 				bestindex = i;
 			}
 		}
-		// double guessfactor = (double)(bestindex - (stats.length - 1) / 2)/((stats.length - 1) / 2);
-		double angleOffset = direction  /* * guessfactor */ * newWave.maxEscapeAngle();
+		double guessfactor = (double)(bestindex - (stats.length - 1) / 2)/((stats.length - 1) / 2);
+		double angleOffset = direction * guessfactor * newWave.maxEscapeAngle();
 		double gunAdjust = Utils.normalRelativeAngle(absBearing - robot.getGunHeadingRadians() + angleOffset);
 		robot.setTurnGunRightRadians(gunAdjust);
 		if (robot.getGunHeat() == 0 && gunAdjust < Math.atan2(9, track.getTarget().getDistance()) && robot.setFireBullet(Math.min(400 / target.getDistance(), 3)) != null) {

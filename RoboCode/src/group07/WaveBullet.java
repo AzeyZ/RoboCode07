@@ -39,12 +39,11 @@ public class WaveBullet {
 		{
 			double desiredDirection = Math.atan2(enemyX - startX, enemyY - startY);
 			double angleOffset = Utils.normalRelativeAngle(desiredDirection - startBearing);
-			double guessFactor =
-				Math.max(-1, Math.min(1, angleOffset / maxEscapeAngle())) * direction;
+			double guessFactor = Math.max(-1, Math.min(1, angleOffset / maxEscapeAngle())) * direction;
 			int index = (int) Math.round((returnSegment.length - 1) /2 * (guessFactor + 1));
 			returnSegment[index]++;
 			return true;
 		}
 		return false;
-	}
+	}	
 }
