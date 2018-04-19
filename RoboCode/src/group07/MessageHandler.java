@@ -27,9 +27,9 @@ public class MessageHandler {
 	}
 
 	// Skickar iväg ett meddelande
-	public void send(message) {
+	public void send() {
 		try {
-			robot.broadcastMessage(message);
+			robot.broadcastMessage("test");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

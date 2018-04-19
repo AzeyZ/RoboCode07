@@ -62,7 +62,7 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// Checks if Scanned is Team
 		if (!(isTeammate(e.getName()))) {
-			enemyTracker.update(e);
+			enemyTracker.update(e.getBearing(), e.getDistance(), e.getEnergy(), e.getHeading(), e.getVelocity(), e.getTime(), e.getName());
 			// Update target
 			enemyTracker.updateTarget();
 		} else {
