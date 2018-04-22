@@ -1,7 +1,10 @@
 package group07;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
+
 public class MathUtils {
-	
+
 	// Ger en vinkel mellan -180 och 180
 	public static double normalizeBearing(double angle) {
 		while (angle > 180)
@@ -10,7 +13,7 @@ public class MathUtils {
 			angle += 360;
 		return angle;
 	}
-	
+
 	// computes the absolute bearing between two points
 	public static double absoluteBearing(double x1, double y1, double x2, double y2) {
 		double xo = x2 - x1;
@@ -31,17 +34,42 @@ public class MathUtils {
 
 		return bearing;
 	}
-	
+
 	// Calculate the future X value
 	public static double getFutureLinearX(double x, double heading, double velocity, double time) {
 		x += Math.sin(Math.toRadians(heading)) * velocity * time;
 		return x;
 	}
-	
+
 	// Calculate the future Y value
 	public static double getFutureLinearY(double y, double heading, double velocity, double time) {
 		y += Math.sin(Math.toRadians(heading)) * velocity * time;
 		return y;
+	}
+
+	static double bulletVelocity(double power)
+	{
+		return 20.0D - 3.0D * power;
+	}
+
+	static Point2D project(Point2D sourceLocation, double angle, double length)
+	{
+		return new Point2D.Double(sourceLocation.getX() + Math.sin(angle) * length, sourceLocation.getY() + Math.cos(angle) * length);
+	}
+
+	static double absoluteBearing(Point2D source, Point2D target)
+	{
+		return Math.atan2(target.getX() - source.getX(), target.getY() - source.getY());
+	}
+
+	static int sign(double v)
+	{
+		return v < 0.0D ? -1 : 1;
+	}
+
+	static int minMax(int v, int min, int max)
+	{
+		return Math.max(min, Math.min(max, v));
 	}
 
 }
