@@ -64,8 +64,8 @@ public class Gun {
 		//double absBearing = Math.PI/180*MathUtils.absoluteBearing(robot.getX(), robot.getY(), track.getTarget().getX(), track.getTarget().getY());
 		double absBearing = track.getTarget().getBearingRadians() + robot.getHeadingRadians();
 		double power = Math.min(400 / target.getDistance(), 3);
-		/*
 		
+		/*
 		// find our enemy's location:
 		double ex = robot.getX() + Math.sin(absBearing) * track.getTarget().getDistance();
 		double ey = robot.getY() + Math.cos(absBearing) * track.getTarget().getDistance();
@@ -114,7 +114,8 @@ public class Gun {
 		*/
 		GFTWave wave = new GFTWave(robot);
 		wave.gunLocation = new Point2D.Double(robot.getX(), robot.getY());
-		GFTWave.targetLocation = MathUtils.project(wave.gunLocation, absBearing, target.getDistance());
+		//GFTWave.targetLocation = MathUtils.project(wave.gunLocation, absBearing, target.getDistance());
+		wave.setLocation(MathUtils.project(wave.gunLocation, absBearing, target.getDistance()));
 		wave.lateralDirection = lateralDirection;
 		wave.bulletPower = power;
 		wave.setSegmentations(target.getDistance(), target.getVelocity(), lastEnemyVelocity);
@@ -131,7 +132,7 @@ public class Gun {
 	}
 	
 	
-	class GFTWave
+	static class GFTWave
 	extends Condition
 	{
 		static Point2D targetLocation;
@@ -165,6 +166,10 @@ public class Gun {
 				this.robot.removeCustomEvent(this);
 			}
 			return false;
+		}
+		
+		public void setLocation(Point2D loc) {
+			targetLocation = loc;
 		}
 
 		double mostVisitedBearingOffset()
