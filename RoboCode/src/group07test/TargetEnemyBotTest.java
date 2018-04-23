@@ -38,7 +38,7 @@ public class TargetEnemyBotTest {
 		double fakeDistance = 40;
 		double fakeVelocity = 3;
 		MockScannedRobotEvent e = new MockScannedRobotEvent(name, fakeEnergy, fakeBearing, fakeDistance, fakeHeading, fakeVelocity, false, false);
-		target.update(e);
+		target.update(fakeBearing, fakeDistance, fakeEnergy, fakeHeading, fakeVelocity, e.getTime(), e.getName());
 		assertEquals("Test if x is correct", 70, target.getX(), 0.1d);
 	}
 	
