@@ -42,6 +42,7 @@ public class MockBot extends Robot07 {
 	private double fakeTurnRight;
 	private double fakeGunHeading;
 	private double fakeGunTurnRight;
+	private long fakeTime = 0;
 	
 	/**
 	 * Construct a mock robot to be used as a substitute for BasicMeleeBot in unit testing.
@@ -149,5 +150,10 @@ public class MockBot extends Robot07 {
 	public boolean isTeammate(String name){
 		if (name.contains("Ally")) return true;
 		return false;
+	}
+	
+	@Override
+	public long getTime(){
+		return fakeTime;
 	}
 }

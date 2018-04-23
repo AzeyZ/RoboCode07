@@ -22,7 +22,6 @@ public class TargetEnemyBot extends EnemyBot {
 	public void update(ScannedRobotEvent e) {
 		super.update(e);
 		
-		e.getTime();
 		double absBearingDeg = (MrRobot.getHeading() + e.getBearing());
 		if (absBearingDeg < 0) { absBearingDeg += 360; }
 		
