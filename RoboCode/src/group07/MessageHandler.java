@@ -1,5 +1,6 @@
 package group07;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,9 +28,12 @@ public class MessageHandler {
 	}
 
 	// Skickar iväg ett meddelande
-	public void send(Message message) {
+	//receiver == 1 skicka till alla.
+	//receiver == 2 skicka till alla mrRobot.
+	//receiver != 1 || 2 skicka till receiver.
+	public void send(String message, String receiver) {
 		try {
-			robot.broadcastMessage(message);
+			robot.broadcastMessage("test");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -37,7 +41,7 @@ public class MessageHandler {
 	}
 
 	// Tar emot ett Message och uppdaterar alla variablar här
-	public void recieve(MessageEvent e, AllyTracker allyTracker) {
+	public void recieve(MessageEvent e, AllyTracker allyTracker, EnemyTracker enemyTracker) {
 		ArrayList<String> rowsInMessage = new ArrayList<>();
 		rowsInMessage.addAll(Arrays.asList(e.getMessage().toString().split("\n")));
 		for (String k : rowsInMessage) {
@@ -86,7 +90,13 @@ public class MessageHandler {
 				}
 			} else if (k.contains("rEnemy")) {
 				// Uppdatera listan om infon e nyare
+				if (infoInRow.size() == 8) {
+					enemyTracker.update(Double.parseDouble(infoInRow.get(1)), Double.parseDouble(infoInRow.get(2)),
+							Double.parseDouble(infoInRow.get(3)), Double.parseDouble(infoInRow.get(4)),
+							Double.parseDouble(infoInRow.get(5)), Long.parseLong(infoInRow.get(6)), infoInRow.get(7));
+					robot.setColors(Color.red, Color.blue, Color.red);
 
+				}
 			}
 		}
 	}
