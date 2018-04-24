@@ -10,71 +10,91 @@ import robocode.MessageEvent;
 public class MessageHandler {
 	Robot07 robot;
 
-	// Här sparas alla värden
-	private String leadership;
-	private String teamMode;
-	private double myX;
-	private double myY;
-	private double enemyX;
-	private double enemyY;
-	private String targetName;
-	private double targetX;
-	private double targetY;
-	private double moveToX;
-	private double moveToY;
-
 	public MessageHandler(Robot07 robot) {
 		this.robot = robot;
 	}
 
-	// Skickar iväg ett meddelande
-	//receiver == 1 skicka till alla.
-	//receiver == 2 skicka till alla mrRobot.
-	//receiver != 1 || 2 skicka till receiver.
+	// Skickar ivÃ¤g ett meddelande
+	// receiver == 1 skicka till alla.
+	// receiver == 2 skicka till alla mrRobot.
+	// receiver != 1 || 2 skicka till receiver.
 	public void send(String message, String receiver) {
-		try {
-			robot.broadcastMessage("test");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		if (receiver.contains("1")) {
+
+			try {
+				robot.broadcastMessage(message);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if (receiver.contains("2")) {
+
+			// Kolla vilka robotar i laget som är Mr.robots
+			// Skicka till dessa robotar
+
+			ArrayList<Ally> mrrobots = robot.getAllies();
+
+			// Loopar listan och skickar till de robotar som är Mrrobots.
+			
+			for (int i = 0; i < robot.getAllies().size(); i++) {
+				if (mrrobots.get(i).isMrRobot()) {
+					try {
+						robot.sendMessage(mrrobots.get(i).getName(), message);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		} else {
+			try {
+				robot.sendMessage(receiver, message);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
-	// Tar emot ett Message och uppdaterar alla variablar här
+	// Tar emot ett Message och uppdaterar alla variablar hÃ¤r
 	public void recieve(MessageEvent e, AllyTracker allyTracker, EnemyTracker enemyTracker) {
 		ArrayList<String> rowsInMessage = new ArrayList<>();
 		rowsInMessage.addAll(Arrays.asList(e.getMessage().toString().split("\n")));
+
 		for (String k : rowsInMessage) {
 			ArrayList<String> infoInRow = new ArrayList<>();
 			infoInRow.addAll(Arrays.asList(k.split(";")));
+
 			if (k.contains("leadership")) {
-				// I nuläget vill vi inte göra något med denna infon
+				// I nulÃ¤get vill vi inte gÃ¶ra nÃ¥got med denna infon
 			} else if (k.contains("teamMode")) {
-				// I nuläget vill vi inte göra något med denna infon
+				// I nulÃ¤get vill vi inte gÃ¶ra nÃ¥got med denna infon
 			} else if (k.contains("myPos")) {
 				// Uppdatera ally listan
 				if (infoInRow.size() == 3) {
 					String m_SenderName = e.getSender();
+
 					for (Ally x : allyTracker.getAllyList()) {
 						if (x.getName().equalsIgnoreCase(m_SenderName)) {
 							x.update(Double.parseDouble(infoInRow.get(1)), Double.parseDouble(infoInRow.get(2)),
 									robot.getTime());
-
 						}
 					}
 				}
 			} else if (k.contains("friendPos")) {
-				// I nuläget vill vi inte göra något med denna infon
+				// I nulÃ¤get vill vi inte gÃ¶ra nÃ¥got med denna infon
 			} else if (k.contains("enemyPos")) {
-				// I nuläget vill vi inte göra något med denna infon
+				// I nulÃ¤get vill vi inte gÃ¶ra nÃ¥got med denna infon
 			} else if (k.contains("targetEnemy")) {
-				// I nuläget vill vi inte göra något med denna infon
+				// I nulÃ¤get vill vi inte gÃ¶ra nÃ¥got med denna infon
 			} else if (k.contains("targetPos")) {
-				// I nuläget vill vi inte göra något med denna infon
+				// I nulÃ¤get vill vi inte gÃ¶ra nÃ¥got med denna infon
 			} else if (k.contains("moveTo")) {
-				// I nuläget vill vi inte göra något med denna infon
+				// I nulÃ¤get vill vi inte gÃ¶ra nÃ¥got med denna infon
 			} else if (k.contains("rShot")) {
-				// göra saker med hur roboten rör sig
+
+				// gÃ¶ra saker med hur roboten rÃ¶r sig
 			} else if (k.contains("rAlly")) {
 				// Uppdatera listan om infon e nyare
 				if (infoInRow.size() == 5) {
@@ -84,7 +104,6 @@ public class MessageHandler {
 								&& x.getTick() < Long.parseLong(infoInRow.get(4))) {
 							x.update(Double.parseDouble(infoInRow.get(2)), Double.parseDouble(infoInRow.get(3)),
 									Long.parseLong(infoInRow.get(4)));
-
 						}
 					}
 				}
@@ -94,105 +113,8 @@ public class MessageHandler {
 					enemyTracker.update(Double.parseDouble(infoInRow.get(1)), Double.parseDouble(infoInRow.get(2)),
 							Double.parseDouble(infoInRow.get(3)), Double.parseDouble(infoInRow.get(4)),
 							Double.parseDouble(infoInRow.get(5)), Long.parseLong(infoInRow.get(6)), infoInRow.get(7));
-					robot.setColors(Color.red, Color.blue, Color.red);
-
 				}
 			}
 		}
 	}
-
-	// Getters
-	public double getEnemyX() {
-		return enemyX;
-	}
-
-	public double getEnemyY() {
-		return enemyY;
-	}
-
-	public String getLeadership() {
-		return leadership;
-	}
-
-	public String getTeamMode() {
-		return teamMode;
-	}
-
-	public double getMyX() {
-		return myX;
-	}
-
-	public double getMyY() {
-		return myY;
-	}
-
-	public String getTargetName() {
-		return targetName;
-	}
-
-	public double getTargetX() {
-		return targetX;
-	}
-
-	public double getTargetY() {
-		return targetY;
-	}
-
-	public double getMoveToX() {
-		return moveToX;
-	}
-
-	public double getMoveToY() {
-		return moveToY;
-	}
 }
-
-//// Leadership
-// leadership = e.getLeadership();
-// // Team Mode
-// teamMode = e.getTeamMode();
-// // My X Y
-// String pos = e.getMyPos();
-// String[] parts;
-// String x;
-// String y;
-// if(pos != "") {
-// parts = pos.split(";");
-// x = parts[0];
-// y = parts[1];
-// myX = Double.parseDouble(x);
-// myY = Double.parseDouble(y);
-// }
-//
-//
-// // Enemy X Y array
-// pos = e.getEnemyPos();
-// if(pos != "") {
-// parts = pos.split(";");
-// x = parts[0];
-// y = parts[1];
-// enemyX = Double.parseDouble(x);
-// enemyY = Double.parseDouble(y);
-// }
-// // Target Name
-// targetName = e.getTargetEnemy();
-// // Target X Y
-// pos = e.getTargetPos();
-// if(pos != "") {
-// parts = pos.split(";");
-// x = parts[0];
-// y = parts[1];
-// targetX = Double.parseDouble(x);
-// targetY = Double.parseDouble(y);
-// }
-//
-//
-// // Move To X Y
-// pos = e.getMoveTo();
-// if(pos != "") {
-// parts = pos.split(";");
-// x = parts[0];
-// y = parts[1];
-// moveToX = Double.parseDouble(x);
-// moveToY = Double.parseDouble(y);
-// }

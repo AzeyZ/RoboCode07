@@ -8,6 +8,7 @@ import robocode.Condition;
 import robocode.ScannedRobotEvent;
 import robocode.TeamRobot;
 import robocode.util.Utils;
+
 public class Gun {
 
 	private Robot07 robot;
@@ -20,7 +21,6 @@ public class Gun {
 	private static double lastEnemyVelocity;
 	private static double lateralDirection;
 
-
 	public Gun(Robot07 robot) {
 		this.robot = robot;
 	}
@@ -31,14 +31,12 @@ public class Gun {
 
 	// Aim straight at the target
 	public void aim() {
-		//kraften beroende på hur långt ifrån vi är
+		// kraften beroende på hur långt ifrån vi är
 		double firePower = Math.min(400 / target.getDistance(), 3);
 		// hastigheten på skottet
 		double bulletSpeed = 20 - firePower * 3;
 		// avstånd = hastighet * tid
-		long time = (long)(target.getDistance() / bulletSpeed);
-
-
+		long time = (long) (target.getDistance() / bulletSpeed);
 
 		// calculate gun turn to predicted x,y location
 		double futureX = target.getFutureX(time);
@@ -51,170 +49,138 @@ public class Gun {
 
 	// Fires with a certain firepower once we have rotated the gun
 	public void fire() {
-		if(gunControl.takeShot(robot, target)) {
+		if (gunControl.takeShot(robot, target)) {
 			robot.setFire(Math.min(400 / target.getDistance(), 3));
 		}
 	}
 
-	//Wave functions
-	public void Wave (EnemyTracker track) {
-		
-		lateralDirection = 1;
-		lastEnemyVelocity = 0;
-		//double absBearing = Math.PI/180*MathUtils.absoluteBearing(robot.getX(), robot.getY(), track.getTarget().getX(), track.getTarget().getY());
-		double absBearing = track.getTarget().getBearingRadians() + robot.getHeadingRadians();
-		double power = Math.min(400 / target.getDistance(), 3);
-		
-		/*
-		// find our enemy's location:
-		double ex = robot.getX() + Math.sin(absBearing) * track.getTarget().getDistance();
-		double ey = robot.getY() + Math.cos(absBearing) * track.getTarget().getDistance();
+	// Wave functions
+	public void Wave(EnemyTracker track) {
 
-		// Let's process the waves now:
-		for (int i=0; i < waves.size(); i++)
-		{
-			WaveBullet currentWave = (WaveBullet)waves.get(i);
-			if (currentWave.checkHit(ex, ey, robot.getTime()))
-			{
-				waves.remove(currentWave);
-				i--;
-			}
+		target = track.getTarget();
+		if(target == null) return;
+		
+		double enemyAbsoluteBearing = robot.getHeadingRadians() + target.getBearingRadians();
+		double enemyDistance = target.getDistance();
+		double enemyVelocity = target.getVelocity();
+		double power = Math.min(400 / enemyDistance, 3);
+		
+		if (enemyVelocity != 0) {
+			lateralDirection = GFTUtils.sign(enemyVelocity * Math.sin(MathUtils.toRadians(track.getTarget().getHeading()) - enemyAbsoluteBearing));
 		}
-		
-
-		if (track.getTarget().getVelocity() != 0)
-		{
-			if (Math.sin(track.getTarget().getHeading()*Math.PI/180-absBearing)*track.getTarget().getVelocity() < 0)
-				direction = -1;
-			else
-				direction = 1;
-		}
-		int[] currentStats = stats[(int)(track.getTarget().getDistance() / 100)]; 
-
-		WaveBullet newWave = new WaveBullet(robot.getX(), robot.getY(), absBearing, power, direction, robot.getTime(), currentStats);
-
-		if (robot.setFireBullet(Math.min(400 / target.getDistance(), 3)) != null) {
-			waves.add(newWave);
-		}
-
-		int bestindex = 15;
-		for (int i=0; i<31; i++) {
-			if (currentStats[bestindex] < currentStats[i]) {
-				bestindex = i;
-			}
-		}
-
-		double guessfactor = (double)(bestindex - (stats.length - 1) / 2)/((stats.length - 1) / 2);
-		double angleOffset = direction * guessfactor * newWave.maxEscapeAngle();
-		double gunAdjust = Utils.normalRelativeAngle(absBearing - robot.getGunHeadingRadians() + angleOffset);
-		robot.setTurnGunRightRadians(gunAdjust);
-		if (robot.getGunHeat() == 0 && gunAdjust < Math.atan2(9, track.getTarget().getDistance()) && robot.setFireBullet(Math.min(400 / target.getDistance(), 3)) != null) {
-
-		}
-		*/
-		
-		
-		
 		GFTWave wave = new GFTWave(robot);
 		wave.gunLocation = new Point2D.Double(robot.getX(), robot.getY());
-		//GFTWave.targetLocation = MathUtils.project(wave.gunLocation, absBearing, target.getDistance());
-		wave.setLocation(MathUtils.project(wave.gunLocation, absBearing, target.getDistance()));
+		GFTWave.targetLocation = GFTUtils.project(wave.gunLocation, enemyAbsoluteBearing, target.getDistance());
+		//wave.setLocation(MathUtils.project(wave.gunLocation, absBearing, target.getDistance()));
 		wave.lateralDirection = lateralDirection;
 		wave.bulletPower = power;
-		wave.setSegmentations(target.getDistance(), target.getVelocity(), lastEnemyVelocity);
+		wave.setSegmentations(enemyDistance, enemyVelocity, lastEnemyVelocity);
 		lastEnemyVelocity = target.getVelocity();
-		wave.bearing = absBearing;
-		robot.setTurnGunRightRadians(Utils.normalRelativeAngle(absBearing - robot.getGunHeadingRadians() + wave.mostVisitedBearingOffset()));
+		wave.bearing = enemyAbsoluteBearing;
+		robot.setTurnGunRightRadians(
+				Utils.normalRelativeAngle(enemyAbsoluteBearing - robot.getGunHeadingRadians() + wave.mostVisitedBearingOffset()));
 		robot.setFire(wave.bulletPower);
-		/*
+
 		if (robot.getEnergy() >= power) {
-			robot.addCustomEvent(wave); //????
+			robot.addCustomEvent(wave); // ????
 		}
-		*/
-		robot.setTurnRadarRightRadians(Utils.normalRelativeAngle(absBearing - robot.getRadarHeadingRadians()) * 2);
+		// robot.setTurnRadarRightRadians(Utils.normalRelativeAngle(enemyAbsoluteBearing - robot.getRadarHeadingRadians()) * 2);
 	}
-	
-	
-	class GFTWave
-	extends Condition
-	{
-		static Point2D targetLocation;
-		double bulletPower;
-		Point2D gunLocation;
-		double bearing;
-		double lateralDirection;
-		private static final double MAX_DISTANCE = 900.0D;
-		private static final int DISTANCE_INDEXES = 5;
-		private static final int VELOCITY_INDEXES = 5;
-		private static final int BINS = 25;
-		private static final int MIDDLE_BIN = 12;
-		private static final double MAX_ESCAPE_ANGLE = 0.7D;
-		private static final double BIN_WIDTH = 0.05833333333333333D;
-		private static int[][][][] statBuffers = new int[5][5][5][25];
-		private int[] buffer;
-		private AdvancedRobot robot;
-		private double distanceTraveled;
 
-		GFTWave(TeamRobot _robot)
-		{
-			this.robot = _robot;
+}
+
+class GFTWave extends Condition {
+	static Point2D targetLocation;
+	double bulletPower;
+	Point2D gunLocation;
+	double bearing;
+	double lateralDirection;
+	private static final double MAX_DISTANCE = 400.0D;
+	private static final int DISTANCE_INDEXES = 5;
+	private static final int VELOCITY_INDEXES = 5;
+	private static final int BINS = 25;
+	private static final int MIDDLE_BIN = (BINS - 1) / 2;
+	private static final double MAX_ESCAPE_ANGLE = 0.7D;
+	private static final double BIN_WIDTH = MAX_ESCAPE_ANGLE / (double)MIDDLE_BIN;
+	private static int[][][][] statBuffers = new int[DISTANCE_INDEXES][VELOCITY_INDEXES][VELOCITY_INDEXES][BINS];
+	private int[] buffer;
+	private AdvancedRobot robot;
+	private double distanceTraveled;
+
+	GFTWave(TeamRobot _robot) {
+		this.robot = _robot;
+	}
+
+	public boolean test() {
+		advance();
+		if (hasArrived()) {
+			this.buffer[currentBin()] += 1;
+			this.robot.removeCustomEvent(this);
 		}
+		return false;
+	}
 
-		public boolean test()
-		{
-			advance();
-			if (hasArrived())
-			{
-				this.buffer[currentBin()] += 1;
-				this.robot.removeCustomEvent(this);
+	public void setLocation(Point2D loc) {
+		targetLocation = loc;
+	}
+
+	double mostVisitedBearingOffset() {
+		return (lateralDirection * BIN_WIDTH) * (mostVisitedBin() - MIDDLE_BIN);
+	}
+
+	void setSegmentations(double distance, double velocity, double lastVelocity) {
+		int distanceIndex = Math.min(4, (int)(distance / 180.0D));
+		int velocityIndex = (int) Math.abs(velocity / 2);
+		int lastVelocityIndex = (int) Math.abs(lastVelocity / 2);
+		buffer = statBuffers[distanceIndex][velocityIndex][lastVelocityIndex];
+	}
+
+	private void advance() {
+		this.distanceTraveled += GFTUtils.bulletVelocity(this.bulletPower);
+	}
+
+	private boolean hasArrived() {
+		return this.distanceTraveled > this.gunLocation.distance(targetLocation) - 18.0D;
+	}
+
+	private int currentBin() {
+		int bin = (int) Math.round(
+				Utils.normalRelativeAngle(MathUtils.absoluteBearing(this.gunLocation, targetLocation) - this.bearing)
+						/ (this.lateralDirection * BIN_WIDTH) + MIDDLE_BIN);
+
+		return GFTUtils.minMax(bin, 0, BINS - 1);
+	}
+
+	private int mostVisitedBin() {
+		int mostVisited = MIDDLE_BIN;
+		for (int i = 0; i < BINS; i++) {
+			if (this.buffer[i] > this.buffer[mostVisited]) {
+				mostVisited = i;
 			}
-			return false;
 		}
-		
-		public void setLocation(Point2D loc) {
-			targetLocation = loc;
-		}
-
-		double mostVisitedBearingOffset()
-		{
-			return this.lateralDirection * 0.05833333333333333D * (mostVisitedBin() - 12);
-		}
-
-		void setSegmentations(double distance, double velocity, double lastVelocity)
-		{
-			int distanceIndex = Math.min(4, (int)(distance / 180.0D));
-			int velocityIndex = (int)Math.abs(velocity / 2.0D);
-			int lastVelocityIndex = (int)Math.abs(lastVelocity / 2.0D);
-			this.buffer = statBuffers[distanceIndex][velocityIndex][lastVelocityIndex];
-		}
-
-		private void advance()
-		{
-			this.distanceTraveled += MathUtils.bulletVelocity(this.bulletPower);
-		}
-
-		private boolean hasArrived()
-		{
-			return this.distanceTraveled > this.gunLocation.distance(targetLocation) - 18.0D;
-		}
-
-		private int currentBin()
-		{
-			int bin = (int)Math.round(Utils.normalRelativeAngle(MathUtils.absoluteBearing(this.gunLocation, targetLocation) - this.bearing) / (this.lateralDirection * 0.05833333333333333D) + 12.0D);
-
-			return MathUtils.minMax(bin, 0, 24);
-		}
-
-		private int mostVisitedBin()
-		{
-			int mostVisited = 12;
-			for (int i = 0; i < 25; i++) {
-				if (this.buffer[i] > this.buffer[mostVisited]) {
-					mostVisited = i;
-				}
-			}
-			return mostVisited;
-		}
+		return mostVisited;
 	}
 }
 
+class GFTUtils {
+	static double bulletVelocity(double power) {
+		return 20 - 3 * power;
+	}
+ 
+	static Point2D project(Point2D sourceLocation, double angle, double length) {
+		return new Point2D.Double(sourceLocation.getX() + Math.sin(angle) * length,
+				sourceLocation.getY() + Math.cos(angle) * length);
+	}
+ 
+	static double absoluteBearing(Point2D source, Point2D target) {
+		return Math.atan2(target.getX() - source.getX(), target.getY() - source.getY());
+	}
+ 
+	static int sign(double v) {
+		return v < 0 ? -1 : 1;
+	}
+ 
+	static int minMax(int v, int min, int max) {
+		return Math.max(min, Math.min(max, v));
+	}
+}
