@@ -10,7 +10,7 @@ import robocode.MessageEvent;
 public class MessageHandler {
 	Robot07 robot;
 
-	// Här sparas alla värden
+	// HÃ¤r sparas alla vÃ¤rden
 	private String leadership;
 	private String teamMode;
 	private double myX;
@@ -27,20 +27,31 @@ public class MessageHandler {
 		this.robot = robot;
 	}
 
-	// Skickar iväg ett meddelande
+	// Skickar ivÃ¤g ett meddelande
 	//receiver == 1 skicka till alla.
 	//receiver == 2 skicka till alla mrRobot.
 	//receiver != 1 || 2 skicka till receiver.
 	public void send(String message, String receiver) {
+		if(receiver.contains("1"){
+			
 		try {
-			robot.broadcastMessage("test");
+			robot.broadcastMessage(message);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		}
+		   if else(receiver.contains("2"){
+			try {
+			robot.broadcastMessage(message);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+		   }
 	}
 
-	// Tar emot ett Message och uppdaterar alla variablar här
+	// Tar emot ett Message och uppdaterar alla variablar hÃ¤r
 	public void recieve(MessageEvent e, AllyTracker allyTracker, EnemyTracker enemyTracker) {
 		ArrayList<String> rowsInMessage = new ArrayList<>();
 		rowsInMessage.addAll(Arrays.asList(e.getMessage().toString().split("\n")));
@@ -48,9 +59,9 @@ public class MessageHandler {
 			ArrayList<String> infoInRow = new ArrayList<>();
 			infoInRow.addAll(Arrays.asList(k.split(";")));
 			if (k.contains("leadership")) {
-				// I nuläget vill vi inte göra något med denna infon
+				// I nulÃ¤get vill vi inte gÃ¶ra nÃ¥got med denna infon
 			} else if (k.contains("teamMode")) {
-				// I nuläget vill vi inte göra något med denna infon
+				// I nulÃ¤get vill vi inte gÃ¶ra nÃ¥got med denna infon
 			} else if (k.contains("myPos")) {
 				// Uppdatera ally listan
 				if (infoInRow.size() == 3) {
@@ -64,17 +75,17 @@ public class MessageHandler {
 					}
 				}
 			} else if (k.contains("friendPos")) {
-				// I nuläget vill vi inte göra något med denna infon
+				// I nulÃ¤get vill vi inte gÃ¶ra nÃ¥got med denna infon
 			} else if (k.contains("enemyPos")) {
-				// I nuläget vill vi inte göra något med denna infon
+				// I nulÃ¤get vill vi inte gÃ¶ra nÃ¥got med denna infon
 			} else if (k.contains("targetEnemy")) {
-				// I nuläget vill vi inte göra något med denna infon
+				// I nulÃ¤get vill vi inte gÃ¶ra nÃ¥got med denna infon
 			} else if (k.contains("targetPos")) {
-				// I nuläget vill vi inte göra något med denna infon
+				// I nulÃ¤get vill vi inte gÃ¶ra nÃ¥got med denna infon
 			} else if (k.contains("moveTo")) {
-				// I nuläget vill vi inte göra något med denna infon
+				// I nulÃ¤get vill vi inte gÃ¶ra nÃ¥got med denna infon
 			} else if (k.contains("rShot")) {
-				// göra saker med hur roboten rör sig
+				// gÃ¶ra saker med hur roboten rÃ¶r sig
 			} else if (k.contains("rAlly")) {
 				// Uppdatera listan om infon e nyare
 				if (infoInRow.size() == 5) {
