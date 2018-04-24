@@ -33,7 +33,7 @@ public class TargetEnemyBotTest {
 	}
 	
 	@Test
-	public void getX() {
+	public void getXTest() {
 		double fakeBearing = 90;
 		double fakeDistance = 40;
 		double fakeVelocity = 3;
@@ -43,7 +43,7 @@ public class TargetEnemyBotTest {
 	}
 	
 	@Test
-	public void getY() {
+	public void getYTest() {
 		double fakeBearing = 90;
 		double fakeDistance = 40;
 		double fakeVelocity = 3;
