@@ -18,19 +18,19 @@ import java.util.ArrayList;
 
 //Shooting at an ally that has to move
 
-//[our1] myPos;x;y
-//[our1] targetEnemy;name
-//[our1] rShot;x,y,tick/time (many rows)
+//[0-1] myPos;x;y
+//[0-1] targetEnemy;name
+//[0-*] rShot;x,y,tick/time (many rows)
 
 //AllyList update
 
-//[our2] myPos;x;y
-//[our2] rAlly;name;x;y;tick
+//[0-1] myPos;x;y
+//[0-*] rAlly;name;x;y;tick
 
 //EnemyList update
 
-//[our3] myPos;x;y
-//[our3] rEnemy;name;type;x;y;tick
+//[0-1] myPos;x;y
+//[0-*] rEnemy;name;type;x;y;tick
 
 // The code to get the standard string to send to teammates.
 
