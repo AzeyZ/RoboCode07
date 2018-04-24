@@ -4,9 +4,10 @@ import robocode.*;
 
 public class TargetEnemyBot extends EnemyBot {
 	private double x, y;
-	private boolean isUpdated;
+	private long time;
 	
-	public TargetEnemyBot() {
+	public TargetEnemyBot(Robot07 MrRobot) {
+		super(MrRobot);
 		reset();
 	}
 	
@@ -15,19 +16,31 @@ public class TargetEnemyBot extends EnemyBot {
 		super.reset();
 		x = 0;
 		y = 0;
-		isUpdated = false;
+		time = 0;
 	}
 	
-	public void update(ScannedRobotEvent e, Robot robot) {
-		super.update(e);
-		double absBearingDeg = (robot.getHeading() + e.getBearing());
+	public void update(double bearing, double distance, double energy, double heading, double velocity, long time, String name) {
+		super.update(bearing, distance, energy, heading, velocity, time, name);
+		
+		double absBearingDeg = (MrRobot.getHeading() + bearing);
 		if (absBearingDeg < 0) { absBearingDeg += 360; }
 		
-		x = robot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * e.getDistance();
-		y = robot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * e.getDistance();
-		isUpdated = true;
+		x = MrRobot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * distance;
+		y = MrRobot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * distance;
 	}
 	
+	public double getFutureX(double time) {
+		return MathUtils.getFutureLinearX(x, getHeading(), getVelocity(), time);
+	}
+	
+	public double getFutureY(double time) {
+		return MathUtils.getFutureLinearY(y, getHeading(), getVelocity(), time);
+	}
+	
+	public double getFutureDistance(Robot robot, double time) {
+		double d = MathUtils.absoluteBearing(robot.getX(), robot.getY(), getFutureX(time), getFutureY(time));
+		return d;
+	}
 	
 	public double getX() {
 		return x;
@@ -36,16 +49,9 @@ public class TargetEnemyBot extends EnemyBot {
 	public double getY() {
 		return y;
 	}
-	
-	public double getFutureX(double time) {
-		return x + Math.sin(Math.toRadians(getHeading())) * getVelocity() * time;
+	public long getTime()
+	{
+		return time;
 	}
 	
-	public double getFutureY(double time) {
-		return y + Math.cos(Math.toRadians(getHeading())) * getVelocity() * time;
-	}
-	
-	public boolean getIsUpdated() {
-		return isUpdated;
-	}
 }
