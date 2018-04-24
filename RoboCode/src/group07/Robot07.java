@@ -57,7 +57,7 @@ public class Robot07 extends robocode.TeamRobot {
 	// Settings when starting robot
 	public void initialize() {
 		// Initialization of the robot should be put here
-		setColors(Color.red, Color.blue, Color.red); // body,gun,radar
+		setColors(Color.magenta, Color.black, Color.black); // body,gun,radar
 
 		// ser till att alla delar kan rotera individuellt
 		setAdjustGunForRobotTurn(true);
