@@ -42,8 +42,8 @@ public class RobotMovement {
 
 	// Beräknar hur vi ska roteras
 	public double rotation() {
-		if (target.getDistance() > 200) {
-			degreeCloser = 10;
+		if (target.getDistance() > 50) {
+			degreeCloser = 30;
 		} else {
 			degreeCloser = 0;
 		}

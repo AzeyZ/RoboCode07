@@ -34,6 +34,10 @@ public class MathUtils {
 
 		return bearing;
 	}
+	
+	public static double toRadians(double x) {
+		return (x*Math.PI)/180;
+	}
 
 	// Calculate the future X value
 	public static double getFutureLinearX(double x, double heading, double velocity, double time) {

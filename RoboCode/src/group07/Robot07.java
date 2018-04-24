@@ -45,10 +45,10 @@ public class Robot07 extends robocode.TeamRobot {
 			// flyttar vapnet
 			gun.update(enemyTracker.getTarget());
 
-			gun.aim();
-			gun.fire();
+			//gun.aim();
+			//gun.fire();
 			// starts Wave calculations
-			//gun.Wave(enemyTracker);
+			gun.Wave(enemyTracker);
 			// behövs för att alla set commands ska köra
 			execute();
 		}
@@ -57,7 +57,7 @@ public class Robot07 extends robocode.TeamRobot {
 	// Settings when starting robot
 	public void initialize() {
 		// Initialization of the robot should be put here
-		setColors(Color.magenta, Color.black, Color.black); // body,gun,radar
+		setColors(Color.magenta, Color.black, Color.black, Color.green, Color.magenta); // body,gun,radar, bullet, scan
 
 		// ser till att alla delar kan rotera individuellt
 		setAdjustGunForRobotTurn(true);
