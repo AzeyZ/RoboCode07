@@ -112,6 +112,9 @@ public class Gun {
 
 		}
 		*/
+		
+		
+		
 		GFTWave wave = new GFTWave(robot);
 		wave.gunLocation = new Point2D.Double(robot.getX(), robot.getY());
 		//GFTWave.targetLocation = MathUtils.project(wave.gunLocation, absBearing, target.getDistance());
@@ -132,7 +135,7 @@ public class Gun {
 	}
 	
 	
-	static class GFTWave
+	class GFTWave
 	extends Condition
 	{
 		static Point2D targetLocation;
