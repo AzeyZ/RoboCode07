@@ -3,7 +3,7 @@ package group07;
 import java.util.ArrayList;
 
 public class TargetPrioritizer {
-	public static final int LEADER_BOT = 0; // LEADER_BOT används istället för att skriva en 0:a för att göra det
+	public static final int LEADER_BOT = 0; // LEADER_BOT anvÃ¤nds istÃ¤llet fÃ¶r att skriva en 0:a fÃ¶r att gÃ¶ra det
 											// tydligare.
 	public static final int DROID = 1;
 	public static final int NORMAL_BOT = 2;
@@ -24,11 +24,7 @@ public class TargetPrioritizer {
 																// count if leader is alive.
 		if (leaderAlive) {
 			amountAlive++;
-			System.out.println("Ledaren lever");
 		}
-		System.out.println("Antal levande motståndare: " + amountAlive);
-		System.out.println("Antal levande motståndar droids: " + amountDroidAlive);
-		System.out.println("Antal levande motståndar NormalBots: " + amountNormalBotAlive);
 
 		if (leaderAlive && amountDroidAlive > amountNormalBotAlive) { // checks if leader is alive and if we should
 																		// focus it.
@@ -40,7 +36,6 @@ public class TargetPrioritizer {
 		}
 
 		EnemyList = placeDeadBotsLast(EnemyList); // Place all dead bots last so we dont try to focus at a dead bot.
-		System.out.println("Lista över alla robotar i ordning");
 		for (EnemyBot k : EnemyList) {
 			System.out.println(k.getName());
 		}
