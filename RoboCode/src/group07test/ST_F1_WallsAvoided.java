@@ -61,7 +61,7 @@ public class ST_F1_WallsAvoided extends RobotTestBed {
 	
 	@Override
 	public void onBattleCompleted(BattleCompletedEvent event) {
-		assertTrue("The bot crashed into the wall", neverCrashedIntoAWall);
+		assertTrue("The bot crashed into the wall " + countWallHits + " times.", neverCrashedIntoAWall);
 		//Insert assert for countWallHits
 	}
 	
