@@ -36,7 +36,7 @@ public class MessageHandler {
 			ArrayList<Ally> mrrobots = robot.getAllies();
 
 			// Loopar listan och skickar till de robotar som är Mrrobots.
-			
+
 			for (int i = 0; i < robot.getAllies().size(); i++) {
 				if (mrrobots.get(i).isMrRobot()) {
 					try {
@@ -107,13 +107,12 @@ public class MessageHandler {
 						}
 					}
 				}
-			} else if (k.contains("rEnemy")) {
+			} else if (k.contains("rEnemy") && infoInRow.size() == 8) {
 				// Uppdatera listan om infon e nyare
-				if (infoInRow.size() == 8) {
-					enemyTracker.update(Double.parseDouble(infoInRow.get(1)), Double.parseDouble(infoInRow.get(2)),
-							Double.parseDouble(infoInRow.get(3)), Double.parseDouble(infoInRow.get(4)),
-							Double.parseDouble(infoInRow.get(5)), Long.parseLong(infoInRow.get(6)), infoInRow.get(7));
-				}
+				enemyTracker.update(Double.parseDouble(infoInRow.get(1)), Double.parseDouble(infoInRow.get(2)),
+						Double.parseDouble(infoInRow.get(3)), Double.parseDouble(infoInRow.get(4)),
+						Double.parseDouble(infoInRow.get(5)), Long.parseLong(infoInRow.get(6)), infoInRow.get(7));
+
 			}
 		}
 	}

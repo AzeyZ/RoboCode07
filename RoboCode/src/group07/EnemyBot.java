@@ -52,7 +52,7 @@ public class EnemyBot {
 	}
 
 	public boolean none() {
-		if (name == "") {
+		if (name.equals("")) {
 			return true;
 		} else {
 			return false;

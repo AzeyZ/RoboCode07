@@ -8,8 +8,8 @@ public class MovementModeSwitcher {
 	//Anti Ram mode = 2
 	//...
 	private TeamRobot r;
-	private static long time = 0;
-	private static int currentMode = 0;
+	private long time = 0;
+	private int currentMode = 0;
 	
 	public MovementModeSwitcher(TeamRobot r) {
 		this.r = r;
