@@ -14,8 +14,6 @@ public class Gun {
 	private Robot07 robot;
 	private TargetEnemyBot target;
 	private GunControl gunControl = new GunControl();
-	// WaveBullet list
-	private ArrayList<WaveBullet> waves = new ArrayList<WaveBullet>();
 	private int[][] stats = new int[13][31];
 	private int direction = 1;
 	private static double lastEnemyVelocity;
