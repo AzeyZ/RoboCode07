@@ -35,7 +35,8 @@ public class Robot07 extends robocode.TeamRobot {
 			// flyttar roboten
 			if (mode.getCurrentMode() == 0) {
 				robotMovement.update(enemyTracker.getTarget());
-				robotMovement.move();
+				//robotMovement.move();
+				robotMovement.antiGravMove(enemyTracker);
 			}
 
 			// scannar

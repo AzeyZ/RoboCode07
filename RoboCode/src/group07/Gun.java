@@ -64,11 +64,11 @@ public class Gun {
 		double power = Math.min(400 / enemyDistance, 3);
 		
 		if (enemyVelocity != 0) {
-			lateralDirection = GFTUtils.sign(enemyVelocity * Math.sin(MathUtils.toRadians(track.getTarget().getHeading()) - enemyAbsoluteBearing));
+			lateralDirection = MathUtils.sign(enemyVelocity * Math.sin(MathUtils.toRadians(track.getTarget().getHeading()) - enemyAbsoluteBearing));
 		}
 		GFTWave wave = new GFTWave(robot);
 		wave.gunLocation = new Point2D.Double(robot.getX(), robot.getY());
-		GFTWave.targetLocation = GFTUtils.project(wave.gunLocation, enemyAbsoluteBearing, target.getDistance());
+		GFTWave.targetLocation = MathUtils.project(wave.gunLocation, enemyAbsoluteBearing, target.getDistance());
 		//wave.setLocation(MathUtils.project(wave.gunLocation, absBearing, target.getDistance()));
 		wave.lateralDirection = lateralDirection;
 		wave.bulletPower = power;
@@ -134,7 +134,7 @@ class GFTWave extends Condition {
 	}
 
 	private void advance() {
-		this.distanceTraveled += GFTUtils.bulletVelocity(this.bulletPower);
+		this.distanceTraveled += MathUtils.bulletVelocity(this.bulletPower);
 	}
 
 	private boolean hasArrived() {
@@ -146,7 +146,7 @@ class GFTWave extends Condition {
 				Utils.normalRelativeAngle(MathUtils.absoluteBearing(this.gunLocation, targetLocation) - this.bearing)
 						/ (this.lateralDirection * BIN_WIDTH) + MIDDLE_BIN);
 
-		return GFTUtils.minMax(bin, 0, BINS - 1);
+		return MathUtils.minMax(bin, 0, BINS - 1);
 	}
 
 	private int mostVisitedBin() {
@@ -157,28 +157,5 @@ class GFTWave extends Condition {
 			}
 		}
 		return mostVisited;
-	}
-}
-
-class GFTUtils {
-	static double bulletVelocity(double power) {
-		return 20 - 3 * power;
-	}
- 
-	static Point2D project(Point2D sourceLocation, double angle, double length) {
-		return new Point2D.Double(sourceLocation.getX() + Math.sin(angle) * length,
-				sourceLocation.getY() + Math.cos(angle) * length);
-	}
- 
-	static double absoluteBearing(Point2D source, Point2D target) {
-		return Math.atan2(target.getX() - source.getX(), target.getY() - source.getY());
-	}
- 
-	static int sign(double v) {
-		return v < 0 ? -1 : 1;
-	}
- 
-	static int minMax(int v, int min, int max) {
-		return Math.max(min, Math.min(max, v));
 	}
 }
