@@ -72,16 +72,22 @@ public class RobotMovement {
 		double force;
 		double ang;
 		GravPoint p;
-		gravpoints = new ArrayList<GravPoint>();
+		gravpoints.clear();
 		
-		//gravpoints.add(new GravPoint(track.getTarget().getX(),track.getTarget().getY(),strength/Math.pow(track.getTarget().getDistance(),1.5)));
+		for(int i = 0; i < robot.getAllies().size(); i++) {
+			gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(),robot.getAllies().get(i).getY(),-500));
+			System.out.println(robot.getAllies().get(i).getX());
+			System.out.println(robot.getX());
+		}
+		gravpoints.add(new GravPoint(track.getTarget().getX(),track.getTarget().getY(),-700));
 		
 		for(int i = 0;i<gravpoints.size();i++) {
 			p = (GravPoint)gravpoints.get(i);
 			//Calculate the total force from this point on us
 			force = p.power/Math.pow(getRange(robot.getX(),robot.getY(),p.x,p.y),2);
 			//Find the bearing from the point to us
-			ang = MathUtils.normalizeBearing(Math.PI/2 - Math.atan2(robot.getY() - p.y, robot.getX() - p.x)); 
+			//ang = Math.toRadians(MathUtils.normalizeBearing(Math.toDegrees(Math.PI/2 - Math.atan2(robot.getY() - p.y, robot.getX() - p.x)))); 
+			ang = normaliseBearing(Math.PI/2 - Math.atan2(robot.getY() - p.y, robot.getX() - p.x));
 			//Add the components of this force to the total force in their 
 			//respective directions
 			xforce += Math.sin(ang) * force;
@@ -107,7 +113,7 @@ public class RobotMovement {
 	/**Move in the direction of an x and y coordinate**/
 	void goTo(double x, double y) {
 		double dist = 20; 
-		double angle = Math.toDegrees(MathUtils.absoluteBearing(robot.getX(),robot.getY(),x,y));
+		double angle = MathUtils.absoluteBearing(robot.getX(),robot.getY(),x,y);
 		double r = turnTo(angle);
 		robot.setAhead(dist * r);
 	}
@@ -139,6 +145,15 @@ public class RobotMovement {
 		double y = y2-y1;
 		double range = Math.sqrt(x*x + y*y);
 		return range;   
+	}
+	
+	//if a bearing is not within the -pi to pi range, alters it to provide the shortest angle
+	double normaliseBearing(double ang) {
+		if (ang > Math.PI)
+			ang -= 2*Math.PI;
+		if (ang < -Math.PI)
+			ang += 2*Math.PI;
+		return ang;
 	}
 
 	class GravPoint {

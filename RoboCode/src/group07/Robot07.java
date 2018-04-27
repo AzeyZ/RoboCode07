@@ -30,11 +30,12 @@ public class Robot07 extends robocode.TeamRobot {
 
 		// Robot main loop
 		while (true) {
+			sendMessage(0, "2");
 			// counting turns
 			mode.NewTurn();
 			// flyttar roboten
 			if (mode.getCurrentMode() == 0) {
-				robotMovement.update(enemyTracker.getTarget());
+				//robotMovement.update(enemyTracker.getTarget());
 				//robotMovement.move();
 				robotMovement.antiGravMove(enemyTracker);
 			}
@@ -70,7 +71,7 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
-		surfing.updateSurf(this, e);
+		//surfing.updateSurf(this, e);
 		// Checks if Scanned is Team
 		if (!(isTeammate(e.getName()))) {
 			enemyTracker.update(e.getBearing(), e.getDistance(), e.getEnergy(), e.getHeading(), e.getVelocity(),
