@@ -30,7 +30,7 @@ public class Robot07 extends robocode.TeamRobot {
 
 		// Robot main loop
 		while (true) {
-			sendMessage(0, "2");
+			sendMessage(2, "2");
 			// counting turns
 			mode.NewTurn();
 			// flyttar roboten
@@ -50,7 +50,7 @@ public class Robot07 extends robocode.TeamRobot {
 			// gun.fire();
 			// starts Wave calculations
 			gun.Wave(enemyTracker);
-			// behövs för att alla set commands ska köra
+			// behÃ¶vs fÃ¶r att alla set commands ska kÃ¶ra
 			execute();
 			
 		}
@@ -88,7 +88,7 @@ public class Robot07 extends robocode.TeamRobot {
 	// rAlly == 2
 	// rEnemy == 3
 
-	// Skickar iväg ett meddelande
+	// Skickar ivÃ¤g ett meddelande
 	// receiver == 1 skicka till alla.
 	// receiver == 2 skicka till alla mrRobot.
 	// receiver != 1 || 2 skicka till receiver.
