@@ -15,6 +15,8 @@ public class SurfMovement {
     private Point2D.Double _myLocation;     // our bot's location
     private Point2D.Double _enemyLocation;  // enemy bot's location
     private MovementModeSwitcher mode;
+    private RobotMovement Rmove;
+    private EnemyTracker track;
     
     private ArrayList _enemyWaves;
     private ArrayList _surfDirections;
@@ -25,14 +27,16 @@ public class SurfMovement {
 	private static Rectangle2D.Double _fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, 764, 564);
 	private static double WALL_STICK = 160;
 
-	public SurfMovement(MovementModeSwitcher mode) {
+	public SurfMovement(MovementModeSwitcher mode, RobotMovement Rmove, EnemyTracker track) {
+		this.track = track;
 		this.mode = mode;
+		this.Rmove = Rmove;
 		_enemyWaves = new ArrayList();
 		_surfDirections = new ArrayList();
 		_surfAbsBearings = new ArrayList();
 	}
 	
-	public void updateSurf(TeamRobot r, ScannedRobotEvent e) {
+	public void updateSurf(TeamRobot r, ScannedRobotEvent e ) {
 		
         _myLocation = new Point2D.Double(r.getX(), r.getY());
         
@@ -93,6 +97,9 @@ public class SurfMovement {
     }
  
     public void doSurfing(TeamRobot r) {
+    	//Calculating anti grav angle
+    	double afterGravangle = MathUtils.absoluteBearing(r.getX(),r.getY(),r.getX()-Rmove.GetxForce(track),r.getX()-Rmove.GetyForce(track));
+    	
         EnemyWave surfWave = getClosestSurfableWave();
  
         if (surfWave == null) { return; }
@@ -101,12 +108,17 @@ public class SurfMovement {
         double dangerRight = checkDanger(surfWave, 1,r);
  
         double goAngle = absoluteBearing(surfWave.fireLocation, _myLocation);
+        //Adding angle from antiGrav calculations
+        //goAngle = (goAngle + afterGravangle)/2;
+        
         if (dangerLeft < dangerRight) {
+        	
             goAngle = wallSmoothing(_myLocation, goAngle - (Math.PI/2), -1);
         } else {
+        	
             goAngle = wallSmoothing(_myLocation, goAngle + (Math.PI/2), 1);
         }
- 
+        // adding anti grav mixing
         setBackAsFront(r, goAngle);
     }
 	
