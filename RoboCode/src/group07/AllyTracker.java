@@ -1,6 +1,9 @@
 package group07;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import robocode.*;
 
 public class AllyTracker {
@@ -16,34 +19,67 @@ public class AllyTracker {
 		if (teamm8 != null) {
 			for (int i = 0; i < teamm8.length; i++) {
 				allies.add(new Ally(teamm8[i]));
+				
 			}
+			allies.add(0, new Ally(MrRobot.getName()));
+			sortAlly();
 		}
+		for(int i=0;i<allies.size();i++) {
+			System.out.println(allies.get(i).getName());
+		}
+		
 	}
+
 	public void update(ScannedRobotEvent e) {
 		double absBearingDeg = (MrRobot.getHeading() + e.getBearing());
-		if (absBearingDeg < 0) { absBearingDeg += 360; }
-		for(Ally k : allies)
-		{
-			if(k.getName().equalsIgnoreCase(e.getName()))
-			{
+		if (absBearingDeg < 0) {
+			absBearingDeg += 360;
+		}
+		for (Ally k : allies) {
+			if (k.getName().equalsIgnoreCase(e.getName())) {
 				k.update(MrRobot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * e.getDistance(),
-				MrRobot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * e.getDistance(), MrRobot.getTime());
+						MrRobot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * e.getDistance(), MrRobot.getTime());
 			}
 		}
 	}
+
 	public void robotDeath(RobotDeathEvent e) {
 		for (Ally k : allies) {
 			if (e.getName().equals(k.getName())) {
 				allies.remove(k);
 			}
 		}
-		
+
 	}
-	
-	public ArrayList<Ally> getAllyList()
-	{
+
+	public ArrayList<Ally> getAllyList() {
 		return allies;
 	}
-	
-	
+
+	private void sortAlly() {
+
+		for (int i = 1; i < allies.size(); i++) {
+			if (allies.get(i - 1).getName().compareToIgnoreCase(allies.get(i).getName()) > 0) {
+				Ally higher = allies.get(i-1);
+				Ally lower = allies.get(i);
+				allies.set(i - 1, lower);
+				allies.set(i, higher);
+				i = 0;
+				
+			}
+		}
+		ArrayList<Ally> removedAllies = new ArrayList<>(); 
+		for (int i = 0; i < allies.size(); i++) {
+			if(!(allies.get(i).isMrRobot()))
+			{
+				Ally temp = allies.get(i);
+				allies.remove(temp);
+				removedAllies.add(temp);
+				i = i - 1;
+				
+				
+			}
+		}
+		allies.addAll(removedAllies);
+	}
 }
