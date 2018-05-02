@@ -46,7 +46,7 @@ public class MessageWriter {
 		String message = "myPos;" + myXPos + ";" + myYPos;
 		if (!allyList.isEmpty()) {
 			for (Ally k : allyList) {
-				message = message + "\nfriendPos;" + k.getName() + ";"+ k.getX() + ";" + k.getY();
+				message = message + "\nfriendPos;" + k.getName() + ";" + k.getX() + ";" + k.getY();
 			}
 		}
 		if (!enemyList.isEmpty()) {
@@ -59,7 +59,8 @@ public class MessageWriter {
 
 				double x = MrRobot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * k.getDistance();
 				double y = MrRobot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * k.getDistance();
-				message = message + "\nenemyDetails;" + k.getName() + ";" + x + ";" + y + ";" + k.getVelocity() + ";" + k.getEnergy() + ";" + k.getHeading() + ";0";
+				message = message + "\nenemyDetails;" + k.getName() + ";" + x + ";" + y + ";" + k.getVelocity() + ";"
+						+ k.getEnergy() + ";" + k.getHeading() + ";0";
 
 			}
 		}

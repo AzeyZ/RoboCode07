@@ -30,7 +30,7 @@ public class Robot07 extends robocode.TeamRobot {
 
 		// Robot main loop
 		while (true) {
-			sendMessage(1, "1");
+			sendMessage(0, "1");
 			sendMessage(2, "2");
 			sendMessage(3, "2");
 			// counting turns
@@ -46,7 +46,7 @@ public class Robot07 extends robocode.TeamRobot {
 			radar.update(enemyTracker.getTarget());
 			radar.scan();
 			// flyttar vapnet
-			gun.update(enemyTracker.getTarget());
+
 
 			// gun.aim();
 			// gun.fire();
@@ -123,6 +123,14 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onMessageReceived: What to do when you receive a message
 	 */
 	public void onMessageReceived(MessageEvent e) {
+//		if (e.getMessage() instanceof RobotColors) {
+//			  RobotColors c = (RobotColors) e.getMessage();
+//			  setBodyColor(c.bodyColor);
+//			  setGunColor(c.gunColor);
+//			  setRadarColor(c.radarColor);
+//			  setScanColor(c.scanColor);
+//			  setBulletColor(c.bulletColor);
+//			}
 		messageHandler.recieve(e, allyTracker, enemyTracker);
 
 	}
