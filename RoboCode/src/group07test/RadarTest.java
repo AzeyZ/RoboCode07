@@ -1,6 +1,7 @@
 package group07test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.AccessibleObject;
@@ -11,11 +12,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import group07.Radar;
+import group07.EnemyBot;
 import group07test.MockBot;
 
 public class RadarTest {
 	private Radar radar;
 	private MockBot mockBot;
+	private EnemyBot enemyBot;
 	Random rand = new Random();
 	
 	@Before
@@ -26,6 +29,8 @@ public class RadarTest {
 		double fakeHeading = 2;
 		
 		mockBot = new MockBot("Robot07Ally",fakeEnergy ,fakeHeading,x , y);
+		radar = new Radar (mockBot);
+		enemyBot = new EnemyBot(mockBot);
 	}
 	
 	@After
@@ -48,5 +53,26 @@ public class RadarTest {
 		lastScanned.setAccessible(true);
 		lastScanned.set(radar,5);*/
 	}
-
+	
+	@Test
+	public void scan () {
+		enemyBot.update(10, 10, 10, 10, 10, 1000, "Enemy");
+		radar.update(enemyBot);
+		double prevHeading = mockBot.getHeading();
+		radar.scan();
+		assertEquals("Mr.Robot vrider radarn", mockBot.getHeading(), prevHeading, 0.1d);
+	}
+	
+	@Test
+	public void scanTarget () {
+		
+	}
+	
+	@Test
+	public void gotFocus () {
+		assertEquals("Mr.Robot har fokus", true, radar.gotFocus());
+//		radar.scan();
+//		radar.scan();
+//		assertEquals("Mr.Robot har tappar fokus", false, radar.gotFocus());
+	}
 }
