@@ -30,7 +30,9 @@ public class Robot07 extends robocode.TeamRobot {
 
 		// Robot main loop
 		while (true) {
+			sendMessage(1, "1");
 			sendMessage(2, "2");
+			sendMessage(3, "2");
 			// counting turns
 			mode.NewTurn();
 			// flyttar roboten

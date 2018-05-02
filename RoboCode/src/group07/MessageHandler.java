@@ -83,8 +83,15 @@ public class MessageHandler {
 					}
 				}
 			} else if (k.contains("friendPos")) {
+				// I nuläget vill vi inte göra något med denna infon�
+			} else if (k.contains("enemyDetails")) {
 				// I nuläget vill vi inte göra något med denna infon
-			} else if (k.contains("enemyPos")) {
+
+			} else if (k.contains("bullet")) {
+				// I nuläget vill vi inte göra något med denna infon
+			}
+
+			else if (k.contains("enemyPos")) {
 				// I nuläget vill vi inte göra något med denna infon
 			} else if (k.contains("targetEnemy")) {
 				// I nuläget vill vi inte göra något med denna infon
