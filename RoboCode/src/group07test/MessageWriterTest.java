@@ -29,10 +29,14 @@ public class MessageWriterTest {
 
 	MockBot mock = new MockBot(name, fakeEnergy, fakeHeading, fakePosX, fakePosY);
 	MessageWriter msg = new MessageWriter(mock);
+	
+	Ally ally = new Ally("Friend");
+	EnemyBot enemy = new EnemyBot(mock);
 
 	@Before
 	public void setUp() {
-
+		allyList.add(ally);
+		enemyList.add(enemy);
 	}
 
 	@After
@@ -44,7 +48,7 @@ public class MessageWriterTest {
 		String outputMsg; 
 		outputMsg = msg.standardMessage(myXPos, myYPos, allyList, enemyList, targetEnemy, tarXPos, tarYPos);
 		
-//		assertEquals("Test if name is correct", "myPos;200.0;200.0  targetEnemy;SomeName  targetPos;100.0;100.0", outputMsg);
+		assertEquals("Test if name is correct", "myPos;200.0;200.0\nfriendPos;Friend;0.0;0.0\nenemyDetails;;30.0;40.0;0.0;0.0;0.0;0\ntargetEnemy;SomeName\ntargetPos;100.0;100.0", outputMsg);
 	}
 
 	@Test

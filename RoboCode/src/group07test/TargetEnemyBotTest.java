@@ -24,6 +24,12 @@ public class TargetEnemyBotTest {
 	public void setUp() {
 		mockBot = new MockBot(name, fakeEnergy, fakeHeading, fakePosX, fakePosY); 
 		target = new TargetEnemyBot(mockBot);
+		double fakeBearing = 90;
+		double fakeDistance = 40;
+		double fakeVelocity = 3;
+		MockScannedRobotEvent e = new MockScannedRobotEvent(name, fakeEnergy, fakeBearing, fakeDistance, fakeHeading, fakeVelocity, false, false);
+		target.update(fakeBearing, fakeDistance, fakeEnergy, fakeHeading, fakeVelocity, e.getTime(), e.getName());
+
 	}
 	
 	@After
@@ -34,38 +40,33 @@ public class TargetEnemyBotTest {
 	
 	@Test
 	public void getXTest() {
-		double fakeBearing = 90;
-		double fakeDistance = 40;
-		double fakeVelocity = 3;
-		MockScannedRobotEvent e = new MockScannedRobotEvent(name, fakeEnergy, fakeBearing, fakeDistance, fakeHeading, fakeVelocity, false, false);
-		target.update(fakeBearing, fakeDistance, fakeEnergy, fakeHeading, fakeVelocity, e.getTime(), e.getName());
 		assertEquals("Test if x is correct", 70, target.getX(), 0.1d);
 	}
 	
 	@Test
 	public void getYTest() {
-		double fakeBearing = 90;
-		double fakeDistance = 40;
-		double fakeVelocity = 3;
-		MockScannedRobotEvent e = new MockScannedRobotEvent(name, fakeEnergy, fakeBearing, fakeDistance, fakeHeading, fakeVelocity, false, false);
-		target.update(fakeBearing, fakeDistance, fakeEnergy, fakeHeading, fakeVelocity, e.getTime(), e.getName());
 		assertEquals("Test if y is correct", 39, target.getY(), 0.5d);
 	}
 	
 	@Test
 	public void getFutureX() {
-		
-		//assertEquals("Test if name is correct", "IAmYourFriend", );
+		assertEquals("Test if x is correct", 70.4, target.getFutureX(4), 0.1d);
 	}
 	
 	@Test
 	public void getFutureY() {
-		
+		assertEquals("Test if x is correct", 39.0, target.getFutureY(4), 0.1d);
 	}
 	
 	@Test
 	public void getFutureDistance() {
-		
+
+		assertEquals("Test if x is correct", 91.4, target.getFutureDistance(mockBot, 4), 0.1d);
+	}
+	
+	@Test
+	public void getTime() {
+		assertEquals("Test if x is correct", 0, target.getTime(), 0.1d);
 	}
 	
 	
