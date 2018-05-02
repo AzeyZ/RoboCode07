@@ -24,9 +24,6 @@ public class AllyTracker {
 			allies.add(0, new Ally(MrRobot.getName()));
 			sortAlly();
 		}
-		for(int i=0;i<allies.size();i++) {
-			System.out.println(allies.get(i).getName());
-		}
 		
 	}
 
@@ -52,10 +49,6 @@ public class AllyTracker {
 
 	}
 
-	public ArrayList<Ally> getAllyList() {
-		return allies;
-	}
-
 	private void sortAlly() {
 
 		for (int i = 1; i < allies.size(); i++) {
@@ -75,11 +68,15 @@ public class AllyTracker {
 				Ally temp = allies.get(i);
 				allies.remove(temp);
 				removedAllies.add(temp);
-				i = i - 1;
+				i  -= 1;
 				
 				
 			}
 		}
 		allies.addAll(removedAllies);
+	}
+
+	public ArrayList<Ally> getAllyList() {
+		return allies;
 	}
 }

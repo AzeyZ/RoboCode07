@@ -16,7 +16,7 @@ public class EnemyBot {
 
 	public EnemyBot(Robot07 MrRobot) {
 		this.MrRobot = MrRobot;
-		reset();
+	
 	}
 
 	public void update(double bearing, double distance, double energy, double heading, double velocity, long time, String name) {
@@ -38,17 +38,6 @@ public class EnemyBot {
 				type = LEADER_BOT;
 			}
 		}
-	}
-
-	public void reset() {
-		bearing = 0.0;
-		distance = 0.0;
-		energy = 0.0;
-		heading = 0.0;
-		velocity = 0.0;
-		tick = 0;
-		name = "";
-
 	}
 
 	public boolean none() {

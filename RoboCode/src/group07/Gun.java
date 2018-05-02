@@ -13,9 +13,6 @@ public class Gun {
 
 	private Robot07 robot;
 	private TargetEnemyBot target;
-	private GunControl gunControl = new GunControl();
-	private int[][] stats = new int[13][31];
-	private int direction = 1;
 	private static double lastEnemyVelocity;
 	private static double lateralDirection;
 

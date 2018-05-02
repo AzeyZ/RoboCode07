@@ -6,7 +6,7 @@ public class Ally {
 	private double x;
 	private double y;
 	private long tick;
-	//etc
+	
 	
 	public Ally(String name) {
 		this.name = name;

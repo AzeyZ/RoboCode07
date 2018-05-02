@@ -8,15 +8,6 @@ public class TargetEnemyBot extends EnemyBot {
 	
 	public TargetEnemyBot(Robot07 MrRobot) {
 		super(MrRobot);
-		reset();
-	}
-	
-
-	public void reset() {
-		super.reset();
-		x = 0;
-		y = 0;
-		time = 0;
 	}
 	
 	public void update(double bearing, double distance, double energy, double heading, double velocity, long time, String name) {
