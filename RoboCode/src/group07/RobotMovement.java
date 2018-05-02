@@ -64,7 +64,64 @@ public class RobotMovement {
 		return (100 * moveDirection);
 	}
 
+	public double GetxForce(EnemyTracker track) {
+		GravPoint p;
+		double xforce = 0;
+		double ang;
+		double force;
+		gravpoints.clear();
+		for(int i = 0; i < robot.getAllies().size(); i++) {
+			gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(),robot.getAllies().get(i).getY(),-500));
+		}
+		gravpoints.add(new GravPoint(track.getTarget().getX(),track.getTarget().getY(),-700));
+		for(int i = 0;i<gravpoints.size();i++) {
+			p = (GravPoint)gravpoints.get(i);
+			//Calculate the total force from this point on us
+			force = p.power/Math.pow(getRange(robot.getX(),robot.getY(),p.x,p.y),2);
+			//Find the bearing from the point to us
+			//ang = Math.toRadians(MathUtils.normalizeBearing(Math.toDegrees(Math.PI/2 - Math.atan2(robot.getY() - p.y, robot.getX() - p.x)))); 
+			ang = normaliseBearing(Math.PI/2 - Math.atan2(robot.getY() - p.y, robot.getX() - p.x));
+			//Add the components of this force to the total force in their 
+			//respective directions
+			xforce += Math.sin(ang) * force;	
+		}
+		xforce += 5000/Math.pow(getRange(robot.getX(), 
+				robot.getY(), robot.getBattleFieldWidth(), robot.getY()), 3);
+		xforce -= 5000/Math.pow(getRange(robot.getX(), robot.getY(), 0, robot.getY()), 3);
+		return xforce;
+	}
+	public double GetyForce(EnemyTracker track) {
+		GravPoint p;
+		double ang;
+		double yforce = 0;
+		double force;
+		gravpoints.clear();
+		for(int i = 0; i < robot.getAllies().size(); i++) {
+			gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(),robot.getAllies().get(i).getY(),-500));
+			System.out.println(robot.getAllies().get(i).getX());
+			System.out.println(robot.getX());
+		}
+		gravpoints.add(new GravPoint(track.getTarget().getX(),track.getTarget().getY(),-700));
+		for(int i = 0;i<gravpoints.size();i++) {
+			p = (GravPoint)gravpoints.get(i);
+			//Calculate the total force from this point on us
+			force = p.power/Math.pow(getRange(robot.getX(),robot.getY(),p.x,p.y),2);
+			//Find the bearing from the point to us
+			//ang = Math.toRadians(MathUtils.normalizeBearing(Math.toDegrees(Math.PI/2 - Math.atan2(robot.getY() - p.y, robot.getX() - p.x)))); 
+			ang = normaliseBearing(Math.PI/2 - Math.atan2(robot.getY() - p.y, robot.getX() - p.x));
+			//Add the components of this force to the total force in their 
+			//respective directions
+			yforce = Math.cos(ang) * force; 
+		}
+		yforce += 5000/Math.pow(getRange(robot.getX(), 
+				robot.getY(), robot.getX(), robot.getBattleFieldHeight()), 3);
+		yforce -= 5000/Math.pow(getRange(robot.getX(), 
+				robot.getY(), robot.getX(), 0), 3);
+		return yforce;
+	}
+
 	void antiGravMove(EnemyTracker track) {
+		System.out.println("grav engaged");
 		//Recommend using force = strength/Math.pow(distance,1.5) for calculating the force of the intermediate points on your bot.
 		//https://www.ibm.com/developerworks/library/j-antigrav/index.html
 		double xforce = 0;
@@ -73,14 +130,14 @@ public class RobotMovement {
 		double ang;
 		GravPoint p;
 		gravpoints.clear();
-		
+
 		for(int i = 0; i < robot.getAllies().size(); i++) {
 			gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(),robot.getAllies().get(i).getY(),-500));
 			System.out.println(robot.getAllies().get(i).getX());
 			System.out.println(robot.getX());
 		}
 		gravpoints.add(new GravPoint(track.getTarget().getX(),track.getTarget().getY(),-700));
-		
+
 		for(int i = 0;i<gravpoints.size();i++) {
 			p = (GravPoint)gravpoints.get(i);
 			//Calculate the total force from this point on us
@@ -97,7 +154,7 @@ public class RobotMovement {
 		/**The following four lines add wall avoidance.  They will only 
 	    affect us if the bot is close to the walls due to the
 	    force from the walls decreasing at a power 3.**/
-		
+
 		xforce += 5000/Math.pow(getRange(robot.getX(), 
 				robot.getY(), robot.getBattleFieldWidth(), robot.getY()), 3);
 		xforce -= 5000/Math.pow(getRange(robot.getX(), robot.getY(), 0, robot.getY()), 3);
@@ -112,7 +169,7 @@ public class RobotMovement {
 
 	/**Move in the direction of an x and y coordinate**/
 	void goTo(double x, double y) {
-		double dist = 20; 
+		double dist = 20;
 		double angle = MathUtils.absoluteBearing(robot.getX(),robot.getY(),x,y);
 		double r = turnTo(angle);
 		robot.setAhead(dist * r);
@@ -146,7 +203,7 @@ public class RobotMovement {
 		double range = Math.sqrt(x*x + y*y);
 		return range;   
 	}
-	
+
 	//if a bearing is not within the -pi to pi range, alters it to provide the shortest angle
 	double normaliseBearing(double ang) {
 		if (ang > Math.PI)
