@@ -19,12 +19,11 @@ public class AllyTracker {
 		if (teamm8 != null) {
 			for (int i = 0; i < teamm8.length; i++) {
 				allies.add(new Ally(teamm8[i]));
-				
+
 			}
 			allies.add(0, new Ally(MrRobot.getName()));
 			sortAlly();
 		}
-		
 	}
 
 	public void update(ScannedRobotEvent e) {
@@ -53,24 +52,22 @@ public class AllyTracker {
 
 		for (int i = 1; i < allies.size(); i++) {
 			if (allies.get(i - 1).getName().compareToIgnoreCase(allies.get(i).getName()) > 0) {
-				Ally higher = allies.get(i-1);
+				Ally higher = allies.get(i - 1);
 				Ally lower = allies.get(i);
 				allies.set(i - 1, lower);
 				allies.set(i, higher);
 				i = 0;
-				
+
 			}
 		}
-		ArrayList<Ally> removedAllies = new ArrayList<>(); 
+		ArrayList<Ally> removedAllies = new ArrayList<>();
 		for (int i = 0; i < allies.size(); i++) {
-			if(!(allies.get(i).isMrRobot()))
-			{
+			if (!(allies.get(i).isMrRobot())) {
 				Ally temp = allies.get(i);
 				allies.remove(temp);
 				removedAllies.add(temp);
-				i  -= 1;
-				
-				
+				i -= 1;
+
 			}
 		}
 		allies.addAll(removedAllies);

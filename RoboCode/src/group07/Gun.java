@@ -24,33 +24,37 @@ public class Gun {
 	public void Wave(EnemyTracker track) {
 
 		target = track.getTarget();
-		if(target == null) return;
-		
+		if (target == null)
+			return;
+
 		double enemyAbsoluteBearing = robot.getHeadingRadians() + target.getBearingRadians();
 		double enemyDistance = target.getDistance();
 		double enemyVelocity = target.getVelocity();
 		double power = Math.min(400 / enemyDistance, 3);
-		
+
 		if (enemyVelocity != 0) {
-			lateralDirection = MathUtils.sign(enemyVelocity * Math.sin(MathUtils.toRadians(track.getTarget().getHeading()) - enemyAbsoluteBearing));
+			lateralDirection = MathUtils.sign(enemyVelocity
+					* Math.sin(MathUtils.toRadians(track.getTarget().getHeading()) - enemyAbsoluteBearing));
 		}
 		GFTWave wave = new GFTWave(robot);
 		wave.gunLocation = new Point2D.Double(robot.getX(), robot.getY());
 		GFTWave.targetLocation = MathUtils.project(wave.gunLocation, enemyAbsoluteBearing, target.getDistance());
-		//wave.setLocation(MathUtils.project(wave.gunLocation, absBearing, target.getDistance()));
+		// wave.setLocation(MathUtils.project(wave.gunLocation, absBearing,
+		// target.getDistance()));
 		wave.lateralDirection = lateralDirection;
 		wave.bulletPower = power;
 		wave.setSegmentations(enemyDistance, enemyVelocity, lastEnemyVelocity);
 		lastEnemyVelocity = target.getVelocity();
 		wave.bearing = enemyAbsoluteBearing;
-		robot.setTurnGunRightRadians(
-				Utils.normalRelativeAngle(enemyAbsoluteBearing - robot.getGunHeadingRadians() + wave.mostVisitedBearingOffset()));
+		robot.setTurnGunRightRadians(Utils.normalRelativeAngle(
+				enemyAbsoluteBearing - robot.getGunHeadingRadians() + wave.mostVisitedBearingOffset()));
 		robot.setFire(wave.bulletPower);
 
 		if (robot.getEnergy() >= power) {
 			robot.addCustomEvent(wave); // ????
 		}
-		// robot.setTurnRadarRightRadians(Utils.normalRelativeAngle(enemyAbsoluteBearing - robot.getRadarHeadingRadians()) * 2);
+		// robot.setTurnRadarRightRadians(Utils.normalRelativeAngle(enemyAbsoluteBearing
+		// - robot.getRadarHeadingRadians()) * 2);
 	}
 
 }
@@ -67,7 +71,7 @@ class GFTWave extends Condition {
 	private static final int BINS = 25;
 	private static final int MIDDLE_BIN = (BINS - 1) / 2;
 	private static final double MAX_ESCAPE_ANGLE = 0.7D;
-	private static final double BIN_WIDTH = MAX_ESCAPE_ANGLE / (double)MIDDLE_BIN;
+	private static final double BIN_WIDTH = MAX_ESCAPE_ANGLE / (double) MIDDLE_BIN;
 	private static int[][][][] statBuffers = new int[DISTANCE_INDEXES][VELOCITY_INDEXES][VELOCITY_INDEXES][BINS];
 	private int[] buffer;
 	private AdvancedRobot robot;
@@ -95,7 +99,7 @@ class GFTWave extends Condition {
 	}
 
 	void setSegmentations(double distance, double velocity, double lastVelocity) {
-		int distanceIndex = Math.min(4, (int)(distance / 180.0D));
+		int distanceIndex = Math.min(4, (int) (distance / 180.0D));
 		int velocityIndex = (int) Math.abs(velocity / 2);
 		int lastVelocityIndex = (int) Math.abs(lastVelocity / 2);
 		buffer = statBuffers[distanceIndex][velocityIndex][lastVelocityIndex];

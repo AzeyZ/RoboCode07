@@ -19,7 +19,7 @@ public class Robot07 extends robocode.TeamRobot {
 	private MessageHandler messageHandler = new MessageHandler(this);
 	private MessageWriter messageWriter = new MessageWriter(this);
 	private MovementModeSwitcher mode = new MovementModeSwitcher(this);
-	private SurfMovement surfing = new SurfMovement(mode, robotMovement,enemyTracker );
+	private SurfMovement surfing = new SurfMovement(mode, robotMovement, enemyTracker);
 
 	public void run() {
 		// Init robot
@@ -37,21 +37,20 @@ public class Robot07 extends robocode.TeamRobot {
 			mode.NewTurn();
 			// flyttar roboten
 			if (mode.getCurrentMode() == 0) {
-				//robotMovement.update(enemyTracker.getTarget());
-				//robotMovement.move();
-				//robotMovement.antiGravMove(enemyTracker);
+				// robotMovement.update(enemyTracker.getTarget());
+				// robotMovement.move();
+				// robotMovement.antiGravMove(enemyTracker);
 			}
 
 			// scannar
 			radar.update(enemyTracker.getTarget());
 			radar.scan();
 
-
 			// starts Wave calculations
 			gun.Wave(enemyTracker);
 			// behövs för att alla set commands ska köra
 			execute();
-			
+
 		}
 	}
 
@@ -103,15 +102,15 @@ public class Robot07 extends robocode.TeamRobot {
 		case 1: {
 			break;
 		}
-		case 2:{
+		case 2: {
 			message = messageWriter.allyListUpdate(this.getX(), this.getY(), allyTracker.getAllyList());
 			break;
 		}
-		case 3:{
+		case 3: {
 			message = messageWriter.enemyListUpdate(this.getX(), this.getY(), enemyTracker.getEnemies());
 			break;
 		}
-		
+
 		}
 		messageHandler.send(message, receiver);
 	}
@@ -120,14 +119,14 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onMessageReceived: What to do when you receive a message
 	 */
 	public void onMessageReceived(MessageEvent e) {
-//		if (e.getMessage() instanceof RobotColors) {
-//			  RobotColors c = (RobotColors) e.getMessage();
-//			  setBodyColor(c.bodyColor);
-//			  setGunColor(c.gunColor);
-//			  setRadarColor(c.radarColor);
-//			  setScanColor(c.scanColor);
-//			  setBulletColor(c.bulletColor);
-//			}
+		// if (e.getMessage() instanceof RobotColors) {
+		// RobotColors c = (RobotColors) e.getMessage();
+		// setBodyColor(c.bodyColor);
+		// setGunColor(c.gunColor);
+		// setRadarColor(c.radarColor);
+		// setScanColor(c.scanColor);
+		// setBulletColor(c.bulletColor);
+		// }
 		messageHandler.recieve(e, allyTracker, enemyTracker);
 
 	}

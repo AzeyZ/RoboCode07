@@ -16,10 +16,11 @@ public class EnemyBot {
 
 	public EnemyBot(Robot07 MrRobot) {
 		this.MrRobot = MrRobot;
-	
+
 	}
 
-	public void update(double bearing, double distance, double energy, double heading, double velocity, long time, String name) {
+	public void update(double bearing, double distance, double energy, double heading, double velocity, long time,
+			String name) {
 		this.bearing = bearing;
 		this.distance = distance;
 		this.energy = energy;
@@ -51,6 +52,7 @@ public class EnemyBot {
 	public double getBearing() {
 		return bearing;
 	}
+
 	public double getBearingRadians() {
 		return Math.toRadians(bearing);
 	}

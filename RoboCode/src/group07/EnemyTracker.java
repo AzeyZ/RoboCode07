@@ -17,7 +17,8 @@ public class EnemyTracker {
 	}
 
 	// Update enemy list
-	public void update(double bearing, double distance, double energy, double heading, double velocity, long time, String name) {
+	public void update(double bearing, double distance, double energy, double heading, double velocity, long time,
+			String name) {
 		if ((isNewEnemy(name) != null)) {
 			for (int k = 0; k < enemies.size(); k++) {
 				if (name.equals(enemies.get(k).getName()) && enemies.get(k).getTick() < time) {
@@ -30,7 +31,8 @@ public class EnemyTracker {
 	}
 
 	// Enemies
-	public void addEnemy(double bearing, double distance, double energy, double heading, double velocity, long time, String name) {
+	public void addEnemy(double bearing, double distance, double energy, double heading, double velocity, long time,
+			String name) {
 		EnemyBot bot = new EnemyBot(robot);
 		bot.update(bearing, distance, energy, heading, velocity, time, name);
 		enemies.add(bot);
@@ -61,7 +63,9 @@ public class EnemyTracker {
 		if (!enemies.isEmpty()) {
 			enemies = targetPrio.sortList(enemies);
 			if (allEnemiesScanned()) {
-				target.update(enemies.get(0).getBearing(), enemies.get(0).getDistance(), enemies.get(0).getEnergy(), enemies.get(0).getHeading(), enemies.get(0).getVelocity(), enemies.get(0).getTick(), enemies.get(0).getName());
+				target.update(enemies.get(0).getBearing(), enemies.get(0).getDistance(), enemies.get(0).getEnergy(),
+						enemies.get(0).getHeading(), enemies.get(0).getVelocity(), enemies.get(0).getTick(),
+						enemies.get(0).getName());
 			}
 		}
 	}

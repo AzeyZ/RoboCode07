@@ -11,23 +11,23 @@ public class Shots {
 	double x;
 	double y;
 	long tick;
-	public Shots(double x , double y , long tick)
-	{
+
+	public Shots(double x, double y, long tick) {
 		this.x = x;
 		this.y = y;
 		this.tick = tick;
 	}
-	public double getX()
-	{
+
+	public double getX() {
 		return x;
 	}
-	public double getY()
-	{
+
+	public double getY() {
 		return y;
-		
+
 	}
-	public long getTick()
-	{
+
+	public long getTick() {
 		return tick;
 	}
 }

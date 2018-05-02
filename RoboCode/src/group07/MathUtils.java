@@ -34,9 +34,9 @@ public class MathUtils {
 
 		return bearing;
 	}
-	
+
 	public static double toRadians(double x) {
-		return (x*Math.PI)/180;
+		return (x * Math.PI) / 180;
 	}
 
 	// Calculate the future X value
@@ -51,37 +51,33 @@ public class MathUtils {
 		return y;
 	}
 
-	static double bulletVelocity(double power)
-	{
+	static double bulletVelocity(double power) {
 		return 20.0D - 3.0D * power;
 	}
 
-	static Point2D project(Point2D sourceLocation, double angle, double length)
-	{
-		return new Point2D.Double(sourceLocation.getX() + Math.sin(angle) * length, sourceLocation.getY() + Math.cos(angle) * length);
+	static Point2D project(Point2D sourceLocation, double angle, double length) {
+		return new Point2D.Double(sourceLocation.getX() + Math.sin(angle) * length,
+				sourceLocation.getY() + Math.cos(angle) * length);
 	}
 
-	static double absoluteBearing(Point2D source, Point2D target)
-	{
+	static double absoluteBearing(Point2D source, Point2D target) {
 		return Math.atan2(target.getX() - source.getX(), target.getY() - source.getY());
 	}
 
-	static int sign(double v)
-	{
+	static int sign(double v) {
 		return v < 0.0D ? -1 : 1;
 	}
 
-	static int minMax(int v, int min, int max)
-	{
+	static int minMax(int v, int min, int max) {
 		return Math.max(min, Math.min(max, v));
 	}
-	static double distance(double x1, double y1, double x2, double y2)
-	{
+
+	static double distance(double x1, double y1, double x2, double y2) {
 		return Math.hypot(x2 - x1, y2 - y1);
 	}
-	static double distance(Point2D point1, Point2D point2)
-	{
-		return Math.hypot(point2.getX()- point1.getX(), point2.getY() - point1.getY());
+
+	static double distance(Point2D point1, Point2D point2) {
+		return Math.hypot(point2.getX() - point1.getX(), point2.getY() - point1.getY());
 	}
 
 }
