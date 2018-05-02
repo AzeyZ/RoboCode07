@@ -75,5 +75,13 @@ public class MathUtils {
 	{
 		return Math.max(min, Math.min(max, v));
 	}
+	static double distance(double x1, double y1, double x2, double y2)
+	{
+		return Math.hypot(x2 - x1, y2 - y1);
+	}
+	static double distance(Point2D point1, Point2D point2)
+	{
+		return Math.hypot(point2.getX()- point1.getX(), point2.getY() - point1.getY());
+	}
 
 }
