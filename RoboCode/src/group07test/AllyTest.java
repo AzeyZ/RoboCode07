@@ -48,4 +48,18 @@ public class AllyTest {
 		assertEquals("Test if y-cord is correct", y, ally.getY(), 0.01d);
 	}
 	
+	@Test
+	public void testUpdate () {
+		double x = 10;
+		double y = 10;
+		long tick = 100; // Startvärde
+		long newTick = 1000; // Kallas vid uppdatering
+		ally = new Ally("IAmYourFriend");
+		ally.update(x, y, tick);
+		ally.setTick(newTick);
+		
+		assertEquals("Test if x from update is correct", x, ally.getX(), 0.1d);
+		assertEquals("Test if y from update is correct", y, ally.getY(), 0.1d);
+		assertEquals("Test if tick is correct", newTick, ally.getTick(), 0.1d);
+	}
 }

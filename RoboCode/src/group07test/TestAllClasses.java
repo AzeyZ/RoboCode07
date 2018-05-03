@@ -6,7 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({AllyTest.class, ShotsTest.class, TargetEnemyBotTest.class, 
-	MessageWriterTest.class})
+	MessageWriterTest.class, EnemyBotTest.class, MathUtilsTest.class, AllyTrackerTest.class})
 
 public class TestAllClasses {
 
