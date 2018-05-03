@@ -44,7 +44,7 @@ public class Robot07 extends robocode.TeamRobot {
 			}
 
 			// scannar			
-			radar.update(enemyTracker.getTarget());
+			radar.update(radarControl.getRadarTarget());
 			
 			radar.scan();
 
