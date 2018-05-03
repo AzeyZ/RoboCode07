@@ -17,12 +17,12 @@ public class RadarControl {
 		this.allyTracker = allyTracker;
 		this.enemyTracker = enemyTracker;
 		this.mrRobot = mrRobot;
-		myPlaceInList = allyTracker.getPlaceInList();
+		
 
 	}
 
 	public void startOfGame() {
-
+		myPlaceInList = allyTracker.getPlaceInList();
 		if (myPlaceInList == 0) {
 			if (!enemyTracker.getLivingEnemies().isEmpty()) {
 				radarTarget = enemyTracker.getLivingEnemies().get(0);
