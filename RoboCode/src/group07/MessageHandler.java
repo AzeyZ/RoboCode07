@@ -58,7 +58,7 @@ public class MessageHandler {
 	}
 
 	// Tar emot ett Message och uppdaterar alla variablar här
-	public void recieve(MessageEvent e, AllyTracker allyTracker, EnemyTracker enemyTracker) {
+	public void recieve(MessageEvent e, AllyTracker allyTracker, EnemyTracker enemyTracker, RadarControl radarControl) {
 		ArrayList<String> rowsInMessage = new ArrayList<>();
 		rowsInMessage.addAll(Arrays.asList(e.getMessage().toString().split("\n")));
 
@@ -120,6 +120,8 @@ public class MessageHandler {
 						Double.parseDouble(infoInRow.get(3)), Double.parseDouble(infoInRow.get(4)),
 						Double.parseDouble(infoInRow.get(5)), Long.parseLong(infoInRow.get(6)), infoInRow.get(7));
 
+			}else if (k.contains("rPickRadarTarget")) {
+				radarControl.teammatePicked(infoInRow.get(1), Integer.parseInt(infoInRow.get(2)));
 			}
 		}
 	}

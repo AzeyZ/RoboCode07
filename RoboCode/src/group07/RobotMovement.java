@@ -97,8 +97,8 @@ public class RobotMovement {
 		gravpoints.clear();
 		for (int i = 0; i < robot.getAllies().size(); i++) {
 			gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(), robot.getAllies().get(i).getY(), -500));
-			System.out.println(robot.getAllies().get(i).getX());
-			System.out.println(robot.getX());
+			//System.out.println(robot.getAllies().get(i).getX());
+			//System.out.println(robot.getX());
 		}
 		gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -700));
 		for (int i = 0; i < gravpoints.size(); i++) {
@@ -132,8 +132,8 @@ public class RobotMovement {
 
 		for (int i = 0; i < robot.getAllies().size(); i++) {
 			gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(), robot.getAllies().get(i).getY(), -500));
-			System.out.println(robot.getAllies().get(i).getX());
-			System.out.println(robot.getX());
+			//System.out.println(robot.getAllies().get(i).getX());
+			//System.out.println(robot.getX());
 		}
 		gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -700));
 

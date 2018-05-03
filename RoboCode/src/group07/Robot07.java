@@ -20,7 +20,8 @@ public class Robot07 extends robocode.TeamRobot {
 	private MessageWriter messageWriter = new MessageWriter(this);
 	private MovementModeSwitcher mode = new MovementModeSwitcher(this);
 	private SurfMovement surfing = new SurfMovement(mode, robotMovement, enemyTracker);
-
+	private RadarControl radarControl = new RadarControl(allyTracker, enemyTracker, this);
+	private HitByBulletEvent lastHitEvent;
 	public void run() {
 		// Init robot
 		initialize();
@@ -42,8 +43,9 @@ public class Robot07 extends robocode.TeamRobot {
 				// robotMovement.antiGravMove(enemyTracker);
 			}
 
-			// scannar
+			// scannar			
 			radar.update(enemyTracker.getTarget());
+			
 			radar.scan();
 
 			// starts Wave calculations
@@ -85,6 +87,8 @@ public class Robot07 extends robocode.TeamRobot {
 	// rShot == 1
 	// rAlly == 2
 	// rEnemy == 3
+	// rPickRadarTarget == 4
+	// rGettingAttacked == 5
 
 	// Skickar iväg ett meddelande
 	// receiver == 1 skicka till alla.
@@ -110,7 +114,13 @@ public class Robot07 extends robocode.TeamRobot {
 			message = messageWriter.enemyListUpdate(this.getX(), this.getY(), enemyTracker.getEnemies());
 			break;
 		}
-
+		case 4: {
+			message = messageWriter.PickRadarTarget(this.getX(), this.getY(), radarControl.getRadarTarget().getName(), allyTracker.getPlaceInList());
+			break;
+		}
+		case 5: {
+			message = messageWriter.GettingAttacked(this.getX(), this.getY(), lastHitEvent.getName(), radarControl.getRadarTarget().getName());
+		}
 		}
 		messageHandler.send(message, receiver);
 	}
@@ -127,7 +137,7 @@ public class Robot07 extends robocode.TeamRobot {
 		// setScanColor(c.scanColor);
 		// setBulletColor(c.bulletColor);
 		// }
-		messageHandler.recieve(e, allyTracker, enemyTracker);
+		messageHandler.recieve(e, allyTracker, enemyTracker, radarControl);
 
 	}
 
@@ -138,7 +148,18 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onHitByBullet(HitByBulletEvent e) {
 
 		// TODO:switch target to the one that hit us
-
+		for(int i = 0; i < enemyTracker.getEnemies().size(); i++) {
+			if(enemyTracker.getEnemies().get(i).getName().equals(e.getName()))
+			{
+				if(!e.getName().equals(radarControl.getRadarTarget().getName()))
+				{
+					this.sendMessage(5, "2");
+					radarControl.gettingAttacked(e.getName());
+				}
+			}
+		}
+		
+			
 		surfing.onHitByBulletSurf(e);
 	}
 

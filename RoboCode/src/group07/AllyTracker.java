@@ -48,6 +48,18 @@ public class AllyTracker {
 
 	}
 
+	private int amountMrRobot() {
+		int amount = 0;
+		for (int i = 0; i < allies.size(); i++) {
+			if ((allies.get(i).isMrRobot())) {
+				amount++;
+
+			}
+		}
+		return amount;
+
+	}
+
 	private void sortAlly() {
 
 		for (int i = 1; i < allies.size(); i++) {
@@ -73,7 +85,44 @@ public class AllyTracker {
 		allies.addAll(removedAllies);
 	}
 
+	public ArrayList<Ally> getMrRobots() {
+		ArrayList<Ally> temp = new ArrayList<>();
+		temp.addAll(allies);
+		for (int i = 0; i < temp.size(); i++) {
+			if (!(temp.get(i).isMrRobot())) {
+				temp.remove(temp.get(i));
+				i -= 1;
+			}
+		}
+		return temp;
+	}
+
+	public ArrayList<Ally> getAllyListWithOurself() {
+		ArrayList<Ally> temp = new ArrayList<>();
+		temp.addAll(allies);
+		for (int i = 0; i < temp.size(); i++) {
+			if (temp.get(i).getName().equalsIgnoreCase(MrRobot.getName())) {
+
+				temp.remove(temp.get(i));
+				break;
+
+			}
+		}
+		return temp;
+	}
+
 	public ArrayList<Ally> getAllyList() {
 		return allies;
+	}
+
+	public int getPlaceInList() {
+		for (int i = 0; i < allies.size(); i++) {
+			if (allies.get(i).getName().equalsIgnoreCase(MrRobot.getName())) {
+
+				return i;
+
+			}
+		}
+		return amountMrRobot();
 	}
 }
