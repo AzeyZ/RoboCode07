@@ -28,7 +28,7 @@ public class Robot07 extends robocode.TeamRobot {
 
 		// adding allies
 		allyTracker.addAllAllies();
-
+		radarControl.startOfGame();
 		// Robot main loop
 		while (true) {
 			sendMessage(0, "1");
@@ -89,6 +89,7 @@ public class Robot07 extends robocode.TeamRobot {
 	// rEnemy == 3
 	// rPickRadarTarget == 4
 	// rGettingAttacked == 5
+	// rNewTarget == 6
 
 	// Skickar iväg ett meddelande
 	// receiver == 1 skicka till alla.
@@ -115,11 +116,14 @@ public class Robot07 extends robocode.TeamRobot {
 			break;
 		}
 		case 4: {
-			message = messageWriter.PickRadarTarget(this.getX(), this.getY(), radarControl.getRadarTarget().getName(), allyTracker.getPlaceInList());
+			message = messageWriter.pickRadarTarget(this.getX(), this.getY(), radarControl.getRadarTarget().getName(), allyTracker.getPlaceInList());
 			break;
 		}
 		case 5: {
-			message = messageWriter.GettingAttacked(this.getX(), this.getY(), lastHitEvent.getName(), radarControl.getRadarTarget().getName());
+			message = messageWriter.gettingAttacked(this.getX(), this.getY(), lastHitEvent.getName(), radarControl.getRadarTarget().getName());
+		}
+		case 6: {
+			message = messageWriter.newRadarTarget(this.getX(), this.getY(), radarControl.getRadarTarget().getName());
 		}
 		}
 		messageHandler.send(message, receiver);
@@ -173,6 +177,7 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onRobotDeath(RobotDeathEvent e) {
 		enemyTracker.robotDeath(e);
 		allyTracker.robotDeath(e);
+		radarControl.robotDeath(e);
 	}
 
 	public ArrayList<Ally> getAllies() {
