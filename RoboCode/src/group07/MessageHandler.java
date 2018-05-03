@@ -121,9 +121,11 @@ public class MessageHandler {
 						Double.parseDouble(infoInRow.get(5)), Long.parseLong(infoInRow.get(6)), infoInRow.get(7));
 
 			}else if (k.contains("rPickRadarTarget")) {
-				radarControl.teammatePicked(infoInRow.get(1), Integer.parseInt(infoInRow.get(2)));
+				radarControl.teammatePicked(e.getSender(), infoInRow.get(1), Integer.parseInt(infoInRow.get(2)));
 			}else if (k.contains("rGettingAttacked")) {
-				radarControl.teammateGettingAttacked(infoInRow.get(1), infoInRow.get(2));
+				radarControl.teammateGettingAttacked(e.getSender(), infoInRow.get(1), infoInRow.get(2));
+			}else if (k.contains("rNewRadarTarget")) {
+				radarControl.teammateNewTarget(e.getSender(), infoInRow.get(1));
 			}
 			
 		}

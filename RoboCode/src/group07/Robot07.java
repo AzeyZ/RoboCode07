@@ -13,12 +13,13 @@ public class Robot07 extends robocode.TeamRobot {
 	 */
 	private EnemyTracker enemyTracker = new EnemyTracker(this);
 	private AllyTracker allyTracker = new AllyTracker(this);
-	private RobotMovement robotMovement = new RobotMovement(this);
+
 	private Radar radar = new Radar(this);
 	private Gun gun = new Gun(this);
 	private MessageHandler messageHandler = new MessageHandler(this);
 	private MessageWriter messageWriter = new MessageWriter(this);
 	private MovementModeSwitcher mode = new MovementModeSwitcher(this);
+	private RobotMovement robotMovement = new RobotMovement(this, mode);
 	private SurfMovement surfing = new SurfMovement(mode, robotMovement, enemyTracker);
 	private RadarControl radarControl = new RadarControl(allyTracker, enemyTracker, this);
 	private HitByBulletEvent lastHitEvent;
@@ -28,7 +29,7 @@ public class Robot07 extends robocode.TeamRobot {
 
 		// adding allies
 		allyTracker.addAllAllies();
-
+		radarControl.startOfGame();
 		// Robot main loop
 		while (true) {
 			sendMessage(0, "1");
@@ -38,13 +39,15 @@ public class Robot07 extends robocode.TeamRobot {
 			mode.NewTurn();
 			// flyttar roboten
 			if (mode.getCurrentMode() == 0) {
-				// robotMovement.update(enemyTracker.getTarget());
-				// robotMovement.move();
 				robotMovement.antiGravMove(enemyTracker);
 			}
+			if(mode.getCurrentMode() == 2) {
+				System.out.println("BasicMove engaged");
+				robotMovement.update(enemyTracker.getTarget());
+				robotMovement.move();
+			}
 			// scannar			
-			radar.update(enemyTracker.getTarget());
-			
+			radar.update(radarControl.getRadarTarget());
 			radar.scan();
 
 			// starts Wave calculations
@@ -88,6 +91,7 @@ public class Robot07 extends robocode.TeamRobot {
 	// rEnemy == 3
 	// rPickRadarTarget == 4
 	// rGettingAttacked == 5
+	// rNewTarget == 6
 
 	// Skickar iväg ett meddelande
 	// receiver == 1 skicka till alla.
@@ -114,11 +118,14 @@ public class Robot07 extends robocode.TeamRobot {
 			break;
 		}
 		case 4: {
-			message = messageWriter.PickRadarTarget(this.getX(), this.getY(), radarControl.getRadarTarget().getName(), allyTracker.getPlaceInList());
+			message = messageWriter.pickRadarTarget(this.getX(), this.getY(), radarControl.getRadarTarget().getName(), allyTracker.getPlaceInList());
 			break;
 		}
 		case 5: {
-			message = messageWriter.GettingAttacked(this.getX(), this.getY(), lastHitEvent.getName(), radarControl.getRadarTarget().getName());
+			message = messageWriter.gettingAttacked(this.getX(), this.getY(), lastHitEvent.getName(), radarControl.getRadarTarget().getName());
+		}
+		case 6: {
+			message = messageWriter.newRadarTarget(this.getX(), this.getY(), radarControl.getRadarTarget().getName());
 		}
 		}
 		messageHandler.send(message, receiver);
@@ -146,19 +153,19 @@ public class Robot07 extends robocode.TeamRobot {
 
 	public void onHitByBullet(HitByBulletEvent e) {
 
-//		// TODO:switch target to the one that hit us
-//		for(int i = 0; i < enemyTracker.getEnemies().size(); i++) {
-//			if(enemyTracker.getEnemies().get(i).getName().equals(e.getName()))
-//			{
-//				if(!e.getName().equals(radarControl.getRadarTarget().getName()))
-//				{
-//					this.sendMessage(5, "2");
-//					radarControl.gettingAttacked(e.getName());
-//				}
-//			}
-//		}
-		
-			
+		//		// TODO:switch target to the one that hit us
+		//		for(int i = 0; i < enemyTracker.getEnemies().size(); i++) {
+		//			if(enemyTracker.getEnemies().get(i).getName().equals(e.getName()))
+		//			{
+		//				if(!e.getName().equals(radarControl.getRadarTarget().getName()))
+		//				{
+		//					this.sendMessage(5, "2");
+		//					radarControl.gettingAttacked(e.getName());
+		//				}
+		//			}
+		//		}
+
+
 		surfing.onHitByBulletSurf(e);
 	}
 
@@ -172,6 +179,7 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onRobotDeath(RobotDeathEvent e) {
 		enemyTracker.robotDeath(e);
 		allyTracker.robotDeath(e);
+		radarControl.robotDeath(e);
 	}
 
 	public ArrayList<Ally> getAllies() {
