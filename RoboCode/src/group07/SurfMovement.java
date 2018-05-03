@@ -250,6 +250,16 @@ public class SurfMovement {
 		}
 		return angle;
 	}
+	
+	public double teamSmoothing(Point2D.Double botLocation, double angle, int orientation, TeamRobot robot) {
+		//calculate angle where we don't hit teammates
+		// TODO
+		
+		
+		
+		
+		return 0;
+	}
 
 	public static Point2D.Double project(Point2D.Double sourceLocation, double angle, double length) {
 		return new Point2D.Double(sourceLocation.x + Math.sin(angle) * length,
