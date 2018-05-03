@@ -40,16 +40,16 @@ public class MathUtils {
 	}
 
 	// Calculate the future X value
-	public static double getFutureLinearX(double x, double heading, double velocity, double time) {
-		x += Math.sin(Math.toRadians(heading)) * velocity * time;
-		return x;
-	}
-
-	// Calculate the future Y value
-	public static double getFutureLinearY(double y, double heading, double velocity, double time) {
-		y += Math.sin(Math.toRadians(heading)) * velocity * time;
-		return y;
-	}
+//	public static double getFutureLinearX(double x, double heading, double velocity, double time) {
+//		x += Math.sin(Math.toRadians(heading)) * velocity * time;
+//		return x;
+//	}
+//
+//	// Calculate the future Y value
+//	public static double getFutureLinearY(double y, double heading, double velocity, double time) {
+//		y += Math.sin(Math.toRadians(heading)) * velocity * time;
+//		return y;
+//	}
 
 	static double bulletVelocity(double power) {
 		return 20.0D - 3.0D * power;

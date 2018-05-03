@@ -90,10 +90,6 @@ class GFTWave extends Condition {
 		return false;
 	}
 
-	public void setLocation(Point2D loc) {
-		targetLocation = loc;
-	}
-
 	double mostVisitedBearingOffset() {
 		return (lateralDirection * BIN_WIDTH) * (mostVisitedBin() - MIDDLE_BIN);
 	}

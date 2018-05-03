@@ -23,18 +23,18 @@ public class TargetEnemyBot extends EnemyBot {
 		y = MrRobot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * distance;
 	}
 
-	public double getFutureX(double time) {
-		return MathUtils.getFutureLinearX(x, getHeading(), getVelocity(), time);
-	}
+//	public double getFutureX(double time) {
+//		return MathUtils.getFutureLinearX(x, getHeading(), getVelocity(), time);
+//	}
+//
+//	public double getFutureY(double time) {
+//		return MathUtils.getFutureLinearY(y, getHeading(), getVelocity(), time);
+//	}
 
-	public double getFutureY(double time) {
-		return MathUtils.getFutureLinearY(y, getHeading(), getVelocity(), time);
-	}
-
-	public double getFutureDistance(Robot robot, double time) {
-		double d = MathUtils.absoluteBearing(robot.getX(), robot.getY(), getFutureX(time), getFutureY(time));
-		return d;
-	}
+//	public double getFutureDistance(Robot robot, double time) {
+//		double d = MathUtils.absoluteBearing(robot.getX(), robot.getY(), getFutureX(time), getFutureY(time));
+//		return d;
+//	}
 
 	public double getX() {
 		return x;

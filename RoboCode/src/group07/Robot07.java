@@ -40,16 +40,15 @@ public class Robot07 extends robocode.TeamRobot {
 			if (mode.getCurrentMode() == 0) {
 				// robotMovement.update(enemyTracker.getTarget());
 				// robotMovement.move();
-				// robotMovement.antiGravMove(enemyTracker);
+				robotMovement.antiGravMove(enemyTracker);
 			}
-
 			// scannar			
 			radar.update(radarControl.getRadarTarget());
 			
 			radar.scan();
 
 			// starts Wave calculations
-			gun.Wave(enemyTracker);
+			//gun.Wave(enemyTracker);
 			// behövs för att alla set commands ska köra
 			execute();
 
@@ -151,17 +150,17 @@ public class Robot07 extends robocode.TeamRobot {
 
 	public void onHitByBullet(HitByBulletEvent e) {
 
-		// TODO:switch target to the one that hit us
-		for(int i = 0; i < enemyTracker.getEnemies().size(); i++) {
-			if(enemyTracker.getEnemies().get(i).getName().equals(e.getName()))
-			{
-				if(!e.getName().equals(radarControl.getRadarTarget().getName()))
-				{
-					this.sendMessage(5, "2");
-					radarControl.gettingAttacked(e.getName());
-				}
-			}
-		}
+//		// TODO:switch target to the one that hit us
+//		for(int i = 0; i < enemyTracker.getEnemies().size(); i++) {
+//			if(enemyTracker.getEnemies().get(i).getName().equals(e.getName()))
+//			{
+//				if(!e.getName().equals(radarControl.getRadarTarget().getName()))
+//				{
+//					this.sendMessage(5, "2");
+//					radarControl.gettingAttacked(e.getName());
+//				}
+//			}
+//		}
 		
 			
 		surfing.onHitByBulletSurf(e);
