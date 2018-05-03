@@ -48,21 +48,21 @@ public class TargetEnemyBotTest {
 		assertEquals("Test if y is correct", 39, target.getY(), 0.5d);
 	}
 	
-	@Test
-	public void getFutureX() {
-		assertEquals("Test if x is correct", 70.4, target.getFutureX(4), 0.1d);
-	}
-	
-	@Test
-	public void getFutureY() {
-		assertEquals("Test if x is correct", 39.0, target.getFutureY(4), 0.1d);
-	}
-	
-	@Test
-	public void getFutureDistance() {
-
-		assertEquals("Test if x is correct", 91.4, target.getFutureDistance(mockBot, 4), 0.1d);
-	}
+//	@Test
+//	public void getFutureX() {
+//		assertEquals("Test if x is correct", 70.4, target.getFutureX(4), 0.1d);
+//	}
+//	
+//	@Test
+//	public void getFutureY() {
+//		assertEquals("Test if x is correct", 39.0, target.getFutureY(4), 0.1d);
+//	}
+//	
+//	@Test
+//	public void getFutureDistance() {
+//
+//		assertEquals("Test if x is correct", 91.4, target.getFutureDistance(mockBot, 4), 0.1d);
+//	}
 	
 	@Test
 	public void getTime() {
