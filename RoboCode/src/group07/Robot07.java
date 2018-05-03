@@ -22,13 +22,14 @@ public class Robot07 extends robocode.TeamRobot {
 	private SurfMovement surfing = new SurfMovement(mode, robotMovement, enemyTracker);
 	private RadarControl radarControl = new RadarControl(allyTracker, enemyTracker, this);
 	private HitByBulletEvent lastHitEvent;
+	boolean oneTime = true;
 	public void run() {
 		// Init robot
 		initialize();
 
 		// adding allies
 		allyTracker.addAllAllies();
-		radarControl.startOfGame();
+		
 		// Robot main loop
 		while (true) {
 			sendMessage(0, "1");
@@ -42,13 +43,20 @@ public class Robot07 extends robocode.TeamRobot {
 				// robotMovement.move();
 				robotMovement.antiGravMove(enemyTracker);
 			}
-			// scannar			
+			if(enemyTracker.allEnemiesScanned() && oneTime) {
+			radarControl.startOfGame();
+			oneTime = false;
+			}
+			// scannar
+			if(!oneTime) {
 			radar.update(radarControl.getRadarTarget());
-			
+			}else {
+				radar.update(enemyTracker.getTarget());
+			}
 			radar.scan();
-
+			
 			// starts Wave calculations
-			//gun.Wave(enemyTracker);
+			gun.Wave(enemyTracker);
 			// behövs för att alla set commands ska köra
 			execute();
 

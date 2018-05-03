@@ -71,7 +71,18 @@ public class EnemyTracker {
 	}
 
 	public boolean allEnemiesScanned() {
-		return enemies.size() >= robot.getOthers() - robot.getAllies().size();
+		return enemies.size() >= robot.getOthers();
+	}
+	public ArrayList<EnemyBot> getLivingEnemies(){
+		ArrayList <EnemyBot> temp = new ArrayList<>();
+		for(int i = 0; i < enemies.size(); i++)
+		{
+			if(enemies.get(i).getEnergy() > 0)
+			{
+				temp.add(enemies.get(i));
+			}
+		}
+		return temp;
 	}
 
 	// Getters
