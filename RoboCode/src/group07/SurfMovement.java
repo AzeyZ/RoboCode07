@@ -14,7 +14,7 @@ public class SurfMovement {
 	private static double _surfStats[] = new double[BINS]; // we'll use 47 bins
 	private Point2D.Double _myLocation; // our bot's location
 	private Point2D.Double _enemyLocation; // enemy bot's location
-	private MovementModeSwitcher mode;
+	private static MovementModeSwitcher mode;
 	private RobotMovement Rmove;
 	private EnemyTracker track;
 
@@ -25,7 +25,9 @@ public class SurfMovement {
 	private static double _oppEnergy = 100.0;
 
 	private static Rectangle2D.Double _fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, 764, 564);
-	private static double WALL_STICK = 160;
+	private static double WALL_STICK = 180;
+	
+	public static double ANGLE = 999;
 
 	public SurfMovement(MovementModeSwitcher mode, RobotMovement Rmove, EnemyTracker track) {
 		this.track = track;
@@ -36,7 +38,7 @@ public class SurfMovement {
 		_surfAbsBearings = new ArrayList();
 	}
 
-	public void updateSurf(TeamRobot r, ScannedRobotEvent e) {
+	public void updateSurf(Robot07 r, ScannedRobotEvent e) {
 
 		_myLocation = new Point2D.Double(r.getX(), r.getY());
 
@@ -93,10 +95,7 @@ public class SurfMovement {
 		return _surfStats[index];
 	}
 
-	public void doSurfing(TeamRobot r) {
-		// Calculating anti grav angle
-		double afterGravangle = MathUtils.absoluteBearing(r.getX(), r.getY(), r.getX() - Rmove.GetxForce(track),
-				r.getX() - Rmove.GetyForce(track));
+	public void doSurfing(Robot07 r) {
 
 		EnemyWave surfWave = getClosestSurfableWave();
 
@@ -108,17 +107,14 @@ public class SurfMovement {
 		double dangerRight = checkDanger(surfWave, 1, r);
 
 		double goAngle = absoluteBearing(surfWave.fireLocation, _myLocation);
-		// Adding angle from antiGrav calculations
-		// goAngle = (goAngle + afterGravangle)/2;
 
 		if (dangerLeft < dangerRight) {
-
+			//goAngle = teamSmoothing(_myLocation, goAngle - (Math.PI / 2), -1, r);
 			goAngle = wallSmoothing(_myLocation, goAngle - (Math.PI / 2), -1);
 		} else {
-
+			//goAngle = teamSmoothing(_myLocation, goAngle + (Math.PI / 2), 1, r);
 			goAngle = wallSmoothing(_myLocation, goAngle + (Math.PI / 2), 1);
 		}
-		// adding anti grav mixing
 		setBackAsFront(r, goAngle);
 	}
 
@@ -251,15 +247,32 @@ public class SurfMovement {
 		return angle;
 	}
 	
-	public double teamSmoothing(Point2D.Double botLocation, double angle, int orientation, TeamRobot robot) {
-		//calculate angle where we don't hit teammates
-		// TODO
-		
-		
-		
-		
-		return 0;
-	}
+//	public double teamSmoothing(Point2D.Double botLocation, double angle, int orientation, Robot07 robot) {
+//		//calculate angle where we don't hit teammates
+//		//Andreas
+//		ArrayList<Ally> allies = robot.getAllies();
+//		ArrayList<Rectangle2D.Double> allyrect = new ArrayList<Rectangle2D.Double>();		
+//		for(int i = 0; i < allies.size(); i++) {
+//			allyrect.add(new java.awt.geom.Rectangle2D.Double(allies.get(i).getX()-25, allies.get(i).getY()-25, 50, 100));
+//		}
+//		
+//		boolean test = true;
+//		int testindex = 0;
+//		while(test && !_fieldRect.contains(project(botLocation, angle, WALL_STICK))) {
+//			for(int k = 0; k < allies.size(); k++) {
+//				if(allyrect.get(k).contains(project(botLocation, angle, 50))) {
+//				}
+//				else {
+//					testindex++;
+//				}
+//			}
+//			if(testindex == allies.size()) {
+//				test = false;
+//			}
+//			angle += orientation*0.05;
+//		}
+//		return angle;
+//	}
 
 	public static Point2D.Double project(Point2D.Double sourceLocation, double angle, double length) {
 		return new Point2D.Double(sourceLocation.x + Math.sin(angle) * length,
@@ -287,17 +300,23 @@ public class SurfMovement {
 		if (Math.abs(angle) > (Math.PI / 2)) {
 			if (angle < 0) {
 				robot.setTurnRightRadians(Math.PI + angle);
+				ANGLE = Math.PI + Math.PI + angle;
 			} else {
 				robot.setTurnLeftRadians(Math.PI - angle);
+				ANGLE = Math.PI + Math.PI - angle;
 			}
 			robot.setBack(100);
+			mode.SurfMode();
 		} else {
 			if (angle < 0) {
 				robot.setTurnLeftRadians(-1 * angle);
+				ANGLE = -1*angle;
 			} else {
 				robot.setTurnRightRadians(angle);
+				ANGLE = angle;
 			}
 			robot.setAhead(100);
+			mode.SurfMode();
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package group07;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class RobotMovement {
@@ -10,6 +11,8 @@ public class RobotMovement {
 	private TargetEnemyBot target;
 	private Robot07 robot;
 	private ArrayList<GravPoint> gravpoints = new ArrayList<GravPoint>();
+	
+	private double oldSurfANGLE = 999;
 
 	public RobotMovement(Robot07 robot) {
 		this.robot = robot;
@@ -62,61 +65,61 @@ public class RobotMovement {
 		return (100 * moveDirection);
 	}
 
-	public double GetxForce(EnemyTracker track) {
-		GravPoint p;
-		double xforce = 0;
-		double ang;
-		double force;
-		gravpoints.clear();
-		for (int i = 0; i < robot.getAllies().size(); i++) {
-			gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(), robot.getAllies().get(i).getY(), -500));
-		}
-		gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -700));
-		for (int i = 0; i < gravpoints.size(); i++) {
-			p = (GravPoint) gravpoints.get(i);
-			// Calculate the total force from this point on us
-			force = p.power / Math.pow(getRange(robot.getX(), robot.getY(), p.x, p.y), 2);
-			// Find the bearing from the point to us
-			// ang = Math.toRadians(MathUtils.normalizeBearing(Math.toDegrees(Math.PI/2 -
-			// Math.atan2(robot.getY() - p.y, robot.getX() - p.x))));
-			ang = normaliseBearing(Math.PI / 2 - Math.atan2(robot.getY() - p.y, robot.getX() - p.x));
-			// Add the components of this force to the total force in their
-			// respective directions
-			xforce += Math.sin(ang) * force;
-		}
-		xforce += 5000 / Math.pow(getRange(robot.getX(), robot.getY(), robot.getBattleFieldWidth(), robot.getY()), 3);
-		xforce -= 5000 / Math.pow(getRange(robot.getX(), robot.getY(), 0, robot.getY()), 3);
-		return xforce;
-	}
-
-	public double GetyForce(EnemyTracker track) {
-		GravPoint p;
-		double ang;
-		double yforce = 0;
-		double force;
-		gravpoints.clear();
-		for (int i = 0; i < robot.getAllies().size(); i++) {
-			gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(), robot.getAllies().get(i).getY(), -500));
-			//System.out.println(robot.getAllies().get(i).getX());
-			//System.out.println(robot.getX());
-		}
-		gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -700));
-		for (int i = 0; i < gravpoints.size(); i++) {
-			p = (GravPoint) gravpoints.get(i);
-			// Calculate the total force from this point on us
-			force = p.power / Math.pow(getRange(robot.getX(), robot.getY(), p.x, p.y), 2);
-			// Find the bearing from the point to us
-			// ang = Math.toRadians(MathUtils.normalizeBearing(Math.toDegrees(Math.PI/2 -
-			// Math.atan2(robot.getY() - p.y, robot.getX() - p.x))));
-			ang = normaliseBearing(Math.PI / 2 - Math.atan2(robot.getY() - p.y, robot.getX() - p.x));
-			// Add the components of this force to the total force in their
-			// respective directions
-			yforce = Math.cos(ang) * force;
-		}
-		yforce += 5000 / Math.pow(getRange(robot.getX(), robot.getY(), robot.getX(), robot.getBattleFieldHeight()), 3);
-		yforce -= 5000 / Math.pow(getRange(robot.getX(), robot.getY(), robot.getX(), 0), 3);
-		return yforce;
-	}
+//	public double GetxForce(EnemyTracker track) {
+//		GravPoint p;
+//		double xforce = 0;
+//		double ang;
+//		double force;
+//		gravpoints.clear();
+//		for (int i = 0; i < robot.getAllies().size(); i++) {
+//			gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(), robot.getAllies().get(i).getY(), -500));
+//		}
+//		gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -700));
+//		for (int i = 0; i < gravpoints.size(); i++) {
+//			p = (GravPoint) gravpoints.get(i);
+//			// Calculate the total force from this point on us
+//			force = p.power / Math.pow(getRange(robot.getX(), robot.getY(), p.x, p.y), 2);
+//			// Find the bearing from the point to us
+//			// ang = Math.toRadians(MathUtils.normalizeBearing(Math.toDegrees(Math.PI/2 -
+//			// Math.atan2(robot.getY() - p.y, robot.getX() - p.x))));
+//			ang = normaliseBearing(Math.PI / 2 - Math.atan2(robot.getY() - p.y, robot.getX() - p.x));
+//			// Add the components of this force to the total force in their
+//			// respective directions
+//			xforce += Math.sin(ang) * force;
+//		}
+//		xforce += 5000 / Math.pow(getRange(robot.getX(), robot.getY(), robot.getBattleFieldWidth(), robot.getY()), 3);
+//		xforce -= 5000 / Math.pow(getRange(robot.getX(), robot.getY(), 0, robot.getY()), 3);
+//		return xforce;
+//	}
+//
+//	public double GetyForce(EnemyTracker track) {
+//		GravPoint p;
+//		double ang;
+//		double yforce = 0;
+//		double force;
+//		gravpoints.clear();
+//		for (int i = 0; i < robot.getAllies().size(); i++) {
+//			gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(), robot.getAllies().get(i).getY(), -500));
+//			//System.out.println(robot.getAllies().get(i).getX());
+//			//System.out.println(robot.getX());
+//		}
+//		gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -700));
+//		for (int i = 0; i < gravpoints.size(); i++) {
+//			p = (GravPoint) gravpoints.get(i);
+//			// Calculate the total force from this point on us
+//			force = p.power / Math.pow(getRange(robot.getX(), robot.getY(), p.x, p.y), 2);
+//			// Find the bearing from the point to us
+//			// ang = Math.toRadians(MathUtils.normalizeBearing(Math.toDegrees(Math.PI/2 -
+//			// Math.atan2(robot.getY() - p.y, robot.getX() - p.x))));
+//			ang = normaliseBearing(Math.PI / 2 - Math.atan2(robot.getY() - p.y, robot.getX() - p.x));
+//			// Add the components of this force to the total force in their
+//			// respective directions
+//			yforce = Math.cos(ang) * force;
+//		}
+//		yforce += 5000 / Math.pow(getRange(robot.getX(), robot.getY(), robot.getX(), robot.getBattleFieldHeight()), 3);
+//		yforce -= 5000 / Math.pow(getRange(robot.getX(), robot.getY(), robot.getX(), 0), 3);
+//		return yforce;
+//	}
 
 	void antiGravMove(EnemyTracker track) {
 		System.out.println("grav engaged");
@@ -130,13 +133,19 @@ public class RobotMovement {
 		GravPoint p;
 		gravpoints.clear();
 
-		for (int i = 0; i < robot.getAllies().size(); i++) {
-			gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(), robot.getAllies().get(i).getY(), -500));
-			//System.out.println(robot.getAllies().get(i).getX());
-			//System.out.println(robot.getX());
-		}
+//		for (int i = 0; i < robot.getAllies().size(); i++) {
+//			gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(), robot.getAllies().get(i).getY(), -500));
+//			//System.out.println(robot.getAllies().get(i).getX());
+//			//System.out.println(robot.getX());
+//		}
 		gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -700));
-
+//		if(SurfMovement.ANGLE != oldSurfANGLE) {
+//			Point2D point = SurfMovement.project(new Point2D.Double(robot.getX(), robot.getY()), SurfMovement.ANGLE, 50);
+//			gravpoints.add(new GravPoint(point.getX(),point.getY(),1000));
+//			System.out.println("ANGLE" + (360/2*Math.PI)*SurfMovement.ANGLE);
+//			oldSurfANGLE = SurfMovement.ANGLE;
+//		}
+		
 		for (int i = 0; i < gravpoints.size(); i++) {
 			p = (GravPoint) gravpoints.get(i);
 			// Calculate the total force from this point on us
