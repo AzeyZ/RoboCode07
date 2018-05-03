@@ -3,13 +3,13 @@ package group07;
 import robocode.TeamRobot;
 
 public class MovementModeSwitcher {
-	// Normal mode = 0
+	// Anti grav mode = 0
 	// Surf mode = 1
-	// Anti Ram mode = 2
+	// RNDmode(aka matthias gammla move system) = 2
 	// ...
 	private TeamRobot r;
 	private long time = 0;
-	private int currentMode = 0;
+	public static int currentMode = 0;
 
 	public MovementModeSwitcher(TeamRobot r) {
 		this.r = r;
@@ -32,5 +32,9 @@ public class MovementModeSwitcher {
 		if (time <= r.getTime()) {
 			currentMode = 0;
 		}
+	}
+	public void RNDMove() {
+		time = r.getTime() + 10;
+		currentMode = 2;
 	}
 }
