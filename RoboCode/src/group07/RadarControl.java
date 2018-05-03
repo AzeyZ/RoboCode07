@@ -9,7 +9,7 @@ public class RadarControl {
 	Robot07 mrRobot;
 	AllyTracker allyTracker;
 	EnemyTracker enemyTracker;
-	
+	boolean gotTarget;
 	int myPlaceInList;
 	ArrayList<AllyWithTarget> targetTracking = new ArrayList<>();
 
@@ -17,7 +17,7 @@ public class RadarControl {
 		this.allyTracker = allyTracker;
 		this.enemyTracker = enemyTracker;
 		this.mrRobot = mrRobot;
-		radarTarget = null;
+		gotTarget = false;
 		
 
 	}
@@ -34,6 +34,7 @@ public class RadarControl {
 				targetTracking.add(new AllyWithTarget(allyTracker.getMrRobots().get(0), radarTarget));
 			}
 			mrRobot.sendMessage(4, "2");
+			gotTarget = true;
 		}
 	}
 
@@ -55,8 +56,10 @@ public class RadarControl {
 		}
 		targetTracking.add(new AllyWithTarget(m_Ally, m_EnemyBot));
 		if (placeInList + 1 == myPlaceInList) {
+			
 				radarTarget = newRadarTarget();
 				mrRobot.sendMessage(4, "2");
+				gotTarget = true;
 			} 
 			
 		}
@@ -157,6 +160,9 @@ public class RadarControl {
 
 	public EnemyBot getRadarTarget() {
 		return radarTarget;
+	}
+	public boolean targetNull() {
+		return gotTarget;
 	}
 }
 
