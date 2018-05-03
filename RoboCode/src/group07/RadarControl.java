@@ -17,6 +17,7 @@ public class RadarControl {
 		this.allyTracker = allyTracker;
 		this.enemyTracker = enemyTracker;
 		this.mrRobot = mrRobot;
+		radarTarget = null;
 		
 
 	}
@@ -54,10 +55,10 @@ public class RadarControl {
 		}
 		targetTracking.add(new AllyWithTarget(m_Ally, m_EnemyBot));
 		if (placeInList + 1 == myPlaceInList) {
-			
 				radarTarget = newRadarTarget();
+				mrRobot.sendMessage(4, "2");
 			} 
-			mrRobot.sendMessage(4, "2");
+			
 		}
 	
 
