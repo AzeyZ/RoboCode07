@@ -104,12 +104,16 @@ public class MessageWriter {
 		return message;
 	}
 
-	public String PickRadarTarget(double myXPos, double myYPos, String targetName, int placeInList) {
+	public String pickRadarTarget(double myXPos, double myYPos, String targetName, int placeInList) {
 
 		return "myPos;" + myXPos + ";" + myYPos + "\nrPickRadarTarget;" + targetName + ";" + placeInList;
 	}
-	public String GettingAttacked(double myXPos, double myYPos, String shooterName, String oldTargetName) {
+	public String gettingAttacked(double myXPos, double myYPos, String shooterName, String oldTargetName) {
 		return "myPos;" + myXPos + ";" + myYPos + "\nrGettingAttacked;" + shooterName + ";" + oldTargetName;
+	}
+	public String newRadarTarget(double myXPos, double myYPos, String targetName)
+	{
+		return "myPos;" + myXPos + ";" + myYPos + "\nrNewRadarTarget;" + targetName;
 	}
 	
 

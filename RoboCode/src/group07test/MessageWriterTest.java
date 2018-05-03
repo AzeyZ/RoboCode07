@@ -30,7 +30,7 @@ public class MessageWriterTest {
 
 	MockBot mock = new MockBot(name, fakeEnergy, fakeHeading, fakePosX, fakePosY);
 	MessageWriter msg = new MessageWriter(mock);
-	
+
 	Ally ally = new Ally("Friend");
 	EnemyBot enemy = new EnemyBot(mock);
 
@@ -46,10 +46,12 @@ public class MessageWriterTest {
 
 	@Test
 	public void standardMessage() {
-		String outputMsg; 
+		String outputMsg;
 		outputMsg = msg.standardMessage(myXPos, myYPos, allyList, enemyList, targetEnemy, tarXPos, tarYPos);
-		
-		assertEquals("Test if standard message is correct", "myPos;200.0;200.0\nfriendPos;Friend;0.0;0.0\nenemyDetails;null;30.0;40.0;0.0;0.0;0.0;0\ntargetEnemy;SomeName\ntargetPos;100.0;100.0", outputMsg);
+
+		assertEquals("Test if standard message is correct",
+				"myPos;200.0;200.0\nfriendPos;Friend;0.0;0.0\nenemyDetails;null;30.0;40.0;0.0;0.0;0.0;0\ntargetEnemy;SomeName\ntargetPos;100.0;100.0",
+				outputMsg);
 	}
 
 	@Test
@@ -57,24 +59,43 @@ public class MessageWriterTest {
 		ArrayList<Shots> shots = new ArrayList<Shots>();
 		Shots shot = new Shots(50, 39, 40);
 		shots.add(shot);
-		
-		String outputMsg; 
+
+		String outputMsg;
 		outputMsg = msg.shotTowardsAlly(myXPos, myYPos, name, shots);
-		assertEquals("Test if shotTowardsAlly message is correct", "myPos;200.0;200.0\ntargetEnemy;Robot07something\nrShot;50.0;39.0;40", outputMsg);
+		assertEquals("Test if shotTowardsAlly message is correct",
+				"myPos;200.0;200.0\ntargetEnemy;Robot07something\nrShot;50.0;39.0;40", outputMsg);
 
 	}
 
 	@Test
 	public void allyListUpdate() {
-		String outputMsg; 
+		String outputMsg;
 		outputMsg = msg.allyListUpdate(myXPos, myYPos, allyList);
-		assertEquals("Test if allyListUpdate message is correct", "myPos;200.0;200.0\nrAlly;Friend;0.0;0.0;0", outputMsg);
-}
+		assertEquals("Test if allyListUpdate message is correct", "myPos;200.0;200.0\nrAlly;Friend;0.0;0.0;0",
+				outputMsg);
+	}
 
 	@Test
 	public void enemyListUpdate() {
-		String outputMsg; 
+		String outputMsg;
 		outputMsg = msg.enemyListUpdate(myXPos, myYPos, enemyList);
-		assertEquals("Test if enemyListUpdate message is correct", "myPos;200.0;200.0\nrEnemy;0.0;0.0;0.0;0.0;0.0;0;null", outputMsg);
-}
+		assertEquals("Test if enemyListUpdate message is correct",
+				"myPos;200.0;200.0\nrEnemy;0.0;0.0;0.0;0.0;0.0;0;null", outputMsg);
+	}
+	
+	@Test
+	public void target () {
+		int index = 1;
+		String oldTarget = "SomeNewName";
+		
+		// Test function PickRadarTarget
+		assertEquals("Test if radar target text is correct", 
+				"myPos;" + fakePosX + ";" + fakePosY + "\nrPickRadarTarget;" + targetEnemy + ";" + index,
+				msg.PickRadarTarget(fakePosX, fakePosY, targetEnemy, index));
+		
+		// Test function GettIngAttacked
+		assertEquals("Test if text when getting attacked is correct",
+				"myPos;" + fakePosX + ";" + fakePosY + "\nrGettingAttacked" + ";" + targetEnemy + ";" + oldTarget,
+				msg.GettingAttacked(fakePosX, fakePosY, targetEnemy, oldTarget));
+	}
 }
