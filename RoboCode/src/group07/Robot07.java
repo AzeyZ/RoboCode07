@@ -13,12 +13,13 @@ public class Robot07 extends robocode.TeamRobot {
 	 */
 	private EnemyTracker enemyTracker = new EnemyTracker(this);
 	private AllyTracker allyTracker = new AllyTracker(this);
-	private RobotMovement robotMovement = new RobotMovement(this);
+
 	private Radar radar = new Radar(this);
 	private Gun gun = new Gun(this);
 	private MessageHandler messageHandler = new MessageHandler(this);
 	private MessageWriter messageWriter = new MessageWriter(this);
 	private MovementModeSwitcher mode = new MovementModeSwitcher(this);
+	private RobotMovement robotMovement = new RobotMovement(this, mode);
 	private SurfMovement surfing = new SurfMovement(mode, robotMovement, enemyTracker);
 	private RadarControl radarControl = new RadarControl(allyTracker, enemyTracker, this);
 	private HitByBulletEvent lastHitEvent;
@@ -39,9 +40,12 @@ public class Robot07 extends robocode.TeamRobot {
 			mode.NewTurn();
 			// flyttar roboten
 			if (mode.getCurrentMode() == 0) {
-				// robotMovement.update(enemyTracker.getTarget());
-				// robotMovement.move();
 				robotMovement.antiGravMove(enemyTracker);
+			}
+			if(mode.getCurrentMode() == 2) {
+				System.out.println("BasicMove engaged");
+				robotMovement.update(enemyTracker.getTarget());
+				robotMovement.move();
 			}
 			if(enemyTracker.allEnemiesScanned() && oneTime) {
 			radarControl.startOfGame();
@@ -53,6 +57,8 @@ public class Robot07 extends robocode.TeamRobot {
 			}else {
 				radar.update(enemyTracker.getTarget());
 			}
+			
+			// scannar			
 			radar.scan();
 			
 			// starts Wave calculations
@@ -158,19 +164,19 @@ public class Robot07 extends robocode.TeamRobot {
 
 	public void onHitByBullet(HitByBulletEvent e) {
 
-//		// TODO:switch target to the one that hit us
-//		for(int i = 0; i < enemyTracker.getEnemies().size(); i++) {
-//			if(enemyTracker.getEnemies().get(i).getName().equals(e.getName()))
-//			{
-//				if(!e.getName().equals(radarControl.getRadarTarget().getName()))
-//				{
-//					this.sendMessage(5, "2");
-//					radarControl.gettingAttacked(e.getName());
-//				}
-//			}
-//		}
-		
-			
+		//		// TODO:switch target to the one that hit us
+		//		for(int i = 0; i < enemyTracker.getEnemies().size(); i++) {
+		//			if(enemyTracker.getEnemies().get(i).getName().equals(e.getName()))
+		//			{
+		//				if(!e.getName().equals(radarControl.getRadarTarget().getName()))
+		//				{
+		//					this.sendMessage(5, "2");
+		//					radarControl.gettingAttacked(e.getName());
+		//				}
+		//			}
+		//		}
+
+
 		surfing.onHitByBulletSurf(e);
 	}
 
