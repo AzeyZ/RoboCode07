@@ -122,7 +122,10 @@ public class MessageHandler {
 
 			}else if (k.contains("rPickRadarTarget")) {
 				radarControl.teammatePicked(infoInRow.get(1), Integer.parseInt(infoInRow.get(2)));
+			}else if (k.contains("rGettingAttacked")) {
+				radarControl.teammateGettingAttacked(infoInRow.get(1), infoInRow.get(2));
 			}
+			
 		}
 	}
 }
