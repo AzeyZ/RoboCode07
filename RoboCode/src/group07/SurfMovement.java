@@ -47,7 +47,7 @@ public class SurfMovement {
 		double lateralVelocity = r.getVelocity() * Math.sin(e.getBearingRadians());
 		double absBearing = e.getBearingRadians() + r.getHeadingRadians();
 
-		r.setTurnRadarRightRadians(Utils.normalRelativeAngle(absBearing - r.getRadarHeadingRadians()) * 2);
+		//r.setTurnRadarRightRadians(Utils.normalRelativeAngle(absBearing - r.getRadarHeadingRadians()) * 2);
 
 		_surfDirections.add(0, new Integer((lateralVelocity >= 0) ? 1 : -1));
 		_surfAbsBearings.add(0, new Double(absBearing + Math.PI));

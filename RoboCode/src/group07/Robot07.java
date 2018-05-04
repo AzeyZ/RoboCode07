@@ -53,6 +53,8 @@ public class Robot07 extends robocode.TeamRobot {
 
 			// scannar
 			radar.update(radarControl.getRadarTarget());
+			radar.scan();
+			System.out.println(radarControl.getRadarTarget().getName());
 			// behövs för att alla set command ska köra
 			execute();
 
