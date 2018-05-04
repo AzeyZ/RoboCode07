@@ -30,7 +30,7 @@ public class EnemyBotTest {
 		heading = 10;
 		velocity = 10;
 		tick = 1000;
-		type = 0;
+		type = 2;
 	}
 	
 	@After
@@ -44,13 +44,31 @@ public class EnemyBotTest {
 		mock = new MockBot("MrRobot", 100, 10, 10, 10);
 		enemy = new EnemyBot(mock);
 		
+		enemy.update(bearing, distance, energy, heading, velocity, tick, "");
 		assertEquals("Fienden heter något trots att den inte borde det!", true, enemy.none());
 		enemy.update(bearing, distance, energy, heading, velocity, tick, "Enemy");
 		assertEquals("Fienden heter ingenting.", false, enemy.none());
 	}
 	
 	@Test
+	public void testUpdate () {
+		// Types of robots
+		// type < 105 = normal
+		// type < 130 = droid
+		// type > 130 = leader
+		int type = 90;
+		
+		for (int i = 0; i < 3; i++) {
+			EnemyBot temp = new EnemyBot(mock);
+			temp.update(bearing, distance, type, heading, velocity, tick, "TempBot");
+			type += 30;
+		}
+	}
+	
+	@Test
 	public void getters () {
+		int newEnergy = 100;
+		
 		mock = new MockBot("MrRobot", 100, 10, 10, 10);
 		enemy = new EnemyBot(mock);
 		
@@ -66,6 +84,8 @@ public class EnemyBotTest {
 		assertEquals("Fiendens tick är fel", tick, enemy.getTick());
 		assertEquals("Fiendens type är fel", type, enemy.getType(), 0.4d);
 		
-		// setEnergy??
+		// One setter
+		enemy.setEnergy(newEnergy);
+		assertEquals("Check the energy", newEnergy, enemy.getEnergy(), 0.1d);
 	}
 }

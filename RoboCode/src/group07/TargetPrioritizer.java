@@ -43,7 +43,7 @@ public class TargetPrioritizer {
 		return EnemyList;
 	}
 
-	private int amountDroidAlive(ArrayList<EnemyBot> EnemyList) {
+	public int amountDroidAlive(ArrayList<EnemyBot> EnemyList) {
 		int m_amountDroids = 0;
 		for (EnemyBot k : EnemyList) {
 			if (k.getEnergy() != 0 && k.getType() == DROID) {
@@ -53,7 +53,7 @@ public class TargetPrioritizer {
 		return m_amountDroids;
 	}
 
-	private int amountNormalBotAlive(ArrayList<EnemyBot> EnemyList) {
+	public int amountNormalBotAlive(ArrayList<EnemyBot> EnemyList) {
 		int m_amountNormalBot = 0;
 		for (EnemyBot k : EnemyList) {
 			if (k.getEnergy() != 0 && k.getType() == NORMAL_BOT) {
@@ -63,7 +63,7 @@ public class TargetPrioritizer {
 		return m_amountNormalBot;
 	}
 
-	private boolean leaderAlive(ArrayList<EnemyBot> EnemyList) {
+	public boolean leaderAlive(ArrayList<EnemyBot> EnemyList) {
 		for (EnemyBot k : EnemyList) {
 			if (k.getEnergy() != 0 && k.getType() == LEADER_BOT) {
 				return true;
@@ -72,7 +72,7 @@ public class TargetPrioritizer {
 		return false;
 	}
 
-	private ArrayList<EnemyBot> placeLeaderBotFirst(ArrayList<EnemyBot> EnemyList) {
+	public ArrayList<EnemyBot> placeLeaderBotFirst(ArrayList<EnemyBot> EnemyList) {
 		ArrayList<EnemyBot> m_temp = new ArrayList<>();
 		m_temp.addAll(EnemyList);
 		for (EnemyBot k : EnemyList) {
@@ -84,7 +84,7 @@ public class TargetPrioritizer {
 		return m_temp;
 	}
 
-	private ArrayList<EnemyBot> placeDeadBotsLast(ArrayList<EnemyBot> EnemyList) {
+	public ArrayList<EnemyBot> placeDeadBotsLast(ArrayList<EnemyBot> EnemyList) {
 		ArrayList<EnemyBot> m_temp = new ArrayList<>();
 		m_temp.addAll(EnemyList);
 		for (EnemyBot k : EnemyList) {
@@ -96,7 +96,7 @@ public class TargetPrioritizer {
 		return m_temp;
 	}
 
-	private ArrayList<EnemyBot> placeNormalBotFirst(ArrayList<EnemyBot> EnemyList) {
+	public ArrayList<EnemyBot> placeNormalBotFirst(ArrayList<EnemyBot> EnemyList) {
 		ArrayList<EnemyBot> m_temp = new ArrayList<>();
 		m_temp.addAll(EnemyList);
 		for (EnemyBot k : EnemyList) {
@@ -115,7 +115,7 @@ public class TargetPrioritizer {
 		return m_temp;
 	}
 
-	private ArrayList<EnemyBot> placeDroidFirst(ArrayList<EnemyBot> EnemyList) {
+	public ArrayList<EnemyBot> placeDroidFirst(ArrayList<EnemyBot> EnemyList) {
 		ArrayList<EnemyBot> m_temp = new ArrayList<>();
 		m_temp.addAll(EnemyList);
 		for (EnemyBot k : EnemyList) {

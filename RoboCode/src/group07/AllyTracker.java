@@ -21,9 +21,10 @@ public class AllyTracker {
 				allies.add(new Ally(teamm8[i]));
 
 			}
-			allies.add(0, new Ally(MrRobot.getName()));
-			sortAlly();
+			
 		}
+		allies.add(0, new Ally(MrRobot.getName()));
+		sortAlly();
 	}
 
 	public void update(ScannedRobotEvent e) {
