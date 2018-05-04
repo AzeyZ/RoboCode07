@@ -27,6 +27,7 @@ public class GunControl {
 	
 	private boolean friendlyFire() {
 		//Arc2D.Double arc = new Arc2D.Double(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+		return true;
 	}
 
 }
