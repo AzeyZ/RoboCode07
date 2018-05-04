@@ -52,7 +52,7 @@ public class RadarControl {
 				if (enemyTracker.getLivingEnemies().get(i).getName().equals(e.getName())) {
 					if (!e.getName().equals(radarTarget.getName())) {
 						mrRobot.sendMessage(5, "2");
-						System.out.println(e.getName() + "-------");
+//						System.out.println(e.getName() + "-------");
 						radarTarget = enemyTracker.getLivingEnemies().get(getIndexForEnemy(e.getName()));
 						targetTracking.get(getIndexForName(mrRobot.getName())).updateTarget(radarTarget);
 					}
