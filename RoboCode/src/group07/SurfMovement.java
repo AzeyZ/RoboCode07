@@ -17,29 +17,32 @@ public class SurfMovement {
 	private static MovementModeSwitcher mode;
 	private RobotMovement Rmove;
 	private EnemyTracker track;
+	private TeamRobot r;
+	private AllyTracker allyTracker;
 
 	private ArrayList _enemyWaves;
 	private ArrayList _surfDirections;
 	private ArrayList _surfAbsBearings;
 	private static double _oppEnergy = 100.0;
 
-	private static Rectangle2D.Double _fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, 764, 564);
+	private static Rectangle2D.Double _fieldRect; //= new java.awt.geom.Rectangle2D.Double(18, 18, 764, 564);
 	
 	private static double WALL_STICK = 160;
 
-	public SurfMovement(MovementModeSwitcher mode, RobotMovement Rmove, EnemyTracker track, Robot07 r) {
+	public SurfMovement(MovementModeSwitcher mode, RobotMovement Rmove, EnemyTracker track, TeamRobot r, AllyTracker allyTracker) {
 		this.track = track;
 		this.mode = mode;
 		this.Rmove = Rmove;
 		_enemyWaves = new ArrayList();
 		_surfDirections = new ArrayList();
 		_surfAbsBearings = new ArrayList();
-		
+		this.r = r;
+		this.allyTracker = allyTracker;
 	}
 
-	public void updateSurf(Robot07 r, ScannedRobotEvent e) {
+	public void updateSurf(ScannedRobotEvent e) {
 		
-//		_fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, r.getBattleFieldHeight()*0.955, r.getBattleFieldWidth()*0.955);
+		_fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, r.getBattleFieldWidth()*0.95, r.getBattleFieldHeight()*0.95);
 
 		_myLocation = new Point2D.Double(r.getX(), r.getY());
 
@@ -73,8 +76,8 @@ public class SurfMovement {
 		// enemy location as the source of the wave
 		_enemyLocation = project(_myLocation, absBearing, e.getDistance());
 
-		updateWaves(r);
-		doSurfing(r);
+		updateWaves();
+		doSurfing();
 
 		// gun code would go here...
 
@@ -96,7 +99,7 @@ public class SurfMovement {
 		return _surfStats[index];
 	}
 
-	public void doSurfing(Robot07 r) {
+	public void doSurfing() {
 
 		EnemyWave surfWave = getClosestSurfableWave();
 
@@ -117,7 +120,7 @@ public class SurfMovement {
 			goAngle = wallSmoothing(_myLocation, goAngle + (Math.PI / 2), 1);
 		}
 		
-		ArrayList <Ally> allies = r.getAllies();
+		ArrayList <Ally> allies = allyTracker.getAllyList();
 		boolean distanceCheck = true;
 		for(int i = 0; i<allies.size(); i++) {
 			if(!allies.get(i).getName().equals(r.getName())) {
@@ -249,7 +252,7 @@ public class SurfMovement {
 		return surfWave;
 	}
 
-	public void updateWaves(TeamRobot r) {
+	public void updateWaves() {
 		for (int x = 0; x < _enemyWaves.size(); x++) {
 			EnemyWave ew = (EnemyWave) _enemyWaves.get(x);
 

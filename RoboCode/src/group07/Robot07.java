@@ -20,7 +20,7 @@ public class Robot07 extends robocode.TeamRobot {
 	private MessageWriter messageWriter = new MessageWriter(this);
 	private MovementModeSwitcher mode = new MovementModeSwitcher(this);
 	private RobotMovement robotMovement = new RobotMovement(this, mode);
-	private SurfMovement surfing = new SurfMovement(mode, robotMovement, enemyTracker, this);
+	private SurfMovement surfing = new SurfMovement(mode, robotMovement, enemyTracker, this, allyTracker);
 	private RadarControl radarControl = new RadarControl(allyTracker, enemyTracker, this);
 	private HitByBulletEvent lastHitEvent;
 
@@ -79,7 +79,7 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
-		surfing.updateSurf(this, e);
+		surfing.updateSurf(e);
 		// Checks if Scanned is Team
 		if (!(isTeammate(e.getName()))) {
 			enemyTracker.update(e.getBearing(), e.getDistance(), e.getEnergy(), e.getHeading(), e.getVelocity(),

@@ -13,8 +13,10 @@ public class Gun {
 
 	private Robot07 robot;
 	private TargetEnemyBot target;
-	private static double lastEnemyVelocity;
-	private static double lateralDirection;
+	public static double lastEnemyVelocity;
+	public static double lateralDirection;
+	
+	private static TargetEnemyBot lastTarget = null;
 
 	private GunControl gunControl;
 	
@@ -25,11 +27,23 @@ public class Gun {
 
 	// Wave functions
 	public void Wave(EnemyTracker track) {
-
+		
+		GFTWave wave = new GFTWave(robot);
+		if((lastTarget != null)) {
+			if(target != lastTarget) {
+				wave.reset();
+			}
+		}
+		
 		target = track.getTarget();
 		if (target == null)
 			return;
+		System.out.println("target name = "+ target.getName());
+		
+		System.out.println("target x = " + target.getX());
 
+		System.out.println("target y = " + target.getY());
+		
 		double enemyAbsoluteBearing = robot.getHeadingRadians() + target.getBearingRadians();
 		double enemyDistance = target.getDistance();
 		double enemyVelocity = target.getVelocity();
@@ -39,7 +53,6 @@ public class Gun {
 			lateralDirection = MathUtils.sign(enemyVelocity
 					* Math.sin(MathUtils.toRadians(track.getTarget().getHeading()) - enemyAbsoluteBearing));
 		}
-		GFTWave wave = new GFTWave(robot);
 		wave.gunLocation = new Point2D.Double(robot.getX(), robot.getY());
 		GFTWave.targetLocation = MathUtils.project(wave.gunLocation, enemyAbsoluteBearing, target.getDistance());
 		// wave.setLocation(MathUtils.project(wave.gunLocation, absBearing,
@@ -58,7 +71,7 @@ public class Gun {
 		if (robot.getEnergy() >= power) {
 			robot.addCustomEvent(wave); // ????
 		}
-
+		lastTarget = target;
 	}
 
 }
@@ -129,5 +142,9 @@ class GFTWave extends Condition {
 			}
 		}
 		return mostVisited;
+	}
+	
+	public void reset() {
+		statBuffers = new int[DISTANCE_INDEXES][VELOCITY_INDEXES][VELOCITY_INDEXES][BINS];
 	}
 }
