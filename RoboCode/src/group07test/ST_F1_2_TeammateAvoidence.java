@@ -11,7 +11,7 @@ import robocode.control.testing.RobotTestBed;
 public class ST_F1_2_TeammateAvoidence extends RobotTestBed {
 
 	private String ROBOT_UNDER_TEST = "group07.Robot07*";
-	private String ENEMY_ROBOTS = "group07.Robot07*";
+	private String ENEMY_ROBOTS = "group07.Robot07*,group07.Robot07*,group07.Robot07*,group07.Robot07*,sample.Crazy";
 	private int NBR_ROUNDS = 1000;
 	private boolean PRINT_DEBUG = false;
 	private int TEAM_SIZE = 5;
@@ -19,6 +19,7 @@ public class ST_F1_2_TeammateAvoidence extends RobotTestBed {
 	boolean neverCrashedIntoAlly = true;
 	int countAllyHits = 0;
 
+	
 	@Override
 	public String getRobotNames() {
 		return ROBOT_UNDER_TEST + "," + ENEMY_ROBOTS;
@@ -54,23 +55,17 @@ public class ST_F1_2_TeammateAvoidence extends RobotTestBed {
 
 	@Override
 	public void onBattleCompleted(BattleCompletedEvent event) {
-		assertTrue("The bot crashed into the wall " + countAllyHits + " times.", neverCrashedIntoAlly);
+		assertTrue("The bot crashed into other players " + countAllyHits + " times.", neverCrashedIntoAlly);
 	}
 
 	@Override
 	public void onTurnEnded(TurnEndedEvent event) {
-		IRobotSnapshot[] robots = event.getTurnSnapshot().getRobots();
+		IRobotSnapshot robot = event.getTurnSnapshot().getRobots()[0];
 		
-		for(IRobotSnapshot robot: robots){
-			if (robot.getTeamName().contains(ROBOT_UNDER_TEST) ){
-				
-			}
-		}
-		//
-		if (true) {//TD Fix
+		if (robot.getState().isHitRobot()){
 			neverCrashedIntoAlly = false;
 			countAllyHits++;
-		}
+		}	
 	}
 
 	@Override
