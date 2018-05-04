@@ -16,8 +16,11 @@ public class Gun {
 	private static double lastEnemyVelocity;
 	private static double lateralDirection;
 
+	private GunControl gunControl;
+	
 	public Gun(Robot07 robot) {
 		this.robot = robot;
+		gunControl = new GunControl();
 	}
 
 	// Wave functions
@@ -48,8 +51,10 @@ public class Gun {
 		wave.bearing = enemyAbsoluteBearing;
 		robot.setTurnGunRightRadians(Utils.normalRelativeAngle(
 				enemyAbsoluteBearing - robot.getGunHeadingRadians() + wave.mostVisitedBearingOffset()));
-		robot.setFire(wave.bulletPower);
-
+		if(gunControl.takeShot(robot, target))
+		{
+			robot.setFire(wave.bulletPower);			
+		}
 		if (robot.getEnergy() >= power) {
 			robot.addCustomEvent(wave); // ????
 		}

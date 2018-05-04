@@ -51,6 +51,6 @@ public class Radar {
 	}
 
 	public boolean gotFocus() {
-		return lastScan <= 5;
+		return lastScan <= 4;
 	}
 }

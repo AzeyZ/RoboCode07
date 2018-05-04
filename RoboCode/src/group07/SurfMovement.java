@@ -23,10 +23,9 @@ public class SurfMovement {
 	private ArrayList _surfAbsBearings;
 	private static double _oppEnergy = 100.0;
 
-	private static Rectangle2D.Double _fieldRect;// = new java.awt.geom.Rectangle2D.Double(18, 18, 764, 564);
-	private static double WALL_STICK = 180;
+	private static Rectangle2D.Double _fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, 764, 564);
 	
-	public static double ANGLE = 999;
+	private static double WALL_STICK = 160;
 
 	public SurfMovement(MovementModeSwitcher mode, RobotMovement Rmove, EnemyTracker track, Robot07 r) {
 		this.track = track;
@@ -40,7 +39,7 @@ public class SurfMovement {
 
 	public void updateSurf(Robot07 r, ScannedRobotEvent e) {
 		
-		_fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, r.getBattleFieldHeight()*0.955, r.getBattleFieldWidth()*0.955);
+//		_fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, r.getBattleFieldHeight()*0.955, r.getBattleFieldWidth()*0.955);
 
 		_myLocation = new Point2D.Double(r.getX(), r.getY());
 
