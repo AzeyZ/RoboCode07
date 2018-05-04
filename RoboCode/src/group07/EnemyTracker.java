@@ -55,13 +55,13 @@ public class EnemyTracker {
 				enemies.get(k).setEnergy(0);
 			}
 		}
-		enemies = targetPrio.sortList(enemies);
+		enemies = targetPrio.sortList(enemies, robot.getTime());
 	}
 
 	// Target prio
 	public void updateTarget() {
 		if (!enemies.isEmpty()) {
-			enemies = targetPrio.sortList(enemies);
+			enemies = targetPrio.sortList(enemies, robot.getTime());
 			if (allEnemiesScanned()) {
 				target.update(enemies.get(0).getBearing(), enemies.get(0).getDistance(), enemies.get(0).getEnergy(),
 						enemies.get(0).getHeading(), enemies.get(0).getVelocity(), enemies.get(0).getTick(),

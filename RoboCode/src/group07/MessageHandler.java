@@ -37,8 +37,8 @@ public class MessageHandler {
 
 			// Loopar listan och skickar till de robotar som är Mrrobots.
 
-			for (int i = 0; i < robot.getAllies().size(); i++) {
-				if (mrrobots.get(i).isMrRobot()) {
+			for (int i = 0; i < mrrobots.size(); i++) {
+				if (mrrobots.get(i).isMrRobot() && !mrrobots.get(i).getName().equals(robot.getName())) {
 					try {
 						robot.sendMessage(mrrobots.get(i).getName(), message);
 					} catch (IOException e) {

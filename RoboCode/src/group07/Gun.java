@@ -38,11 +38,11 @@ public class Gun {
 		target = track.getTarget();
 		if (target == null)
 			return;
-		System.out.println("target name = "+ target.getName());
+//		System.out.println("target name = "+ target.getName());
 		
-		System.out.println("target x = " + target.getX());
+//		System.out.println("target x = " + target.getX());
 
-		System.out.println("target y = " + target.getY());
+//		System.out.println("target y = " + target.getY());
 		
 		double enemyAbsoluteBearing = robot.getHeadingRadians() + target.getBearingRadians();
 		double enemyDistance = target.getDistance();

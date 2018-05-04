@@ -30,7 +30,7 @@ public class Robot07 extends robocode.TeamRobot {
 		
 		// adding allies
 		allyTracker.addAllAllies();
-
+		radarControl.givePlaceInList();
 		// Robot main loop
 		while (true) {
 			sendMessage(0, "1");
@@ -45,13 +45,16 @@ public class Robot07 extends robocode.TeamRobot {
 			}
 
 			if (mode.getCurrentMode() == 2) {
-				System.out.println("BasicMove engaged");
+			//	System.out.println("BasicMove engaged");
 				robotMovement.update(enemyTracker.getTarget());
 				robotMovement.move();
 			}
 
 			radarControl.startOfGame();
-			
+			if(radarControl.gotTarget) {
+			System.out.println(getTime());	
+			System.out.println(radarControl.getRadarTarget().getName());
+			}
 			// scannar
 			radar.update(radarControl.getRadarTarget());
 
@@ -131,9 +134,11 @@ public class Robot07 extends robocode.TeamRobot {
 		case 5: {
 			message = messageWriter.gettingAttacked(this.getX(), this.getY(), lastHitEvent.getName(),
 					radarControl.getRadarTarget().getName());
+			break;
 		}
 		case 6: {
 			message = messageWriter.newRadarTarget(this.getX(), this.getY(), radarControl.getRadarTarget().getName());
+			break;
 		}
 		}
 		messageHandler.send(message, receiver);

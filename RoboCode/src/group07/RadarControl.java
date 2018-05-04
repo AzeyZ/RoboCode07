@@ -21,12 +21,14 @@ public class RadarControl {
 		this.mrRobot = mrRobot;
 		oneTime = true;
 		gotTarget = false;
-
 	}
-
+	public void givePlaceInList() {
+		myPlaceInList = allyTracker.getPlaceInList();
+	}
 	public void startOfGame() {
 		if (enemyTracker.allEnemiesScanned() && oneTime) {
-			myPlaceInList = allyTracker.getPlaceInList();
+			
+			System.out.println(myPlaceInList);
 			if (myPlaceInList == 0) {
 				if (!enemyTracker.getLivingEnemies().isEmpty()) {
 					radarTarget = enemyTracker.getLivingEnemies().get(0);
@@ -50,6 +52,7 @@ public class RadarControl {
 				if (enemyTracker.getLivingEnemies().get(i).getName().equals(e.getName())) {
 					if (!e.getName().equals(radarTarget.getName())) {
 						mrRobot.sendMessage(5, "2");
+						System.out.println(e.getName() + "-------");
 						radarTarget = enemyTracker.getLivingEnemies().get(getIndexForEnemy(e.getName()));
 						targetTracking.get(getIndexForName(mrRobot.getName())).updateTarget(radarTarget);
 					}
@@ -72,6 +75,7 @@ public class RadarControl {
 	}
 
 	public void teammatePicked(String teammateName, String targetName, int placeInList) {
+		System.out.println("test");
 		EnemyBot m_EnemyBot = null;
 		Ally m_Ally = null;
 		for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
@@ -100,6 +104,7 @@ public class RadarControl {
 	}
 
 	public void teammateGettingAttacked(String teammateName, String shooter, String oldTarget) {
+		System.out.println("test");
 		if (shooter.equals(radarTarget.getName()) && getIndexForEnemy(oldTarget) != -1) {
 
 			radarTarget = enemyTracker.getLivingEnemies().get(getIndexForEnemy(oldTarget));
@@ -141,6 +146,7 @@ public class RadarControl {
 		}
 		return -1;
 	}
+	
 
 	private EnemyBot newRadarTarget() {
 		ArrayList<EnemyBot> temp = new ArrayList<>();

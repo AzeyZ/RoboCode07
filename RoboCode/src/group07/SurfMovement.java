@@ -126,10 +126,10 @@ public class SurfMovement {
 			if(!allies.get(i).getName().equals(r.getName())) {
 				double dist = MathUtils.distance(r.getX(), r.getY(), allies.get(i).getX(), allies.get(i).getY());
 				if(dist < 150) {
-					System.out.println("TOO CLOSE");
+//					System.out.println("TOO CLOSE");
 					distanceCheck = false;
 				}
-				System.out.println("dist " + dist);
+//				System.out.println("dist " + dist);
 			}
 		}
 		if(!distanceCheck) {
@@ -137,7 +137,7 @@ public class SurfMovement {
 		}
 		
 		if(mode.getCurrentMode() == 1) {
-			System.out.println("Surfing");
+//			System.out.println("Surfing");
 			setBackAsFront(r, goAngle);
 		}
 	}

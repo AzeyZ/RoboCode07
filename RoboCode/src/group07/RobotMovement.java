@@ -126,7 +126,7 @@ public class RobotMovement {
 	//	}
 
 	void antiGravMove(EnemyTracker track) {
-		System.out.println("grav engaged");
+//		System.out.println("grav engaged");
 		// Recommend using force = strength/Math.pow(distance,1.5) for calculating the
 		// force of the intermediate points on your bot.
 		// https://www.ibm.com/developerworks/library/j-antigrav/index.html
@@ -139,9 +139,9 @@ public class RobotMovement {
 
 		if((MathUtils.distance(robot.getX(), robot.getY(), lastX, lastY))<15) {
 			warning++;
-			System.out.println("warning standing still " + warning);
+//			System.out.println("warning standing still " + warning);
 			if(warning >7) {
-				System.out.println("matthias Move()");
+//				System.out.println("matthias Move()");
 				move();
 				mode.RNDMove();
 			}
@@ -156,7 +156,7 @@ public class RobotMovement {
 				//System.out.println(robot.getAllies().get(i).getX());
 				//System.out.println(robot.getX());
 			}
-			System.out.println("dist "+ track.getTarget().getDistance());
+//			System.out.println("dist "+ track.getTarget().getDistance());
 			if(track.getTarget().getDistance() > 200) {
 				gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 200));
 			}
