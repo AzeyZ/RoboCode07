@@ -119,7 +119,8 @@ public class MessageHandler {
 				enemyTracker.update(Double.parseDouble(infoInRow.get(1)), Double.parseDouble(infoInRow.get(2)),
 						Double.parseDouble(infoInRow.get(3)), Double.parseDouble(infoInRow.get(4)),
 						Double.parseDouble(infoInRow.get(5)), Long.parseLong(infoInRow.get(6)), infoInRow.get(7));
-
+				enemyTracker.updateTarget();
+				
 			}else if (k.contains("rPickRadarTarget")) {
 				radarControl.teammatePicked(e.getSender(), infoInRow.get(1), Integer.parseInt(infoInRow.get(2)));
 			}else if (k.contains("rGettingAttacked")) {
