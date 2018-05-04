@@ -186,4 +186,5 @@ class AllyWithTarget {
 	public EnemyBot getRadarTarget() {
 		return radarTarget;
 	}
+	
 }

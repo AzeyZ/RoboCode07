@@ -19,9 +19,9 @@ public class MovementModeSwitcher {
 		return currentMode;
 	}
 
-	public void setCurrentMode(int currentMode) {
-		this.currentMode = currentMode;
-	}
+//	public void setCurrentMode(int currentMode) {
+//		this.currentMode = currentMode;
+//	}
 
 	public void SurfMode() {
 		time = r.getTime() + 25;
@@ -36,5 +36,10 @@ public class MovementModeSwitcher {
 	public void RNDMove() {
 		time = r.getTime() + 10;
 		currentMode = 2;
+	}
+	
+	public void AGmove() {
+		time = r.getTime();
+		currentMode = 0;
 	}
 }
