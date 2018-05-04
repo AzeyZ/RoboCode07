@@ -20,7 +20,7 @@ public class Robot07 extends robocode.TeamRobot {
 	private MessageWriter messageWriter = new MessageWriter(this);
 	private MovementModeSwitcher mode = new MovementModeSwitcher(this);
 	private RobotMovement robotMovement = new RobotMovement(this, mode);
-	private SurfMovement surfing = new SurfMovement(mode, robotMovement, enemyTracker);
+	private SurfMovement surfing = new SurfMovement(mode, robotMovement, enemyTracker, this);
 	private RadarControl radarControl = new RadarControl(allyTracker, enemyTracker, this);
 	private HitByBulletEvent lastHitEvent;
 
@@ -52,14 +52,7 @@ public class Robot07 extends robocode.TeamRobot {
 			radarControl.startOfGame();
 
 			// scannar
-
 			radar.update(radarControl.getRadarTarget());
-
-			// scannar
-			radar.scan();
-
-			// starts Wave calculations
-			// gun.Wave(enemyTracker);
 			// behövs för att alla set command ska köra
 			execute();
 
@@ -145,15 +138,19 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onMessageReceived: What to do when you receive a message
 	 */
 	public void onMessageReceived(MessageEvent e) {
-		// if (e.getMessage() instanceof RobotColors) {
-		// RobotColors c = (RobotColors) e.getMessage();
-		// setBodyColor(c.bodyColor);
-		// setGunColor(c.gunColor);
-		// setRadarColor(c.radarColor);
-		// setScanColor(c.scanColor);
-		// setBulletColor(c.bulletColor);
-		// }
-		messageHandler.recieve(e, allyTracker, enemyTracker, radarControl);
+		
+		 if (e.getMessage() instanceof RobotColors) {
+		 RobotColors c = (RobotColors) e.getMessage();
+		 setBodyColor(c.bodyColor);
+		 setGunColor(c.gunColor);
+		 setRadarColor(c.radarColor);
+		 setScanColor(c.scanColor);
+		 setBulletColor(c.bulletColor);
+		 }
+		 
+		 else {
+			 messageHandler.recieve(e, allyTracker, enemyTracker, radarControl);
+		 }
 
 	}
 
@@ -200,5 +197,5 @@ public class Robot07 extends robocode.TeamRobot {
 
 	public Robot07 getRobot() {
 		return this;
-	}
+	}	
 }

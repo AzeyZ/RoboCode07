@@ -140,7 +140,7 @@ public class RobotMovement {
 		if((MathUtils.distance(robot.getX(), robot.getY(), lastX, lastY))<15) {
 			warning++;
 			System.out.println("warning standing still " + warning);
-			if(warning >6) {
+			if(warning >7) {
 				System.out.println("matthias Move()");
 				move();
 				mode.RNDMove();
@@ -156,13 +156,13 @@ public class RobotMovement {
 				//System.out.println(robot.getAllies().get(i).getX());
 				//System.out.println(robot.getX());
 			}
-			gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -700));
-			//		if(SurfMovement.ANGLE != oldSurfANGLE) {
-			//			Point2D point = SurfMovement.project(new Point2D.Double(robot.getX(), robot.getY()), SurfMovement.ANGLE, 50);
-			//			gravpoints.add(new GravPoint(point.getX(),point.getY(),1000));
-			//			System.out.println("ANGLE" + (360/2*Math.PI)*SurfMovement.ANGLE);
-			//			oldSurfANGLE = SurfMovement.ANGLE;
-			//		}
+			System.out.println("dist "+ track.getTarget().getDistance());
+			if(track.getTarget().getDistance() > 200) {
+				gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 200));
+			}
+			else if (track.getTarget().getDistance() < 100) {
+				gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -1000));
+			}
 
 			for (int i = 0; i < gravpoints.size(); i++) {
 				p = (GravPoint) gravpoints.get(i);

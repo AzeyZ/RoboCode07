@@ -53,8 +53,7 @@ public class Gun {
 		if (robot.getEnergy() >= power) {
 			robot.addCustomEvent(wave); // ????
 		}
-		// robot.setTurnRadarRightRadians(Utils.normalRelativeAngle(enemyAbsoluteBearing
-		// - robot.getRadarHeadingRadians()) * 2);
+
 	}
 
 }
@@ -112,7 +111,7 @@ class GFTWave extends Condition {
 	private int currentBin() {
 		int bin = (int) Math.round(
 				Utils.normalRelativeAngle(MathUtils.absoluteBearing(this.gunLocation, targetLocation) - this.bearing)
-						/ (this.lateralDirection * BIN_WIDTH) + MIDDLE_BIN);
+				/ (this.lateralDirection * BIN_WIDTH) + MIDDLE_BIN);
 
 		return MathUtils.minMax(bin, 0, BINS - 1);
 	}
