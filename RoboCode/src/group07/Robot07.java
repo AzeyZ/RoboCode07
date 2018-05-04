@@ -167,7 +167,7 @@ public class Robot07 extends robocode.TeamRobot {
 
 		// // TODO:switch target to the one that hit us
 		lastHitEvent = e;
-		//radarControl.gettingAttacked(e);
+		radarControl.gettingAttacked(e);
 		surfing.onHitByBulletSurf(e);
 	}
 
@@ -181,7 +181,7 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onRobotDeath(RobotDeathEvent e) {
 		enemyTracker.robotDeath(e);
 		allyTracker.robotDeath(e);
-		//radarControl.robotDeath(e);
+		radarControl.robotDeath(e);
 	}
 
 	public ArrayList<Ally> getAllies() {
