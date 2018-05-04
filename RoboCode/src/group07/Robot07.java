@@ -27,7 +27,7 @@ public class Robot07 extends robocode.TeamRobot {
 	public void run() {
 		// Init robot
 		initialize();
-
+		
 		// adding allies
 		allyTracker.addAllAllies();
 
@@ -37,6 +37,7 @@ public class Robot07 extends robocode.TeamRobot {
 			sendMessage(2, "2");
 			sendMessage(3, "2");
 			// counting turns
+			
 			mode.NewTurn();
 			// flyttar roboten
 			if (mode.getCurrentMode() == 0) {
@@ -53,7 +54,9 @@ public class Robot07 extends robocode.TeamRobot {
 			
 			// scannar
 			radar.update(radarControl.getRadarTarget());
+
 			radar.scan();
+
 			// behövs för att alla set command ska köra
 			gun.Wave(enemyTracker);
 			execute();
@@ -163,16 +166,8 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onHitByBullet(HitByBulletEvent e) {
 
 		// // TODO:switch target to the one that hit us
-		for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
-			if (enemyTracker.getLivingEnemies().get(i).getName().equals(e.getName())) {
-				if (!e.getName().equals(radarControl.getRadarTarget().getName())) {
-					lastHitEvent = e;
-					this.sendMessage(5, "2");
-					radarControl.gettingAttacked(e.getName());
-				}
-			}
-		}
-
+		lastHitEvent = e;
+		//radarControl.gettingAttacked(e);
 		surfing.onHitByBulletSurf(e);
 	}
 
@@ -186,7 +181,7 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onRobotDeath(RobotDeathEvent e) {
 		enemyTracker.robotDeath(e);
 		allyTracker.robotDeath(e);
-		radarControl.robotDeath(e);
+		//radarControl.robotDeath(e);
 	}
 
 	public ArrayList<Ally> getAllies() {
