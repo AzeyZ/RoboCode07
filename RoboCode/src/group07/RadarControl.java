@@ -9,20 +9,22 @@ public class RadarControl {
 	Robot07 mrRobot;
 	AllyTracker allyTracker;
 	EnemyTracker enemyTracker;
+	boolean oneTime;
 	boolean gotTarget;
 	int myPlaceInList;
 	ArrayList<AllyWithTarget> targetTracking = new ArrayList<>();
-
+	
 	public RadarControl(AllyTracker allyTracker, EnemyTracker enemyTracker, Robot07 mrRobot) {
 		this.allyTracker = allyTracker;
 		this.enemyTracker = enemyTracker;
 		this.mrRobot = mrRobot;
+		oneTime = true;
 		gotTarget = false;
-		
 
 	}
 
 	public void startOfGame() {
+		if(enemyTracker.allEnemiesScanned() && oneTime) {
 		myPlaceInList = allyTracker.getPlaceInList();
 		if (myPlaceInList == 0) {
 			if (!enemyTracker.getLivingEnemies().isEmpty()) {
@@ -33,8 +35,12 @@ public class RadarControl {
 				radarTarget = enemyTracker.getTarget();
 				targetTracking.add(new AllyWithTarget(allyTracker.getMrRobots().get(0), radarTarget));
 			}
-			mrRobot.sendMessage(4, "2");
 			gotTarget = true;
+			mrRobot.sendMessage(4, "2");
+			
+			
+		}
+		oneTime = false;
 		}
 	}
 
@@ -58,8 +64,9 @@ public class RadarControl {
 		if (placeInList + 1 == myPlaceInList) {
 			
 				radarTarget = newRadarTarget();
-				mrRobot.sendMessage(4, "2");
 				gotTarget = true;
+				mrRobot.sendMessage(4, "2");
+				
 			} 
 			
 		}
@@ -89,16 +96,8 @@ public class RadarControl {
 	}
 
 	public void teammateNewTarget(String teammateName, String newTarget) {
-		EnemyBot m_EnemyBot = null;
-		for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
-			if (enemyTracker.getLivingEnemies().get(i).getName().equals(newTarget)) {
-				m_EnemyBot = enemyTracker.getLivingEnemies().get(i);
-
-				break;
-			}
-		}
-		if (getIndexForName(teammateName) != -1) {
-			targetTracking.get(getIndexForName(teammateName)).updateTarget(m_EnemyBot);
+		if (getIndexForName(teammateName) != -1 && getIndexForEnemy(newTarget) != -1) {
+			targetTracking.get(getIndexForName(teammateName)).updateTarget(enemyTracker.getLivingEnemies().get(getIndexForEnemy(newTarget)));
 		}
 	}
 
@@ -142,7 +141,7 @@ public class RadarControl {
 		ArrayList<EnemyBot> temp = new ArrayList<>();
 		temp.addAll(enemyTracker.getLivingEnemies());
 
-		if (!enemyTracker.getLivingEnemies().isEmpty()) {
+		if (!enemyTracker.getLivingEnemies().isEmpty() && !targetTracking.isEmpty()) {
 			for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
 				for (int x = 0; x < targetTracking.size(); x++) {
 					if (enemyTracker.getLivingEnemies().get(i).getName().equals(targetTracking.get(x).getRadarTarget().getName())) {
@@ -159,10 +158,13 @@ public class RadarControl {
 	}
 
 	public EnemyBot getRadarTarget() {
-		return radarTarget;
-	}
-	public boolean targetNull() {
-		return gotTarget;
+		if(gotTarget) {
+			return radarTarget;
+		}
+		else {
+			return enemyTracker.getTarget();
+		}
+		
 	}
 }
 

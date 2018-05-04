@@ -23,7 +23,6 @@ public class Robot07 extends robocode.TeamRobot {
 	private SurfMovement surfing = new SurfMovement(mode, robotMovement, enemyTracker);
 	private RadarControl radarControl = new RadarControl(allyTracker, enemyTracker, this);
 	private HitByBulletEvent lastHitEvent;
-	boolean oneTime = true;
 
 	public void run() {
 		// Init robot
@@ -50,16 +49,11 @@ public class Robot07 extends robocode.TeamRobot {
 				robotMovement.move();
 			}
 
-			if (enemyTracker.allEnemiesScanned() && oneTime) {
-				radarControl.startOfGame();
-				oneTime = false;
-			}
+			radarControl.startOfGame();
+
 			// scannar
-			if (!oneTime) {
-				radar.update(radarControl.getRadarTarget());
-			} else {
-				radar.update(enemyTracker.getTarget());
-			}
+
+			radar.update(radarControl.getRadarTarget());
 
 			// scannar
 			radar.scan();
@@ -170,16 +164,15 @@ public class Robot07 extends robocode.TeamRobot {
 	public void onHitByBullet(HitByBulletEvent e) {
 
 		// // TODO:switch target to the one that hit us
-		// for(int i = 0; i < enemyTracker.getEnemies().size(); i++) {
-		// if(enemyTracker.getEnemies().get(i).getName().equals(e.getName()))
-		// {
-		// if(!e.getName().equals(radarControl.getRadarTarget().getName()))
-		// {
-		// this.sendMessage(5, "2");
-		// radarControl.gettingAttacked(e.getName());
-		// }
-		// }
-		// }
+		for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
+			if (enemyTracker.getLivingEnemies().get(i).getName().equals(e.getName())) {
+				if (!e.getName().equals(radarControl.getRadarTarget().getName())) {
+					lastHitEvent = e;
+					this.sendMessage(5, "2");
+					radarControl.gettingAttacked(e.getName());
+				}
+			}
+		}
 
 		surfing.onHitByBulletSurf(e);
 	}
