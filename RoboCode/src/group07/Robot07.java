@@ -50,10 +50,12 @@ public class Robot07 extends robocode.TeamRobot {
 			}
 
 			radarControl.startOfGame();
-
+			
 			// scannar
 			radar.update(radarControl.getRadarTarget());
+			radar.scan();
 			// behövs för att alla set command ska köra
+			gun.Wave(enemyTracker);
 			execute();
 
 		}
