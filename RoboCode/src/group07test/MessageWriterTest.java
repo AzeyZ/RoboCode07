@@ -88,14 +88,19 @@ public class MessageWriterTest {
 		int index = 1;
 		String oldTarget = "SomeNewName";
 		
-		// Test function PickRadarTarget
+		// Test function pickRadarTarget
 		assertEquals("Test if radar target text is correct", 
 				"myPos;" + fakePosX + ";" + fakePosY + "\nrPickRadarTarget;" + targetEnemy + ";" + index,
-				msg.PickRadarTarget(fakePosX, fakePosY, targetEnemy, index));
+				msg.pickRadarTarget(fakePosX, fakePosY, targetEnemy, index));
 		
-		// Test function GettIngAttacked
+		// Test function gettIngAttacked
 		assertEquals("Test if text when getting attacked is correct",
 				"myPos;" + fakePosX + ";" + fakePosY + "\nrGettingAttacked" + ";" + targetEnemy + ";" + oldTarget,
-				msg.GettingAttacked(fakePosX, fakePosY, targetEnemy, oldTarget));
+				msg.gettingAttacked(fakePosX, fakePosY, targetEnemy, oldTarget));
+		
+		// Test function newRadarTarget
+		assertEquals("Test if text when picking target is correct", 
+				"myPos;" + fakePosX + ";" + fakePosY + "\nrNewRadarTarget;" + targetEnemy, 
+				msg.newRadarTarget(fakePosX, fakePosY, targetEnemy));
 	}
 }
