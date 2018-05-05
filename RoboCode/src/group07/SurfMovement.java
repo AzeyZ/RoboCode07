@@ -53,14 +53,12 @@ public class SurfMovement {
 		double lateralVelocity = r.getVelocity() * Math.sin(e.getBearingRadians());
 		double absBearing = e.getBearingRadians() + r.getHeadingRadians();
 
-		//r.setTurnRadarRightRadians(Utils.normalRelativeAngle(absBearing - r.getRadarHeadingRadians()) * 2);
-
 		_surfDirections.add(0, new Integer((lateralVelocity >= 0) ? 1 : -1));
 		_surfAbsBearings.add(0, new Double(absBearing + Math.PI));
 
 		double bulletPower = _oppEnergy - e.getEnergy();
 		if (bulletPower < 3.01 && bulletPower > 0.09 && _surfDirections.size() > 2) {
-			
+			System.out.println("SURFING");
 			mode.SurfMode();
 
 			EnemyWave ew = new EnemyWave();

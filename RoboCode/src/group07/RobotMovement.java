@@ -6,7 +6,6 @@ import java.util.ArrayList;
 // method antigrav move is heavily inspired by Alisdair Owens from IBM
 //https://www.ibm.com/developerworks/library/j-antigrav/index.html
 
-
 public class RobotMovement {
 	private int moveDirection = 1;
 	private double velocity;
@@ -16,14 +15,15 @@ public class RobotMovement {
 	private Robot07 robot;
 	private ArrayList<GravPoint> gravpoints = new ArrayList<GravPoint>();
 	private MovementModeSwitcher mode;
-
+	private EnemyTracker enemyTracker;
 	private static int warning;
 	private static double lastX;
 	private static double lastY;
 
-	public RobotMovement(Robot07 robot, MovementModeSwitcher mode) {
+	public RobotMovement(Robot07 robot, MovementModeSwitcher mode, EnemyTracker enemyTracker) {
 		this.robot = robot;
 		this.mode = mode;
+		this.enemyTracker = enemyTracker;
 	}
 
 	// Uppdaterar
@@ -73,64 +73,8 @@ public class RobotMovement {
 		return (100 * moveDirection);
 	}
 
-	//	public double GetxForce(EnemyTracker track) {
-	//		GravPoint p;
-	//		double xforce = 0;
-	//		double ang;
-	//		double force;
-	//		gravpoints.clear();
-	//		for (int i = 0; i < robot.getAllies().size(); i++) {
-	//			gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(), robot.getAllies().get(i).getY(), -500));
-	//		}
-	//		gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -700));
-	//		for (int i = 0; i < gravpoints.size(); i++) {
-	//			p = (GravPoint) gravpoints.get(i);
-	//			// Calculate the total force from this point on us
-	//			force = p.power / Math.pow(getRange(robot.getX(), robot.getY(), p.x, p.y), 2);
-	//			// Find the bearing from the point to us
-	//			// ang = Math.toRadians(MathUtils.normalizeBearing(Math.toDegrees(Math.PI/2 -
-	//			// Math.atan2(robot.getY() - p.y, robot.getX() - p.x))));
-	//			ang = normaliseBearing(Math.PI / 2 - Math.atan2(robot.getY() - p.y, robot.getX() - p.x));
-	//			// Add the components of this force to the total force in their
-	//			// respective directions
-	//			xforce += Math.sin(ang) * force;
-	//		}
-	//		xforce += 5000 / Math.pow(getRange(robot.getX(), robot.getY(), robot.getBattleFieldWidth(), robot.getY()), 3);
-	//		xforce -= 5000 / Math.pow(getRange(robot.getX(), robot.getY(), 0, robot.getY()), 3);
-	//		return xforce;
-	//	}
-	//
-	//	public double GetyForce(EnemyTracker track) {
-	//		GravPoint p;
-	//		double ang;
-	//		double yforce = 0;
-	//		double force;
-	//		gravpoints.clear();
-	//		for (int i = 0; i < robot.getAllies().size(); i++) {
-	//			gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(), robot.getAllies().get(i).getY(), -500));
-	//			//System.out.println(robot.getAllies().get(i).getX());
-	//			//System.out.println(robot.getX());
-	//		}
-	//		gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -700));
-	//		for (int i = 0; i < gravpoints.size(); i++) {
-	//			p = (GravPoint) gravpoints.get(i);
-	//			// Calculate the total force from this point on us
-	//			force = p.power / Math.pow(getRange(robot.getX(), robot.getY(), p.x, p.y), 2);
-	//			// Find the bearing from the point to us
-	//			// ang = Math.toRadians(MathUtils.normalizeBearing(Math.toDegrees(Math.PI/2 -
-	//			// Math.atan2(robot.getY() - p.y, robot.getX() - p.x))));
-	//			ang = normaliseBearing(Math.PI / 2 - Math.atan2(robot.getY() - p.y, robot.getX() - p.x));
-	//			// Add the components of this force to the total force in their
-	//			// respective directions
-	//			yforce = Math.cos(ang) * force;
-	//		}
-	//		yforce += 5000 / Math.pow(getRange(robot.getX(), robot.getY(), robot.getX(), robot.getBattleFieldHeight()), 3);
-	//		yforce -= 5000 / Math.pow(getRange(robot.getX(), robot.getY(), robot.getX(), 0), 3);
-	//		return yforce;
-	//	}
-
 	void antiGravMove(EnemyTracker track) {
-//		System.out.println("grav engaged");
+		System.out.println("grav engaged");
 		// Recommend using force = strength/Math.pow(distance,1.5) for calculating the
 		// force of the intermediate points on your bot.
 		// https://www.ibm.com/developerworks/library/j-antigrav/index.html
@@ -141,31 +85,49 @@ public class RobotMovement {
 		GravPoint p;
 		gravpoints.clear();
 
-		if((MathUtils.distance(robot.getX(), robot.getY(), lastX, lastY))<15) {
+		if ((MathUtils.distance(robot.getX(), robot.getY(), lastX, lastY)) < 15) {
 			warning++;
-//			System.out.println("warning standing still " + warning);
-			if(warning >7) {
-//				System.out.println("matthias Move()");
+			// System.out.println("warning standing still " + warning);
+			if (warning > 7) {
+				// System.out.println("matthias Move()");
 				move();
 				mode.RNDMove();
 			}
-		}
-		else {
+		} else {
 			warning = 0;
 
-			for (int i = 0; i < robot.getAllies().size(); i++) {
-				if(!robot.getAllies().get(i).getName().equals(robot.getName())) {
-					gravpoints.add(new GravPoint(robot.getAllies().get(i).getX(), robot.getAllies().get(i).getY(), -500));
+			for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
+				if (enemyTracker.getLivingEnemies().get(i).getDistance() < 150) {
+					gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
+							enemyTracker.getLivingEnemies().get(i).getY(), -1000));
+					// }
+					// else if(enemyTracker.getLivingEnemies().get(i).getDistance() > 500) {
+					// gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
+					// robot.getAllies().get(i).getY(), 3000));
+					// }
+					// else {
+					// gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
+					// robot.getAllies().get(i).getY(), 500));
 				}
-				//System.out.println(robot.getAllies().get(i).getX());
-				//System.out.println(robot.getX());
+
 			}
-//			System.out.println("dist "+ track.getTarget().getDistance());
-			if(track.getTarget().getDistance() > 200) {
-				gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 200));
+			
+			if(track.getTarget().getDistance() > 400) {
+				gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 3000));
 			}
-			else if (track.getTarget().getDistance() < 100) {
-				gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -1000));
+			else if(track.getTarget().getDistance() < 150) {
+				gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 800));
+			}
+			else {
+				gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 1500));
+			}
+
+			for (int i = 0; i < robot.getAllies().size(); i++) {
+				if (!robot.getAllies().get(i).getName().equals(robot.getName())) {
+					gravpoints.add(
+							new GravPoint(robot.getAllies().get(i).getX(), robot.getAllies().get(i).getY(), -1000));
+				}
+
 			}
 
 			for (int i = 0; i < gravpoints.size(); i++) {
@@ -188,9 +150,11 @@ public class RobotMovement {
 			 * power 3.
 			 **/
 
-			xforce += 5000 / Math.pow(getRange(robot.getX(), robot.getY(), robot.getBattleFieldWidth(), robot.getY()), 3);
+			xforce += 5000
+					/ Math.pow(getRange(robot.getX(), robot.getY(), robot.getBattleFieldWidth(), robot.getY()), 3);
 			xforce -= 5000 / Math.pow(getRange(robot.getX(), robot.getY(), 0, robot.getY()), 3);
-			yforce += 5000 / Math.pow(getRange(robot.getX(), robot.getY(), robot.getX(), robot.getBattleFieldHeight()), 3);
+			yforce += 5000
+					/ Math.pow(getRange(robot.getX(), robot.getY(), robot.getX(), robot.getBattleFieldHeight()), 3);
 			yforce -= 5000 / Math.pow(getRange(robot.getX(), robot.getY(), robot.getX(), 0), 3);
 
 			// Move in the direction of our resolved force.

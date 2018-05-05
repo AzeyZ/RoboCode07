@@ -13,13 +13,12 @@ public class Robot07 extends robocode.TeamRobot {
 	 */
 	private EnemyTracker enemyTracker = new EnemyTracker(this);
 	private AllyTracker allyTracker = new AllyTracker(this);
-
 	private Radar radar = new Radar(this);
 	private Gun gun = new Gun(this);
 	private MessageHandler messageHandler = new MessageHandler(this);
 	private MessageWriter messageWriter = new MessageWriter(this);
 	private MovementModeSwitcher mode = new MovementModeSwitcher(this);
-	private RobotMovement robotMovement = new RobotMovement(this, mode);
+	private RobotMovement robotMovement = new RobotMovement(this, mode, enemyTracker);
 	private SurfMovement surfing = new SurfMovement(mode, robotMovement, enemyTracker, this, allyTracker);
 	private RadarControl radarControl = new RadarControl(allyTracker, enemyTracker, this);
 	private HitByBulletEvent lastHitEvent;
@@ -45,7 +44,7 @@ public class Robot07 extends robocode.TeamRobot {
 			}
 
 			if (mode.getCurrentMode() == 2) {
-			//	System.out.println("BasicMove engaged");
+				System.out.println("BasicMove engaged");
 				robotMovement.update(enemyTracker.getTarget());
 				robotMovement.move();
 			}

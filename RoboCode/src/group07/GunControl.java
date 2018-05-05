@@ -37,7 +37,6 @@ public class GunControl {
 		for (int i = 0; i < robot.getAllies().size(); i++) {
 			if (arc.contains(new Point2D.Double(robot.getAllies().get(i).getX(), robot.getAllies().get(i).getY()))
 					&& (!robot.getAllies().get(i).getName().equals(robot.getName()))) {
-				System.out.println("A MATE IS IN MY SIGHT FORSENT"  + "\n"+ "*******************************");
 				return false;
 			}
 		}
