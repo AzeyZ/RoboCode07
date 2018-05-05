@@ -29,6 +29,20 @@ public class EnemyTracker {
 			addEnemy(bearing, distance, energy, heading, velocity, time, name);
 		}
 	}
+	
+	public void msgUpdate(double bearing, double distance, double energy, double heading, double velocity, long time,
+			String name) {
+		if ((isNewEnemy(name) != null)) {
+			for (int k = 0; k < enemies.size(); k++) {
+				if (name.equals(enemies.get(k).getName()) && enemies.get(k).getTick() < time) {
+					enemies.get(k).update(bearing, distance, energy, heading, velocity, time, name);
+				}
+			}
+		} else {
+			addEnemy(bearing, distance, energy, heading, velocity, time, name);
+		}
+		
+	}
 
 	// Enemies
 	public void addEnemy(double bearing, double distance, double energy, double heading, double velocity, long time,
