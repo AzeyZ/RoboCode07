@@ -3,6 +3,10 @@ package group07;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+// method antigrav move is heavily inspired by Alisdair Owens from IBM
+//https://www.ibm.com/developerworks/library/j-antigrav/index.html
+
+
 public class RobotMovement {
 	private int moveDirection = 1;
 	private double velocity;

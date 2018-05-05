@@ -9,6 +9,10 @@ import robocode.ScannedRobotEvent;
 import robocode.TeamRobot;
 import robocode.util.Utils;
 
+// Code and Methods heavily inspired by the Guess Factor Targeting Tutorial by Kawigi
+// http://www.robowiki.net/wiki/GuessFactor_Targeting_Tutorial
+
+
 public class Gun {
 
 	private Robot07 robot;

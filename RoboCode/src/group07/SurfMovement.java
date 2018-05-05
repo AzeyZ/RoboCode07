@@ -9,6 +9,10 @@ import robocode.ScannedRobotEvent;
 import robocode.TeamRobot;
 import robocode.util.Utils;
 
+// Code and Methods heavily inspired by the surfing tutorial by Voidious
+// http://www.robowiki.net/wiki/Wave_Surfing_Tutorial
+
+
 public class SurfMovement {
 	private static int BINS = 47;
 	private static double _surfStats[] = new double[BINS]; // we'll use 47 bins
@@ -270,33 +274,6 @@ public class SurfMovement {
 		}
 		return angle;
 	}
-	
-//	public double teamSmoothing(Point2D.Double botLocation, double angle, int orientation, Robot07 robot) {
-//		//calculate angle where we don't hit teammates
-//		//Andreas
-//		ArrayList<Ally> allies = robot.getAllies();
-//		ArrayList<Rectangle2D.Double> allyrect = new ArrayList<Rectangle2D.Double>();		
-//		for(int i = 0; i < allies.size(); i++) {
-//			allyrect.add(new java.awt.geom.Rectangle2D.Double(allies.get(i).getX()-25, allies.get(i).getY()-25, 50, 100));
-//		}
-//		
-//		boolean test = true;
-//		int testindex = 0;
-//		while(test && !_fieldRect.contains(project(botLocation, angle, WALL_STICK))) {
-//			for(int k = 0; k < allies.size(); k++) {
-//				if(allyrect.get(k).contains(project(botLocation, angle, 50))) {
-//				}
-//				else {
-//					testindex++;
-//				}
-//			}
-//			if(testindex == allies.size()) {
-//				test = false;
-//			}
-//			angle += orientation*0.05;
-//		}
-//		return angle;
-//	}
 
 	public static Point2D.Double project(Point2D.Double sourceLocation, double angle, double length) {
 		return new Point2D.Double(sourceLocation.x + Math.sin(angle) * length,
