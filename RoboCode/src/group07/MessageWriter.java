@@ -96,7 +96,7 @@ public class MessageWriter {
 
 			for (EnemyBot k : enemyList) {
 
-				message = message + "\nrEnemy;" + k.getBearing() + ";" + k.getX() + ";" + k.getY() + ";" + k.getEnergy() + ";"
+				message = message + "\nrEnemy;" + k.getX() + ";" + k.getY() + ";" + k.getEnergy() + ";"
 						+ k.getHeading() + ";" + k.getVelocity() + ";" + k.getTick() + ";" + k.getName();
 			}
 		}

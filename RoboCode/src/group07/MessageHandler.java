@@ -116,7 +116,7 @@ public class MessageHandler {
 				}
 			} else if (k.contains("rEnemy") && infoInRow.size() == 8) {
 				// Uppdatera listan om infon e nyare
-				enemyTracker.update(Double.parseDouble(infoInRow.get(1)), Double.parseDouble(infoInRow.get(2)),
+				enemyTracker.msgUpdate(Double.parseDouble(infoInRow.get(1)), Double.parseDouble(infoInRow.get(2)),
 						Double.parseDouble(infoInRow.get(3)), Double.parseDouble(infoInRow.get(4)),
 						Double.parseDouble(infoInRow.get(5)), Long.parseLong(infoInRow.get(6)), infoInRow.get(7));
 				enemyTracker.updateTarget();

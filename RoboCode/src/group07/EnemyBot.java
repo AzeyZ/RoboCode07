@@ -90,19 +90,6 @@ public class EnemyBot {
 
 	}
 
-	public double msgDistance() {
-
-		double absBearingDeg = (MrRobot.getHeading() + bearing);
-		if (absBearingDeg < 0) {
-			absBearingDeg += 360;
-		}
-
-		double x = MrRobot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * distance;
-		double y = MrRobot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * distance;
-
-		return MathUtils.distance(0, 0, x, y);
-	}
-
 	public double getX() {
 		double absBearingDeg = (MrRobot.getHeading() + bearing);
 		if (absBearingDeg < 0) {
