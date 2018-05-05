@@ -14,13 +14,15 @@ public class TargetEnemyBot extends EnemyBot {
 			String name) {
 		super.update(bearing, distance, energy, heading, velocity, time, name);
 
-		double absBearingDeg = (MrRobot.getHeading() + bearing);
-		if (absBearingDeg < 0) {
-			absBearingDeg += 360;
-		}
-
-		x = MrRobot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * distance;
-		y = MrRobot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * distance;
+//		double absBearingDeg = (MrRobot.getHeading() + bearing);
+//		if (absBearingDeg < 0) {
+//			absBearingDeg += 360;
+//		}
+		
+		double enemyAbsoluteBearing = MrRobot.getHeadingRadians() + Math.toRadians(bearing);
+		
+		x = MrRobot.getX() + Math.sin(enemyAbsoluteBearing) * distance;
+		y = MrRobot.getY() + Math.cos(enemyAbsoluteBearing) * distance;
 	}
 
 //	public double getFutureX(double time) {

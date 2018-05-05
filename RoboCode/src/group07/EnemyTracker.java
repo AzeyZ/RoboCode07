@@ -33,8 +33,11 @@ public class EnemyTracker {
 	public void msgUpdate(double enemyX, double enemyY, double energy, double heading, double velocity, long time,
 			String name) {
 		double bearing = calBearing(enemyX, enemyY);
-		double distance = Math.hypot(robot.getX() - enemyX, robot.getY() - enemyY);
-		System.out.println("Bearing:" + bearing);
+		double distance = MathUtils.distance(robot.getX(), robot.getY(), enemyX, enemyY);
+		System.out.println(name);
+		if(bearing < -180 || bearing > 180) {
+		System.out.println("Bearing:" + bearing + "---------------------");
+		}
 		if (bearing != -1) {
 			if ((isNewEnemy(name) != null)) {
 				for (int k = 0; k < enemies.size(); k++) {
@@ -103,41 +106,55 @@ public class EnemyTracker {
 	}
 
 	private double calBearing(double enemyX, double enemyY) {
+		//-180 <= getBearing() < 180
 
-		double yDiff = Math.abs(enemyY - robot.getY());
-		double xDiff = Math.abs(enemyX - robot.getX());
+		double angle = Math.toDegrees(Math.atan2(enemyX - robot.getX(), enemyY - robot.getY()));
+		double heading = robot.getHeading();
+		if(heading >= 180)
+		{
+			heading -= 360;
+		}
+		double bearing = angle - heading;
+		if(bearing >= 180)
+		{
+			bearing -=360;
+		}
+		return bearing;
 
-		if (yDiff == 0) {
-			if (enemyX > robot.getX()) {
-				return Math.abs(90 - robot.getHeading());
-			}
-			if (enemyX < robot.getX()) {
-				return Math.abs(270 - robot.getHeading());
-			}
-		}
-
-		if (xDiff == 0) {
-			if (enemyY > robot.getY()) {
-				return robot.getHeading();
-			}
-			if (enemyY < robot.getY()) {
-				return Math.abs(180 - robot.getHeading());
-			}
-		}
-
-		if (enemyX < robot.getX() && enemyY < robot.getY()) { // 3
-			return Math.toDegrees(Math.abs(180 + Math.atan(xDiff / yDiff) - robot.getHeading()));
-		}
-		if (enemyX > robot.getX() && enemyY > robot.getY()) { // 2
-			return Math.toDegrees(Math.abs(Math.atan(xDiff / yDiff) - robot.getHeading()));
-		}
-		if (enemyX < robot.getX() && enemyY > robot.getY()) { // 1
-			return Math.toDegrees(Math.abs(270 + Math.atan(yDiff / xDiff) - robot.getHeading()));
-		}
-		if (enemyX > robot.getX() && enemyY < robot.getY()) { // 4
-			return Math.toDegrees(Math.abs(90 + Math.atan(yDiff / xDiff) - robot.getHeading()));
-		}
-		return -1;
+//		double yDiff = Math.abs(enemyY - robot.getY());
+//		double xDiff = Math.abs(enemyX - robot.getX());
+//
+//		if (yDiff == 0) {
+//			if (enemyX > robot.getX()) {
+//				return Math.abs(90 - robot.getHeading());
+//			}
+//			if (enemyX < robot.getX()) {
+//				return Math.abs(270 - robot.getHeading());
+//			}
+//		}
+//
+//		if (xDiff == 0) {
+//			if (enemyY > robot.getY()) {
+//				return robot.getHeading();
+//			}
+//			if (enemyY < robot.getY()) {
+//				return Math.abs(180 - robot.getHeading());
+//			}
+//		}
+//
+//		if (enemyX < robot.getX() && enemyY < robot.getY()) { // 3
+//			return Math.toDegrees(Math.abs(180 + Math.atan(xDiff / yDiff) - robot.getHeading()));
+//		}
+//		if (enemyX > robot.getX() && enemyY > robot.getY()) { // 2
+//			return Math.toDegrees(Math.abs(Math.atan(xDiff / yDiff) - robot.getHeading()));
+//		}
+//		if (enemyX < robot.getX() && enemyY > robot.getY()) { // 1
+//			return Math.toDegrees(Math.abs(270 + Math.atan(yDiff / xDiff) - robot.getHeading()));
+//		}
+//		if (enemyX > robot.getX() && enemyY < robot.getY()) { // 4
+//			return Math.toDegrees(Math.abs(90 + Math.atan(yDiff / xDiff) - robot.getHeading()));
+//		}
+//		return -1;
 	}
 
 	// Getters
