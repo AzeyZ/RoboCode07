@@ -40,14 +40,8 @@ public class Gun {
 		}
 		
 		target = track.getTarget();
-//		System.out.println("Target:" + target.getName());
 		if (target == null)
 			return;
-//		System.out.println("target name = "+ target.getName());
-//		
-//		System.out.println("target x = " + target.getX());
-//
-//		System.out.println("target y = " + target.getY());
 		
 		double enemyAbsoluteBearing = robot.getHeadingRadians() + target.getBearingRadians();
 		double enemyDistance = target.getDistance();
@@ -60,8 +54,6 @@ public class Gun {
 		}
 		wave.gunLocation = new Point2D.Double(robot.getX(), robot.getY());
 		GFTWave.targetLocation = MathUtils.project(wave.gunLocation, enemyAbsoluteBearing, target.getDistance());
-		// wave.setLocation(MathUtils.project(wave.gunLocation, absBearing,
-		// target.getDistance()));
 		wave.lateralDirection = lateralDirection;
 		wave.bulletPower = power;
 		wave.setSegmentations(enemyDistance, enemyVelocity, lastEnemyVelocity);

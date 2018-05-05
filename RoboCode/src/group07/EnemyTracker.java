@@ -34,9 +34,7 @@ public class EnemyTracker {
 			String name) {
 		double bearing = calBearing(enemyX, enemyY);
 		double distance = MathUtils.distance(robot.getX(), robot.getY(), enemyX, enemyY);
-//		System.out.println(name);
 		if(bearing < -180 || bearing > 180) {
-//		System.out.println("Bearing:" + bearing + "---------------------");
 		}
 		if (bearing != -1) {
 			if ((isNewEnemy(name) != null)) {
@@ -120,41 +118,6 @@ public class EnemyTracker {
 			bearing -=360;
 		}
 		return bearing;
-
-//		double yDiff = Math.abs(enemyY - robot.getY());
-//		double xDiff = Math.abs(enemyX - robot.getX());
-//
-//		if (yDiff == 0) {
-//			if (enemyX > robot.getX()) {
-//				return Math.abs(90 - robot.getHeading());
-//			}
-//			if (enemyX < robot.getX()) {
-//				return Math.abs(270 - robot.getHeading());
-//			}
-//		}
-//
-//		if (xDiff == 0) {
-//			if (enemyY > robot.getY()) {
-//				return robot.getHeading();
-//			}
-//			if (enemyY < robot.getY()) {
-//				return Math.abs(180 - robot.getHeading());
-//			}
-//		}
-//
-//		if (enemyX < robot.getX() && enemyY < robot.getY()) { // 3
-//			return Math.toDegrees(Math.abs(180 + Math.atan(xDiff / yDiff) - robot.getHeading()));
-//		}
-//		if (enemyX > robot.getX() && enemyY > robot.getY()) { // 2
-//			return Math.toDegrees(Math.abs(Math.atan(xDiff / yDiff) - robot.getHeading()));
-//		}
-//		if (enemyX < robot.getX() && enemyY > robot.getY()) { // 1
-//			return Math.toDegrees(Math.abs(270 + Math.atan(yDiff / xDiff) - robot.getHeading()));
-//		}
-//		if (enemyX > robot.getX() && enemyY < robot.getY()) { // 4
-//			return Math.toDegrees(Math.abs(90 + Math.atan(yDiff / xDiff) - robot.getHeading()));
-//		}
-//		return -1;
 	}
 
 	// Getters

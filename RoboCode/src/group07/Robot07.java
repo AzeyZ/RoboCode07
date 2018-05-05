@@ -50,11 +50,8 @@ public class Robot07 extends robocode.TeamRobot {
 			}
 
 			radarControl.startOfGame();
-			//System.out.println(getTime());
-		//	System.out.println("All scanned:" + enemyTracker.allEnemiesScanned());
 			if(radarControl.gotTarget) {
 				
-		//	System.out.println(radarControl.getRadarTarget().getName());
 			}
 			// scannar
 			radar.update(radarControl.getRadarTarget());

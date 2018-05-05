@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 // method antigrav move is heavily inspired by Alisdair Owens from IBM
-//https://www.ibm.com/developerworks/library/j-antigrav/index.html
+// https://www.ibm.com/developerworks/library/j-antigrav/index.html
 
 public class RobotMovement {
 	private int moveDirection = 1;
@@ -87,9 +87,7 @@ public class RobotMovement {
 
 		if ((MathUtils.distance(robot.getX(), robot.getY(), lastX, lastY)) < 15) {
 			warning++;
-			// System.out.println("warning standing still " + warning);
 			if (warning > 7) {
-				// System.out.println("matthias Move()");
 				move();
 				mode.RNDMove();
 			}
@@ -100,26 +98,17 @@ public class RobotMovement {
 				if (enemyTracker.getLivingEnemies().get(i).getDistance() < 150) {
 					gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
 							enemyTracker.getLivingEnemies().get(i).getY(), -1000));
-					// }
-					// else if(enemyTracker.getLivingEnemies().get(i).getDistance() > 500) {
-					// gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
-					// robot.getAllies().get(i).getY(), 3000));
-					// }
-					// else {
-					// gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
-					// robot.getAllies().get(i).getY(), 500));
+
 				}
 
-			}
-			
-			if(track.getTarget().getDistance() > 400) {
-				gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 3000));
-			}
-			else if(track.getTarget().getDistance() < 150) {
-				gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 800));
-			}
-			else {
-				gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 1500));
+				if (track.getTarget().getDistance() > 400) {
+					gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 3000));
+				} else if (track.getTarget().getDistance() < 150) {
+					gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 800));
+				} else {
+					gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 1500));
+				}
+
 			}
 
 			for (int i = 0; i < robot.getAllies().size(); i++) {

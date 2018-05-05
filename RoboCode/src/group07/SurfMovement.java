@@ -58,9 +58,7 @@ public class SurfMovement {
 
 		double bulletPower = _oppEnergy - e.getEnergy();
 		if (bulletPower < 3.01 && bulletPower > 0.09 && _surfDirections.size() > 2) {
-			System.out.println("SURFING");
 			mode.SurfMode();
-
 			EnemyWave ew = new EnemyWave();
 			ew.fireTime = r.getTime() - 1;
 			ew.bulletVelocity = bulletVelocity(bulletPower);
@@ -79,7 +77,7 @@ public class SurfMovement {
 		_enemyLocation = project(_myLocation, absBearing, e.getDistance());
 
 		updateWaves();
-		doSurfing();
+		doSurfing(e);
 
 		// gun code would go here...
 
@@ -101,7 +99,7 @@ public class SurfMovement {
 		return _surfStats[index];
 	}
 
-	public void doSurfing() {
+	public void doSurfing(ScannedRobotEvent e) {
 
 		EnemyWave surfWave = getClosestSurfableWave();
 
@@ -115,31 +113,31 @@ public class SurfMovement {
 		double goAngle = absoluteBearing(surfWave.fireLocation, _myLocation);
 
 		if (dangerLeft < dangerRight) {
-			//goAngle = teamSmoothing(_myLocation, goAngle - (Math.PI / 2), -1, r);
 			goAngle = wallSmoothing(_myLocation, goAngle - (Math.PI / 2), -1);
 		} else {
-			//goAngle = teamSmoothing(_myLocation, goAngle + (Math.PI / 2), 1, r);
 			goAngle = wallSmoothing(_myLocation, goAngle + (Math.PI / 2), 1);
 		}
 		
 		ArrayList <Ally> allies = allyTracker.getAllyList();
-		boolean distanceCheck = true;
+		boolean allyDistanceCheck = true;
 		for(int i = 0; i<allies.size(); i++) {
 			if(!allies.get(i).getName().equals(r.getName())) {
 				double dist = MathUtils.distance(r.getX(), r.getY(), allies.get(i).getX(), allies.get(i).getY());
 				if(dist < 150) {
-//					System.out.println("TOO CLOSE");
-					distanceCheck = false;
+					allyDistanceCheck = false;
 				}
-//				System.out.println("dist " + dist);
 			}
 		}
-		if(!distanceCheck) {
+		
+		boolean targetDistanceCheck = e.getDistance() > 800;
+		
+		
+		
+		if(!allyDistanceCheck || targetDistanceCheck) {
 			mode.AGmove();
 		}
 		
 		if(mode.getCurrentMode() == 1) {
-//			System.out.println("Surfing");
 			setBackAsFront(r, goAngle);
 		}
 	}
