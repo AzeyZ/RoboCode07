@@ -26,7 +26,7 @@ public class Robot07 extends robocode.TeamRobot {
 	public void run() {
 		// Init robot
 		initialize();
-		
+
 		// adding allies
 		allyTracker.addAllAllies();
 		radarControl.givePlaceInList();
@@ -36,22 +36,23 @@ public class Robot07 extends robocode.TeamRobot {
 			sendMessage(2, "2");
 			sendMessage(3, "2");
 			// counting turns
-			
+
 			mode.NewTurn();
 			// flyttar roboten
 			if (mode.getCurrentMode() == 0) {
+				System.out.println("ANTI GRAVING");
 				robotMovement.antiGravMove(enemyTracker);
 			}
 
 			if (mode.getCurrentMode() == 2) {
-			//	System.out.println("BasicMove engaged");
+				// System.out.println("BasicMove engaged");
 				robotMovement.update(enemyTracker.getTarget());
 				robotMovement.move();
 			}
 
 			radarControl.startOfGame();
-			if(radarControl.gotTarget) {
-				
+			if (radarControl.gotTarget) {
+
 			}
 			// scannar
 			radar.update(radarControl.getRadarTarget());
@@ -146,19 +147,19 @@ public class Robot07 extends robocode.TeamRobot {
 	 * onMessageReceived: What to do when you receive a message
 	 */
 	public void onMessageReceived(MessageEvent e) {
-		
-		 if (e.getMessage() instanceof RobotColors) {
-		 RobotColors c = (RobotColors) e.getMessage();
-		 setBodyColor(c.bodyColor);
-		 setGunColor(c.gunColor);
-		 setRadarColor(c.radarColor);
-		 setScanColor(c.scanColor);
-		 setBulletColor(c.bulletColor);
-		 }
-		 
-		 else {
-			 messageHandler.recieve(e, allyTracker, enemyTracker, radarControl);
-		 }
+
+		if (e.getMessage() instanceof RobotColors) {
+			RobotColors c = (RobotColors) e.getMessage();
+			setBodyColor(c.bodyColor);
+			setGunColor(c.gunColor);
+			setRadarColor(c.radarColor);
+			setScanColor(c.scanColor);
+			setBulletColor(c.bulletColor);
+		}
+
+		else {
+			messageHandler.recieve(e, allyTracker, enemyTracker, radarControl);
+		}
 
 	}
 
@@ -187,6 +188,26 @@ public class Robot07 extends robocode.TeamRobot {
 		radarControl.robotDeath(e);
 	}
 
+	public ArrayList<EnemyBot> getCloseEnemies() {
+		ArrayList<EnemyBot> rammers = new ArrayList<>();
+		for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
+			if (enemyTracker.getLivingEnemies().get(i).getDistance() < 150) {
+				rammers.add(enemyTracker.getLivingEnemies().get(i));
+			}
+		}
+
+		for (int i = 1; i < rammers.size(); i++) {
+			if (rammers.get(i - 1).getDistance() > (rammers.get(i).getDistance())) {
+				EnemyBot higer = rammers.get(i - 1);
+				EnemyBot lower = rammers.get(i);
+				rammers.set(i - 1, lower);
+				rammers.set(i, higer);
+				i = 0;
+			}
+		}
+		return rammers;
+	}
+
 	public ArrayList<Ally> getAllies() {
 		return allyTracker.getAllyList();
 	}
@@ -197,5 +218,5 @@ public class Robot07 extends robocode.TeamRobot {
 
 	public Robot07 getRobot() {
 		return this;
-	}	
+	}
 }
