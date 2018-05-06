@@ -130,10 +130,15 @@ public class SurfMovement {
 		}
 		
 		boolean targetDistanceCheck = e.getDistance() > 800;
+		boolean antiRam = true;
+		for(int i = 0; i <track.getEnemies().size(); i++) {
+		 if(track.getEnemies().get(i).getDistance() < 100) {
+			 antiRam = false;
+		 }
+		}
 		
 		
-		
-		if(!allyDistanceCheck || targetDistanceCheck) {
+		if(!allyDistanceCheck || targetDistanceCheck || !antiRam) {
 			mode.AGmove();
 		}
 		
