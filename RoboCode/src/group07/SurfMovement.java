@@ -132,8 +132,9 @@ public class SurfMovement {
 
 		boolean targetDistanceCheck = e.getDistance() > 800;
 		boolean antiRam = true;
-		for (int i = 0; i < track.getEnemies().size(); i++) {
-			if (track.getEnemies().get(i).getDistance() < 150) {
+		
+		for (int i = 0; i < track.getLivingEnemies().size(); i++) {
+			if (track.getLivingEnemies().get(i).getDistance() < 150) {
 				antiRam = false;
 			}
 		}
@@ -143,6 +144,7 @@ public class SurfMovement {
 		}
 
 		if (mode.getCurrentMode() == 1) {
+			System.out.println("SURFING");
 			setBackAsFront(r, goAngle);
 		}
 	}
