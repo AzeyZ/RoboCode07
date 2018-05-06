@@ -14,7 +14,7 @@ public class MrRobot extends robocode.TeamRobot {
 	private EnemyTracker enemyTracker = new EnemyTracker(this);
 	private AllyTracker allyTracker = new AllyTracker(this);
 	private Radar radar = new Radar(this);
-	private Gun gun = new Gun(this);
+	private Gun gun = new Gun(this, allyTracker);
 	private MessageHandler messageHandler = new MessageHandler(this);
 	private MessageWriter messageWriter = new MessageWriter(this);
 	private MovementModeSwitcher mode = new MovementModeSwitcher(this);
@@ -22,6 +22,7 @@ public class MrRobot extends robocode.TeamRobot {
 	private SurfMovement surfing = new SurfMovement(mode, robotMovement, enemyTracker, this, allyTracker);
 	private RadarControl radarControl = new RadarControl(allyTracker, enemyTracker, this);
 	private HitByBulletEvent lastHitEvent;
+	private static int counter;
 
 	public void run() {
 		// Init robot
@@ -172,7 +173,9 @@ public class MrRobot extends robocode.TeamRobot {
 	 */
 
 	public void onHitByBullet(HitByBulletEvent e) {
-
+		if(e.getName().contains("MrRobot")){
+			System.out.println("HIT count" + counter++);
+		}
 		// // TODO:switch target to the one that hit us
 		lastHitEvent = e;
 		radarControl.gettingAttacked(e);
@@ -183,7 +186,7 @@ public class MrRobot extends robocode.TeamRobot {
 	 * onHitWall: What to do when you hit a wall
 	 */
 	public void onHitWall(HitWallEvent e) {
-		System.out.println("HIT!!!!!!!!!!!!!!!!!!!!!");
+		//System.out.println("HIT!!!!!!!!!!!!!!!!!!!!!");
 	}
 
 	public void onRobotDeath(RobotDeathEvent e) {

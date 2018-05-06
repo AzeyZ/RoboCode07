@@ -149,13 +149,14 @@ public class RobotMovement {
 			 * bot is close to the walls due to the force from the walls decreasing at a
 			 * power 3.
 			 **/
-
+			
 			xforce += 5000
 					/ Math.pow(getRange(robot.getX(), robot.getY(), robot.getBattleFieldWidth(), robot.getY()), 3);
 			xforce -= 5000 / Math.pow(getRange(robot.getX(), robot.getY(), 0, robot.getY()), 3);
 			yforce += 5000
 					/ Math.pow(getRange(robot.getX(), robot.getY(), robot.getX(), robot.getBattleFieldHeight()), 3);
 			yforce -= 5000 / Math.pow(getRange(robot.getX(), robot.getY(), robot.getX(), 0), 3);
+			
 
 			// Move in the direction of our resolved force.
 			goTo(robot.getX() - xforce, robot.getY() - yforce);

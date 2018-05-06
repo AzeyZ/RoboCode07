@@ -7,15 +7,16 @@ import java.awt.geom.Rectangle2D;
 public class GunControl {
 	private MrRobot robot;
 	private EnemyBot target;
+	private AllyTracker ally;
 
-	public GunControl() {
-
+	public GunControl(AllyTracker ally) {
+		this.ally = ally;
 	}
 
 	public boolean takeShot(MrRobot robot, EnemyBot target) {
 		this.robot = robot;
 		this.target = target;
-		return (distance() && target() && lowEnergy());
+		return (distance() && target() && lowEnergy() && friendlyFire());
 	}
 
 	private boolean distance() {
@@ -26,25 +27,32 @@ public class GunControl {
 		return robot.getRadar().gotFocus();
 
 	}
-	
+
 	public boolean lowEnergy() {
 		return robot.getEnergy() > 1;
 	}
 
-//	private boolean friendlyFire() {
-//		Arc2D.Double arc = new Arc2D.Double(robot.getX(), robot.getY(), target.getDistance(), target.getDistance(),
-//				robot.getGunHeading()+160, 40, Arc2D.PIE);
-//		
-//		//ARCEN BLIR INTE RIKTIGT SOM JAG TÄNKER NÅGOT ÄR FEL
-//		
-//		
-//		for (int i = 0; i < robot.getAllies().size(); i++) {
-//			if (arc.contains(new Point2D.Double(robot.getAllies().get(i).getX(), robot.getAllies().get(i).getY()))
-//					&& (!robot.getAllies().get(i).getName().equals(robot.getName()))) {
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
+	private boolean friendlyFire() {
+		if(target.getName().toLowerCase().contains("rut") || target.getName().toLowerCase().contains("rain"))
+		{
+			return true;
+		}
+		for (Ally k : ally.getAllyListWithoutOurself()) {
+			double distance = MathUtils.distance(robot.getX(), robot.getY(), k.getX(), k.getY());
+			double angle = Math.toDegrees(Math.atan2(k.getX() - robot.getX(), k.getY() - robot.getY()));
+			double heading = robot.getGunHeading();
+			if (heading >= 180) {
+				heading -= 360;
+			}
+			double bearing = angle - heading;
+			if (bearing >= 180) {
+				bearing -= 360;
+			}
+			if ((bearing > -20 && bearing < 20) && distance < 300) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 }

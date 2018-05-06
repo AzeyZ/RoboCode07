@@ -17,6 +17,7 @@ public class Gun {
 
 	private MrRobot robot;
 	private EnemyBot target;
+	private AllyTracker ally;
 	public static double lastEnemyVelocity;
 	public static double lateralDirection;
 	
@@ -24,9 +25,10 @@ public class Gun {
 
 	private GunControl gunControl;
 	
-	public Gun(MrRobot robot) {
+	public Gun(MrRobot robot, AllyTracker ally) {
 		this.robot = robot;
-		gunControl = new GunControl();
+		this.ally = ally;
+		gunControl = new GunControl(ally);
 	}
 
 	// Wave functions
