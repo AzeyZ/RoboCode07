@@ -40,7 +40,7 @@ public class MrRobot extends robocode.TeamRobot {
 			mode.NewTurn();
 			// flyttar roboten
 			if (mode.getCurrentMode() == 0) {
-				System.out.println("ANTI GRAVING");
+//				System.out.println("ANTI GRAVING");
 				robotMovement.antiGravMove(enemyTracker);
 			}
 

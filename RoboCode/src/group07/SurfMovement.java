@@ -144,7 +144,7 @@ public class SurfMovement {
 		}
 
 		if (mode.getCurrentMode() == 1) {
-			System.out.println("SURFING");
+//			System.out.println("SURFING");
 			setBackAsFront(r, goAngle);
 		}
 	}
