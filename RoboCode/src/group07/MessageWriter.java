@@ -35,9 +35,9 @@ import java.util.ArrayList;
 // The code to get the standard string to send to teammates.
 
 public class MessageWriter {
-	Robot07 MrRobot;
+	MrRobot MrRobot;
 
-	public MessageWriter(Robot07 MrRobot) {
+	public MessageWriter(MrRobot MrRobot) {
 		this.MrRobot = MrRobot;
 	}
 

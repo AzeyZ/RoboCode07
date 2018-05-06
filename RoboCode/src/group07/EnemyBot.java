@@ -7,14 +7,14 @@ public class EnemyBot {
 	public static final int DROID = 1;
 	public static final int NORMAL_BOT = 2;
 
-	protected Robot07 MrRobot;
+	protected MrRobot MrRobot;
 	private double bearing, distance, energy, heading, velocity;
 	private long tick;
 	private String name;
 	private int type;
 	private boolean scanned = true;
 
-	public EnemyBot(Robot07 MrRobot) {
+	public EnemyBot(MrRobot MrRobot) {
 		this.MrRobot = MrRobot;
 
 	}

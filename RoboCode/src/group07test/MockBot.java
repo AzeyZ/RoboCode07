@@ -23,14 +23,14 @@ SOFTWARE.
 */
 package group07test;
 
-import group07.Robot07;
+import group07.MrRobot;
 
 /**
  * MockBot - a mock robot to enable unit testing for ETSA02.
  *
  * @author Markus Borg
  */
-public class MockBot extends Robot07 {
+public class MockBot extends MrRobot {
 	
 	private String name;
 	private double fakeEnergy;

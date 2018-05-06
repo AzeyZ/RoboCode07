@@ -15,7 +15,7 @@ import robocode.util.Utils;
 
 public class Gun {
 
-	private Robot07 robot;
+	private MrRobot robot;
 	private EnemyBot target;
 	public static double lastEnemyVelocity;
 	public static double lateralDirection;
@@ -24,7 +24,7 @@ public class Gun {
 
 	private GunControl gunControl;
 	
-	public Gun(Robot07 robot) {
+	public Gun(MrRobot robot) {
 		this.robot = robot;
 		gunControl = new GunControl();
 	}

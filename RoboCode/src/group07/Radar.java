@@ -1,14 +1,14 @@
 package group07;
 
 public class Radar {
-	private Robot07 robot;
+	private MrRobot robot;
 	private EnemyBot target;
 	private int radarDirection;
 	private int wiggle;
 	private int lastScan;
 	private double turn;
 
-	public Radar(Robot07 robot) {
+	public Radar(MrRobot robot) {
 		this.robot = robot;
 		radarDirection = 1;
 		wiggle = 15;

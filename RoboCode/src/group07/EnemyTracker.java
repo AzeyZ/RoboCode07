@@ -9,9 +9,9 @@ public class EnemyTracker {
 	private ArrayList<EnemyBot> enemies = new ArrayList<EnemyBot>();
 	private EnemyBot target;
 	private TargetPrioritizer targetPrio = new TargetPrioritizer();
-	private Robot07 robot;
+	private MrRobot robot;
 
-	public EnemyTracker(Robot07 robot) {
+	public EnemyTracker(MrRobot robot) {
 		this.robot = robot;
 		target = new EnemyBot(robot);
 	}
@@ -82,9 +82,7 @@ public class EnemyTracker {
 		if (!enemies.isEmpty()) {
 			enemies = targetPrio.sortList(enemies, robot.getTime());
 			if (allEnemiesScanned()) {
-				target.update(enemies.get(0).getBearing(), enemies.get(0).getDistance(), enemies.get(0).getEnergy(),
-						enemies.get(0).getHeading(), enemies.get(0).getVelocity(), enemies.get(0).getTick(),
-						enemies.get(0).getName());
+				target = enemies.get(0);
 			}
 		}
 	}

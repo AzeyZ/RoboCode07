@@ -12,7 +12,7 @@ public class RobotMovement {
 	private long time;
 	private double degreeCloser = 0;
 	private EnemyBot target;
-	private Robot07 robot;
+	private MrRobot robot;
 	private ArrayList<GravPoint> gravpoints = new ArrayList<GravPoint>();
 	private MovementModeSwitcher mode;
 	private EnemyTracker enemyTracker;
@@ -20,7 +20,7 @@ public class RobotMovement {
 	private static double lastX;
 	private static double lastY;
 
-	public RobotMovement(Robot07 robot, MovementModeSwitcher mode, EnemyTracker enemyTracker) {
+	public RobotMovement(MrRobot robot, MovementModeSwitcher mode, EnemyTracker enemyTracker) {
 		this.robot = robot;
 		this.mode = mode;
 		this.enemyTracker = enemyTracker;

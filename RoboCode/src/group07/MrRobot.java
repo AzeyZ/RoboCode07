@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Robot07 extends robocode.TeamRobot {
+public class MrRobot extends robocode.TeamRobot {
 	/**
 	 * run: Robot's default behavior
 	 */
@@ -216,7 +216,7 @@ public class Robot07 extends robocode.TeamRobot {
 		return radar;
 	}
 
-	public Robot07 getRobot() {
+	public MrRobot getRobot() {
 		return this;
 	}
 }

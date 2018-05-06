@@ -8,9 +8,9 @@ import robocode.*;
 
 public class AllyTracker {
 	private ArrayList<Ally> allies = new ArrayList<>();
-	private Robot07 MrRobot;
+	private MrRobot MrRobot;
 
-	public AllyTracker(Robot07 MrRobot) {
+	public AllyTracker(MrRobot MrRobot) {
 		this.MrRobot = MrRobot;
 	}
 

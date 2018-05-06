@@ -7,7 +7,7 @@ import robocode.RobotDeathEvent;
 
 public class RadarControl {
 	EnemyBot radarTarget;
-	Robot07 mrRobot;
+	MrRobot mrRobot;
 	AllyTracker allyTracker;
 	EnemyTracker enemyTracker;
 	boolean oneTime;
@@ -15,7 +15,7 @@ public class RadarControl {
 	int myPlaceInList;
 	ArrayList<AllyWithTarget> targetTracking = new ArrayList<>();
 
-	public RadarControl(AllyTracker allyTracker, EnemyTracker enemyTracker, Robot07 mrRobot) {
+	public RadarControl(AllyTracker allyTracker, EnemyTracker enemyTracker, MrRobot mrRobot) {
 		this.allyTracker = allyTracker;
 		this.enemyTracker = enemyTracker;
 		this.mrRobot = mrRobot;

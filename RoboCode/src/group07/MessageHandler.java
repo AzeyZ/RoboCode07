@@ -8,9 +8,9 @@ import java.util.Arrays;
 import robocode.MessageEvent;
 
 public class MessageHandler {
-	Robot07 robot;
+	MrRobot robot;
 
-	public MessageHandler(Robot07 robot) {
+	public MessageHandler(MrRobot robot) {
 		this.robot = robot;
 	}
 
