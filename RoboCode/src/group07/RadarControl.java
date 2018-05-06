@@ -80,7 +80,7 @@ public class RadarControl {
 	public void robotDeath(RobotDeathEvent e) {
 //		System.out.println(e.getName());
 //		System.out.println(radarTarget.getName() + "-------------------------------------!");
-		if (e.getName().equals(radarTarget.getName())) {
+		if (gotTarget && e.getName().equals(radarTarget.getName())) {
 			System.out.println("test");
 			radarTarget = newRadarTarget();
 			mrRobot.sendMessage(6, "2");
