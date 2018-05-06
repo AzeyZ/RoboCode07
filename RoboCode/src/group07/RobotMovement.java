@@ -74,7 +74,7 @@ public class RobotMovement {
 	}
 
 	void antiGravMove(EnemyTracker track) {
-		System.out.println("grav engaged");
+//		System.out.println("grav engaged");
 		// Recommend using force = strength/Math.pow(distance,1.5) for calculating the
 		// force of the intermediate points on your bot.
 		// https://www.ibm.com/developerworks/library/j-antigrav/index.html

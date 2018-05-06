@@ -44,6 +44,7 @@ public class AllyTracker {
 		for (Ally k : allies) {
 			if (e.getName().equals(k.getName())) {
 				allies.remove(k);
+				break;
 			}
 		}
 

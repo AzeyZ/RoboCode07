@@ -44,7 +44,7 @@ public class Robot07 extends robocode.TeamRobot {
 			}
 
 			if (mode.getCurrentMode() == 2) {
-				System.out.println("BasicMove engaged");
+			//	System.out.println("BasicMove engaged");
 				robotMovement.update(enemyTracker.getTarget());
 				robotMovement.move();
 			}
