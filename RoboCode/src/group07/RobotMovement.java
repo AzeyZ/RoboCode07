@@ -95,10 +95,14 @@ public class RobotMovement {
 			warning = 0;
 
 			for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
-				if (enemyTracker.getLivingEnemies().get(i).getDistance() < 150) {
+				if (enemyTracker.getLivingEnemies().get(i).getDistance() < 200) {
 					gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
 							enemyTracker.getLivingEnemies().get(i).getY(), -1000));
 
+				}
+				else if (enemyTracker.getLivingEnemies().get(i).getDistance() < 100) {
+					gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
+							enemyTracker.getLivingEnemies().get(i).getY(), -5000));
 				}
 
 				if (track.getTarget().getDistance() > 400) {
