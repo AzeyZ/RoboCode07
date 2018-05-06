@@ -10,32 +10,44 @@ import org.junit.Test;
 
 import robocode.MessageEvent;
 
+import group07.MessageHandler;
 import group07.AllyTracker;
 import group07.EnemyTracker;
 import group07.RadarControl;
 
 public class MessageHandlerTest {
-	
+
+	private MessageHandler mHandler;
 	private MockBot mock;
 	private AllyTracker allyTracker;
 	private EnemyTracker enemyTracker;
 	private MessageEvent mEvent;
-	
+
 	@Before
-	public void setUp () {
+	public void setUp() {
 		mock = new MockBot("Mock", 100, 90, 10, 10);
-		allyTracker = new AllyTracker (mock);
+		mHandler = new MessageHandler(mock);
+		allyTracker = new AllyTracker(mock);
 		enemyTracker = new EnemyTracker(mock);
 	}
-	
+
 	@After
-	public void tearDown () {
-		
+	public void tearDown() {
+
 	}
-	
+
 	@Test
-	public void testSend () {
+	public void testSend() {
 		// For sending messages
-		String receiver;
+		String message = "Meddelande";
+		String receiver = "1";
+		mHandler.send(message, receiver); 	// broadCastMessage() kan inte kallas
+											// innan run()
+
+		receiver = "2";
+		mHandler.send(message, receiver);
+
+		receiver = "3";
+		mHandler.send(message, receiver);
 	}
 }
