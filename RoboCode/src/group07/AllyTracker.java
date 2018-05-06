@@ -44,6 +44,7 @@ public class AllyTracker {
 		for (Ally k : allies) {
 			if (e.getName().equals(k.getName())) {
 				allies.remove(k);
+				break;
 			}
 		}
 
@@ -98,7 +99,7 @@ public class AllyTracker {
 		return temp;
 	}
 
-	public ArrayList<Ally> getAllyListWithOurself() {
+	public ArrayList<Ally> getAllyListWithoutOurself() {
 		ArrayList<Ally> temp = new ArrayList<>();
 		temp.addAll(allies);
 		for (int i = 0; i < temp.size(); i++) {
