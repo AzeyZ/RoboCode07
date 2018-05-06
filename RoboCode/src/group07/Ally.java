@@ -19,7 +19,7 @@ public class Ally {
 	}
 
 	public boolean isMrRobot() {
-		return this.name.contains("Robot07"); // Behövs ändras som vi bytar namn till MrRobot
+		return this.name.contains("MrRobot"); // Behövs ändras som vi bytar namn till MrRobot
 	}
 
 	public String getName() {
