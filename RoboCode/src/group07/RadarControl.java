@@ -10,6 +10,7 @@ public class RadarControl {
 	MrRobot mrRobot;
 	AllyTracker allyTracker;
 	EnemyTracker enemyTracker;
+	EnemyBot newRadarTarget;
 	boolean oneTime;
 	boolean gotTarget;
 	int myPlaceInList;
@@ -50,7 +51,8 @@ public class RadarControl {
 			for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
 				if (enemyTracker.getLivingEnemies().get(i).getName().equals(ramBot.getName())) {
 					if (!ramBot.getName().equals(radarTarget.getName())) {
-						mrRobot.sendMessage(5, "2");
+						newRadarTarget = enemyTracker.getLivingEnemies().get(getIndexForEnemy(ramBot.getName()));
+						mrRobot.sendMessage(1, "2");
 //						System.out.println(e.getName() + "-------");
 						radarTarget = enemyTracker.getLivingEnemies().get(getIndexForEnemy(ramBot.getName()));
 						targetTracking.get(getIndexForName(mrRobot.getName())).updateTarget(radarTarget);
@@ -76,8 +78,10 @@ public class RadarControl {
 	}
 
 	public void robotDeath(RobotDeathEvent e) {
+//		System.out.println(e.getName());
+//		System.out.println(radarTarget.getName() + "-------------------------------------!");
 		if (e.getName().equals(radarTarget.getName())) {
-
+			System.out.println("test");
 			radarTarget = newRadarTarget();
 			mrRobot.sendMessage(6, "2");
 
@@ -119,13 +123,14 @@ public class RadarControl {
 
 	public void teammateGettingAttacked(String teammateName, String shooter, String oldTarget) {
 //		System.out.println("test");
+		if(gotTarget) {
 		if (shooter.equals(radarTarget.getName()) && getIndexForEnemy(oldTarget) != -1) {
 
 			radarTarget = enemyTracker.getLivingEnemies().get(getIndexForEnemy(oldTarget));
 			targetTracking.get(getIndexForName(mrRobot.getName())).updateTarget(radarTarget);
 			mrRobot.sendMessage(6, "2");
 
-		}
+		}}
 		if (getIndexForName(teammateName) != -1 && getIndexForEnemy(shooter) != -1) {
 			targetTracking.get(getIndexForName(teammateName))
 					.updateTarget(enemyTracker.getLivingEnemies().get(getIndexForEnemy(shooter)));
@@ -190,6 +195,13 @@ public class RadarControl {
 			return enemyTracker.getTarget();
 		}
 
+	}
+	public EnemyBot getNewRadarTarget() {
+		if (gotTarget) {
+			return newRadarTarget;
+		} else {
+			return enemyTracker.getTarget();
+		}
 	}
 }
 

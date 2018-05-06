@@ -72,17 +72,24 @@ public class EnemyTracker {
 		for (int k = 0; k < enemies.size(); k++) {
 			if (e.getName().equals(enemies.get(k).getName())) {
 				enemies.get(k).setEnergy(0);
+//				enemies.remove(enemies.get(k));
 			}
 		}
 		enemies = targetPrio.sortList(enemies, robot.getTime());
+		
 	}
 
 	// Target prio
 	public void updateTarget() {
 		if (!enemies.isEmpty()) {
 			enemies = targetPrio.sortList(enemies, robot.getTime());
-			if (allEnemiesScanned()) {
+			if (allEnemiesScanned() && robot.getCloseEnemies().isEmpty()) {
 				target = enemies.get(0);
+			}
+			else if(!robot.getCloseEnemies().isEmpty())
+			{
+				target = robot.getCloseEnemies().get(0);
+				robot.enemyNearby();
 			}
 		}
 	}

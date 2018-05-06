@@ -40,6 +40,7 @@ public class Radar {
 			scanTarget();
 		}
 	}
+	
 
 	
 	// Scan the target

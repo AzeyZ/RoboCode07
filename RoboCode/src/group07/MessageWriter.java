@@ -103,6 +103,9 @@ public class MessageWriter {
 	{
 		return "myPos;" + myXPos + ";" + myYPos + "\nrNewRadarTarget;" + targetName;
 	}
+	public String gettingRammed(double myXPos, double myYPos, String shooterName, String oldTargetName) {
+		return "myPos;" + myXPos + ";" + myYPos + "\nrGettingAttacked;" + shooterName + ";" + oldTargetName;
+	}
 	
 
 }
