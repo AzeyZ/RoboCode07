@@ -109,13 +109,13 @@ public class RobotMovement {
 				}
 				else if (enemyTracker.getLivingEnemies().get(i).getDistance() < 150) {
 					gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
-							enemyTracker.getLivingEnemies().get(i).getY(), -5000));
+							enemyTracker.getLivingEnemies().get(i).getY(), -6000));
 				}
 
 				if (track.getTarget().getDistance() > 400) {
 					gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 3000));
 				} else if (track.getTarget().getDistance() < 150) {
-					gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 800));
+					gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -1000));
 				} else {
 					gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 1500));
 				}
