@@ -56,4 +56,9 @@ public class MathUtilsTest {
 	public void toRadians () {
 		assertEquals("Fel värde på vinkeln (radianer)", Math.PI, MathUtils.toRadians(degAngle), 0.1d);
 	}
+	
+	@Test
+	public void testBulletVelocity () {
+		
+	}
 }

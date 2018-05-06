@@ -5,10 +5,10 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({AllyTest.class, ShotsTest.class, TargetEnemyBotTest.class, 
-	MessageWriterTest.class, EnemyBotTest.class, MathUtilsTest.class, 
+@SuiteClasses({AllyTest.class, MessageWriterTest.class, 
+	EnemyBotTest.class, MathUtilsTest.class, 
 	AllyTrackerTest.class, TargetEnemyPrioritizerTest.class, 
-	MessageHandlerTest.class, EnemyTrackerTest.class})
+	EnemyTrackerTest.class})
 
 public class TestAllClasses {
 
