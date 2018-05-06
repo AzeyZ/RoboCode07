@@ -45,6 +45,20 @@ public class RadarControl {
 			oneTime = false;
 		}
 	}
+	public void gettingRammed(EnemyBot ramBot) {
+		if (gotTarget) {
+			for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
+				if (enemyTracker.getLivingEnemies().get(i).getName().equals(ramBot.getName())) {
+					if (!ramBot.getName().equals(radarTarget.getName())) {
+						mrRobot.sendMessage(5, "2");
+//						System.out.println(e.getName() + "-------");
+						radarTarget = enemyTracker.getLivingEnemies().get(getIndexForEnemy(ramBot.getName()));
+						targetTracking.get(getIndexForName(mrRobot.getName())).updateTarget(radarTarget);
+					}
+				}
+			}
+		}
+	}
 
 	public void gettingAttacked(HitByBulletEvent e) {
 		if (gotTarget) {

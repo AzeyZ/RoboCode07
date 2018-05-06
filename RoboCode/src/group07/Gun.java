@@ -16,11 +16,11 @@ import robocode.util.Utils;
 public class Gun {
 
 	private Robot07 robot;
-	private TargetEnemyBot target;
+	private EnemyBot target;
 	public static double lastEnemyVelocity;
 	public static double lateralDirection;
 	
-	private static TargetEnemyBot lastTarget = null;
+	private static EnemyBot lastTarget = null;
 
 	private GunControl gunControl;
 	

@@ -7,13 +7,13 @@ import robocode.ScannedRobotEvent;
 
 public class EnemyTracker {
 	private ArrayList<EnemyBot> enemies = new ArrayList<EnemyBot>();
-	private TargetEnemyBot target;
+	private EnemyBot target;
 	private TargetPrioritizer targetPrio = new TargetPrioritizer();
 	private Robot07 robot;
 
 	public EnemyTracker(Robot07 robot) {
 		this.robot = robot;
-		target = new TargetEnemyBot(robot);
+		target = new EnemyBot(robot);
 	}
 
 	// Update enemy list
@@ -125,7 +125,7 @@ public class EnemyTracker {
 		return enemies;
 	}
 
-	public TargetEnemyBot getTarget() {
+	public EnemyBot getTarget() {
 		return target;
 	}
 }

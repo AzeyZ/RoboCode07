@@ -69,17 +69,6 @@ public class MessageWriter {
 		return message;
 	}
 
-	public String shotTowardsAlly(double myXPos, double myYPos, String targetEnemy, ArrayList<Shots> shot) {
-		String message = "myPos;" + myXPos + ";" + myYPos + "\ntargetEnemy;" + targetEnemy;
-		if (!shot.isEmpty()) {
-			for (Shots k : shot) {
-				message = message + "\nrShot;" + k.getX() + ";" + k.getY() + ";" + k.getTick();
-			}
-		}
-		return message;
-
-	}
-
 	public String allyListUpdate(double myXPos, double myYPos, ArrayList<Ally> allyList) {
 		String message = "myPos;" + myXPos + ";" + myYPos;
 		if (!allyList.isEmpty()) {

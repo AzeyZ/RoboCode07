@@ -11,7 +11,7 @@ public class RobotMovement {
 	private double velocity;
 	private long time;
 	private double degreeCloser = 0;
-	private TargetEnemyBot target;
+	private EnemyBot target;
 	private Robot07 robot;
 	private ArrayList<GravPoint> gravpoints = new ArrayList<GravPoint>();
 	private MovementModeSwitcher mode;
@@ -27,7 +27,7 @@ public class RobotMovement {
 	}
 
 	// Uppdaterar
-	public void update(TargetEnemyBot target) {
+	public void update(EnemyBot target) {
 		this.target = target;
 		this.velocity = robot.getVelocity();
 		this.time = robot.getTime();

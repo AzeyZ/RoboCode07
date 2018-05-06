@@ -6,13 +6,13 @@ import java.awt.geom.Rectangle2D;
 
 public class GunControl {
 	private Robot07 robot;
-	private TargetEnemyBot target;
+	private EnemyBot target;
 
 	public GunControl() {
 
 	}
 
-	public boolean takeShot(Robot07 robot, TargetEnemyBot target) {
+	public boolean takeShot(Robot07 robot, EnemyBot target) {
 		this.robot = robot;
 		this.target = target;
 		return (distance() && target() && friendlyFire());
