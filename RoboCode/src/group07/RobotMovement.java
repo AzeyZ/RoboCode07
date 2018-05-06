@@ -89,7 +89,7 @@ public class RobotMovement {
 			warning++;
 			boolean antiRam = false;
 			for (int i = 0; i < track.getEnemies().size(); i++) {
-				if (track.getEnemies().get(i).getDistance() < 100) {
+				if (track.getEnemies().get(i).getDistance() < 150) {
 					antiRam = true;
 				}
 			}
@@ -107,7 +107,7 @@ public class RobotMovement {
 							enemyTracker.getLivingEnemies().get(i).getY(), -1000));
 
 				}
-				else if (enemyTracker.getLivingEnemies().get(i).getDistance() < 100) {
+				else if (enemyTracker.getLivingEnemies().get(i).getDistance() < 150) {
 					gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
 							enemyTracker.getLivingEnemies().get(i).getY(), -5000));
 				}
