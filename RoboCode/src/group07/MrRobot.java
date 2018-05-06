@@ -51,10 +51,10 @@ public class MrRobot extends robocode.TeamRobot {
 			}
 
 			radarControl.startOfGame();
-			if (radarControl.gotTarget) {
-				System.out.println(getTime());
-				System.out.println(radarControl.getRadarTarget().getName());
-			}
+//			if (radarControl.gotTarget) {
+//				System.out.println(getTime());
+//				System.out.println(radarControl.getRadarTarget().getName());
+//			}
 			// scannar
 			radar.update(radarControl.getRadarTarget());
 
@@ -183,7 +183,7 @@ public class MrRobot extends robocode.TeamRobot {
 	 * onHitWall: What to do when you hit a wall
 	 */
 	public void onHitWall(HitWallEvent e) {
-
+		System.out.println("HIT!!!!!!!!!!!!!!!!!!!!!");
 	}
 
 	public void onRobotDeath(RobotDeathEvent e) {
