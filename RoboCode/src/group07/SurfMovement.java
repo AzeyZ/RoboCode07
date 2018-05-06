@@ -12,7 +12,6 @@ import robocode.util.Utils;
 // Code and Methods heavily inspired by the surfing tutorial by Voidious
 // http://www.robowiki.net/wiki/Wave_Surfing_Tutorial
 
-
 public class SurfMovement {
 	private static int BINS = 47;
 	private static double _surfStats[] = new double[BINS]; // we'll use 47 bins
@@ -29,11 +28,12 @@ public class SurfMovement {
 	private ArrayList _surfAbsBearings;
 	private static double _oppEnergy = 100.0;
 
-	private static Rectangle2D.Double _fieldRect; //= new java.awt.geom.Rectangle2D.Double(18, 18, 764, 564);
-	
+	private static Rectangle2D.Double _fieldRect; // = new java.awt.geom.Rectangle2D.Double(18, 18, 764, 564);
+
 	private static double WALL_STICK = 160;
 
-	public SurfMovement(MovementModeSwitcher mode, RobotMovement Rmove, EnemyTracker track, TeamRobot r, AllyTracker allyTracker) {
+	public SurfMovement(MovementModeSwitcher mode, RobotMovement Rmove, EnemyTracker track, TeamRobot r,
+			AllyTracker allyTracker) {
 		this.track = track;
 		this.mode = mode;
 		this.Rmove = Rmove;
@@ -45,8 +45,9 @@ public class SurfMovement {
 	}
 
 	public void updateSurf(ScannedRobotEvent e) {
-		
-		_fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, r.getBattleFieldWidth()*0.95, r.getBattleFieldHeight()*0.95);
+
+		_fieldRect = new java.awt.geom.Rectangle2D.Double(18, 18, r.getBattleFieldWidth() * 0.95,
+				r.getBattleFieldHeight() * 0.95);
 
 		_myLocation = new Point2D.Double(r.getX(), r.getY());
 
@@ -117,32 +118,31 @@ public class SurfMovement {
 		} else {
 			goAngle = wallSmoothing(_myLocation, goAngle + (Math.PI / 2), 1);
 		}
-		
-		ArrayList <Ally> allies = allyTracker.getAllyList();
+
+		ArrayList<Ally> allies = allyTracker.getAllyList();
 		boolean allyDistanceCheck = true;
-		for(int i = 0; i<allies.size(); i++) {
-			if(!allies.get(i).getName().equals(r.getName())) {
+		for (int i = 0; i < allies.size(); i++) {
+			if (!allies.get(i).getName().equals(r.getName())) {
 				double dist = MathUtils.distance(r.getX(), r.getY(), allies.get(i).getX(), allies.get(i).getY());
-				if(dist < 150) {
+				if (dist < 150) {
 					allyDistanceCheck = false;
 				}
 			}
 		}
-		
+
 		boolean targetDistanceCheck = e.getDistance() > 800;
 		boolean antiRam = true;
-		for(int i = 0; i <track.getEnemies().size(); i++) {
-		 if(track.getEnemies().get(i).getDistance() < 100) {
-			 antiRam = false;
-		 }
+		for (int i = 0; i < track.getEnemies().size(); i++) {
+			if (track.getEnemies().get(i).getDistance() < 100) {
+				antiRam = false;
+			}
 		}
-		
-		
-		if(!allyDistanceCheck || targetDistanceCheck || !antiRam) {
+
+		if (!allyDistanceCheck || targetDistanceCheck || !antiRam) {
 			mode.AGmove();
 		}
-		
-		if(mode.getCurrentMode() == 1) {
+
+		if (mode.getCurrentMode() == 1) {
 			setBackAsFront(r, goAngle);
 		}
 	}
