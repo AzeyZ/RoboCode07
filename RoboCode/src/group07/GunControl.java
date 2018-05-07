@@ -20,7 +20,7 @@ public class GunControl {
 	}
 
 	private boolean distance() {
-		return robot.getGunHeat() == 0 && Math.abs(robot.getGunTurnRemaining()) < 2 && target.getDistance() < 600;
+		return robot.getGunHeat() == 0 && Math.abs(robot.getGunTurnRemaining()) < 2 && target.getDistance() < 900;
 	}
 
 	private boolean target() {

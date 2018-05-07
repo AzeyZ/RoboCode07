@@ -96,7 +96,7 @@ public class RobotMovement {
 			if (warning > 7 && !antiRam) {
 
 				move();
-				mode.RNDMove();
+				mode.rndMove();
 			}
 		} else {
 			warning = 0;

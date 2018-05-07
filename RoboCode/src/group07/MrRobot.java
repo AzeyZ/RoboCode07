@@ -3,8 +3,6 @@ package group07;
 import robocode.*;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -41,9 +39,10 @@ public class MrRobot extends robocode.TeamRobot {
 			sendMessage(0, "1");
 			sendMessage(2, "2");
 			sendMessage(3, "2");
-			// Telling MovementModeSwitcher that its a new turn.
-			mode.NewTurn();
-			// Calling movement
+
+			//Telling MovementModeSwitcher that its a new turn.
+			mode.newTurn();
+			//Calling movement
 			if (mode.getCurrentMode() == 0) {
 				robotMovement.antiGravMove(enemyTracker);
 			}

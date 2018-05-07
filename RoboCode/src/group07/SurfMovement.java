@@ -59,7 +59,7 @@ public class SurfMovement {
 
 		double bulletPower = _oppEnergy - e.getEnergy();
 		if (bulletPower < 3.01 && bulletPower > 0.09 && _surfDirections.size() > 2) {
-			mode.SurfMode();
+			mode.surfMode();
 			EnemyWave ew = new EnemyWave();
 			ew.fireTime = r.getTime() - 1;
 			ew.bulletVelocity = bulletVelocity(bulletPower);
