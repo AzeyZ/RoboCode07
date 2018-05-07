@@ -48,7 +48,7 @@ public class GunControl {
 			if (bearing >= 180) {
 				bearing -= 360;
 			}
-			if ((bearing > -20 && bearing < 20) && distance < 300) {
+			if ((bearing > -20 && bearing < 20) && (distance < target.getDistance() || target.getDistance() < 200)) {
 				return false;
 			}
 		}
