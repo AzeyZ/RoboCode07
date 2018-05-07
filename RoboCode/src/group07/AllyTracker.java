@@ -1,10 +1,6 @@
 package group07;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'Beta.0.5.1' of https://github.com/AzeyZ/RoboCode07.git
 import robocode.*;
 
 /**

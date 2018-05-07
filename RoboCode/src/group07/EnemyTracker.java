@@ -34,7 +34,12 @@ public class EnemyTracker {
 			String name) {
 		double bearing = calBearing(enemyX, enemyY);
 		double distance = MathUtils.distance(robot.getX(), robot.getY(), enemyX, enemyY);
+<<<<<<< HEAD
+		if (bearing < -180 || bearing > 180) {
+		}
+=======
 
+>>>>>>> branch 'Beta.0.5.1' of https://github.com/AzeyZ/RoboCode07.git
 		if (bearing != -1) {
 			if ((isNewEnemy(name) != null)) {
 				for (int k = 0; k < enemies.size(); k++) {
@@ -71,11 +76,11 @@ public class EnemyTracker {
 		for (int k = 0; k < enemies.size(); k++) {
 			if (e.getName().equals(enemies.get(k).getName())) {
 				enemies.get(k).setEnergy(0);
-//				enemies.remove(enemies.get(k));
+				// enemies.remove(enemies.get(k));
 			}
 		}
 		enemies = targetPrio.sortList(enemies, robot.getTime());
-		
+
 	}
 
 	// Target prio
@@ -84,9 +89,7 @@ public class EnemyTracker {
 			enemies = targetPrio.sortList(enemies, robot.getTime());
 			if (allEnemiesScanned() && robot.getCloseEnemies().isEmpty()) {
 				target = enemies.get(0);
-			}
-			else if(!robot.getCloseEnemies().isEmpty())
-			{
+			} else if (!robot.getCloseEnemies().isEmpty()) {
 				target = robot.getCloseEnemies().get(0);
 				robot.enemyNearby();
 			}
@@ -108,18 +111,16 @@ public class EnemyTracker {
 	}
 
 	private double calBearing(double enemyX, double enemyY) {
-		//-180 <= getBearing() < 180
+		// -180 <= getBearing() < 180
 
 		double angle = Math.toDegrees(Math.atan2(enemyX - robot.getX(), enemyY - robot.getY()));
 		double heading = robot.getHeading();
-		if(heading >= 180)
-		{
+		if (heading >= 180) {
 			heading -= 360;
 		}
 		double bearing = angle - heading;
-		if(bearing >= 180)
-		{
-			bearing -=360;
+		if (bearing >= 180) {
+			bearing -= 360;
 		}
 		return bearing;
 	}

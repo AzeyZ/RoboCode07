@@ -188,10 +188,16 @@ public class MrRobot extends robocode.TeamRobot {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * getCloseEnemies: Creating an ArrayList with all enemies that is closer the
 	 * 150 pixels away and sort it in order starting with the closest.
 	 * 
 	 * @return ArrayList<EnemyBot>
+=======
+	 * getCloseEnemies: Creating an ArrayList with all enemies that is closer than 150 pixels away
+	 * and sort it in order starting with the closest.
+	 * @return 
+>>>>>>> branch 'Beta.0.5.1' of https://github.com/AzeyZ/RoboCode07.git
 	 */
 	public ArrayList<EnemyBot> getCloseEnemies() {
 		ArrayList<EnemyBot> rammers = new ArrayList<>();
