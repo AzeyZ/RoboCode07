@@ -1,11 +1,9 @@
 package group07;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import robocode.AdvancedRobot;
 import robocode.Condition;
-import robocode.ScannedRobotEvent;
 import robocode.TeamRobot;
 import robocode.util.Utils;
 
@@ -17,7 +15,6 @@ public class Gun {
 
 	private MrRobot robot;
 	private EnemyBot target;
-	private AllyTracker ally;
 	public static double lastEnemyVelocity;
 	public static double lateralDirection;
 	
@@ -27,7 +24,6 @@ public class Gun {
 	
 	public Gun(MrRobot robot, AllyTracker ally) {
 		this.robot = robot;
-		this.ally = ally;
 		gunControl = new GunControl(ally);
 	}
 
@@ -35,10 +31,8 @@ public class Gun {
 	public void Wave(EnemyTracker track) {
 		
 		GFTWave wave = new GFTWave(robot);
-		if((lastTarget != null)) {
-			if(target != lastTarget) {
+		if((lastTarget != null && target != lastTarget)) {
 				wave.reset();
-			}
 		}
 		
 		target = track.getTarget();
@@ -81,7 +75,6 @@ class GFTWave extends Condition {
 	Point2D gunLocation;
 	double bearing;
 	double lateralDirection;
-	private static final double MAX_DISTANCE = 400.0D;
 	private static final int DISTANCE_INDEXES = 5;
 	private static final int VELOCITY_INDEXES = 5;
 	private static final int BINS = 25;

@@ -3,8 +3,6 @@ package group07;
 import robocode.*;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MrRobot extends robocode.TeamRobot {
