@@ -194,6 +194,10 @@ public class MockBot extends MrRobot {
 		return msg.get(i);
 	}
 
+	public ArrayList<String> getMessages() {
+		return msg;
+	}
+
 	@Override
 	public void broadcastMessage(Serializable message) {
 		fakeBroadcast = (String) message;
@@ -208,7 +212,7 @@ public class MockBot extends MrRobot {
 	}
 
 	@Override
-	public ArrayList<Ally> getAllies(){
+	public ArrayList<Ally> getAllies() {
 		return fakeAllies;
 	}
 }
