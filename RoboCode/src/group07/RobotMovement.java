@@ -5,7 +5,12 @@ import java.util.ArrayList;
 
 // method antigrav move is heavily inspired by Alisdair Owens from IBM
 // https://www.ibm.com/developerworks/library/j-antigrav/index.html
-
+/**
+ * method antigrav move is heavily inspired by Alisdair Owens from IBM
+ * https://www.ibm.com/developerworks/library/j-antigrav/index.html
+ * Class for our anti gravity movement and random based movement system 
+ * 
+ */
 public class RobotMovement {
 	private int moveDirection = 1;
 	private double velocity;
@@ -20,20 +25,31 @@ public class RobotMovement {
 	private static double lastX;
 	private static double lastY;
 
+	/**
+	 * 
+	 * @param robot instance of our main class
+	 * @param mode Instance of our movementsystem switcher 
+	 * @param enemyTracker Instance of our enemy tracker.
+	 */
 	public RobotMovement(MrRobot robot, MovementModeSwitcher mode, EnemyTracker enemyTracker) {
 		this.robot = robot;
 		this.mode = mode;
 		this.enemyTracker = enemyTracker;
 	}
 
-	// Uppdaterar
+	/**
+	 * Updating info on our target
+	 * @param target
+	 */
 	public void update(EnemyBot target) {
 		this.target = target;
 		this.velocity = robot.getVelocity();
 		this.time = robot.getTime();
 	}
 
-	// Sköter flyttandet
+	/**
+	 * Starting our random movement system
+	 */
 	public void move() {
 		if (!isTargetNull()) {
 			robot.setTurnRight(rotation());
@@ -43,7 +59,10 @@ public class RobotMovement {
 		}
 	}
 
-	// Kollar om target är null
+	/**
+	 * Checks if target is null.
+	 * @return TargetNull
+	 */
 	public boolean isTargetNull() {
 		if (target == null) {
 			return true;
@@ -52,7 +71,10 @@ public class RobotMovement {
 		}
 	}
 
-	// Beräknar hur vi ska roteras
+	/**
+	 * Calculates rotation angle
+	 * @return angle for rotation
+	 */
 	public double rotation() {
 		if (target.getDistance() > 50) {
 			degreeCloser = 30;
@@ -62,20 +84,27 @@ public class RobotMovement {
 		return (target.getBearing() + 90 - (degreeCloser * moveDirection));
 	}
 
-	// Kollar om vi stannat eller det gått 20 ticks
+	/**
+	 * Checks if we have stopped
+	 * @return has stopped
+	 */
 	public boolean hasStopped() {
 		return velocity == 0 || time % 20 == 0;
 	}
 
-	// Hur långt vi ska gå i vilken riktning
+	/**
+	 * How far we should go in desired distance
+	 * @return ahead distance
+	 */
 	public double ahead() {
 		moveDirection *= -1;
 		return (100 * moveDirection);
 	}
-
+	/**
+	 * Starts our antigravity movement system. 
+	 * @param track Instance of our enemyTracker from the main class.
+	 */
 	void antiGravMove(EnemyTracker track) {
-//		System.out.println("grav engaged");
-		// Recommend using force = strength/Math.pow(distance,1.5) for calculating the
 		// force of the intermediate points on your bot.
 		// https://www.ibm.com/developerworks/library/j-antigrav/index.html
 		double xforce = 0;
@@ -84,7 +113,7 @@ public class RobotMovement {
 		double ang;
 		GravPoint p;
 		gravpoints.clear();
-
+		//Checks if we stand still for too long.
 		if ((MathUtils.distance(robot.getX(), robot.getY(), lastX, lastY)) < 15) {
 			warning++;
 			boolean antiRam = false;
@@ -100,7 +129,8 @@ public class RobotMovement {
 			}
 		} else {
 			warning = 0;
-
+			
+			//Adding gravity points to enemies
 			for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
 				if (enemyTracker.getLivingEnemies().get(i).getDistance() < 200) {
 					gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
@@ -111,7 +141,6 @@ public class RobotMovement {
 					gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
 							enemyTracker.getLivingEnemies().get(i).getY(), -6000));
 				}
-
 				if (track.getTarget().getDistance() > 400) {
 					gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 3000));
 				} else if (track.getTarget().getDistance() < 150) {
@@ -121,7 +150,7 @@ public class RobotMovement {
 				}
 
 			}
-
+			// adding gravity points to allies
 			for (int i = 0; i < robot.getAllies().size(); i++) {
 				if (!robot.getAllies().get(i).getName().equals(robot.getName())) {
 					gravpoints.add(
@@ -129,7 +158,7 @@ public class RobotMovement {
 				}
 
 			}
-
+			//calculating our gravity points to find our angle and force
 			for (int i = 0; i < gravpoints.size(); i++) {
 				p = (GravPoint) gravpoints.get(i);
 				// Calculate the total force from this point on us
@@ -149,7 +178,6 @@ public class RobotMovement {
 			 * bot is close to the walls due to the force from the walls decreasing at a
 			 * power 3.
 			 **/
-			
 			xforce += 5000
 					/ Math.pow(getRange(robot.getX(), robot.getY(), robot.getBattleFieldWidth(), robot.getY()), 3);
 			xforce -= 5000 / Math.pow(getRange(robot.getX(), robot.getY(), 0, robot.getY()), 3);
@@ -211,7 +239,11 @@ public class RobotMovement {
 			ang += 2 * Math.PI;
 		return ang;
 	}
-
+	/**
+	 * 
+	 * Help class for our Gravity points.
+	 *
+	 */
 	class GravPoint {
 		public double x, y, power;
 
