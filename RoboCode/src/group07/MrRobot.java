@@ -8,9 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MrRobot extends robocode.TeamRobot {
-	/**
-	 * run: Robot's default behavior
-	 */
 	private EnemyTracker enemyTracker = new EnemyTracker(this);
 	private AllyTracker allyTracker = new AllyTracker(this);
 	private Radar radar = new Radar(this);
@@ -22,58 +19,54 @@ public class MrRobot extends robocode.TeamRobot {
 	private SurfMovement surfing = new SurfMovement(mode, robotMovement, enemyTracker, this, allyTracker);
 	private RadarControl radarControl = new RadarControl(allyTracker, enemyTracker, this);
 	private HitByBulletEvent lastHitEvent;
-	private static int counter;
-
+	
+	/**
+	 * run: Robot's default behavior
+	 */
 	public void run() {
-		// Init robot
+		// Getting the robot ready for battle.
 		initialize();
 
-		// adding allies
+		// Adding allies
 		allyTracker.addAllAllies();
+		// Giving the robot a int for its place in allyList
 		radarControl.givePlaceInList();
 		// Robot main loop
 		while (true) {
+			//Sending all messages that update Lists for Mr Robots and others.
+			//One standard message and two special for Mr Robot.
 			sendMessage(0, "1");
 			sendMessage(2, "2");
 			sendMessage(3, "2");
-			// counting turns
-
+			//Telling MovementModeSwitcher that its a new turn.
 			mode.NewTurn();
-			// flyttar roboten
+			//Calling movement
 			if (mode.getCurrentMode() == 0) {
-//				System.out.println("ANTI GRAVING");
 				robotMovement.antiGravMove(enemyTracker);
 			}
 
 			if (mode.getCurrentMode() == 2) {
-				// System.out.println("BasicMove engaged");
 				robotMovement.update(enemyTracker.getTarget());
 				robotMovement.move();
 			}
-
+			//Calling radarControl, will set up radarControl.
 			radarControl.startOfGame();
-//			if (radarControl.gotTarget) {
-//				System.out.println(getTime());
-//				System.out.println(radarControl.getRadarTarget().getName());
-//			}
-			// scannar
+			//Updating which target radar should focus.
 			radar.update(radarControl.getRadarTarget());
-
+			//Scanning chosen target.
 			radar.scan();
-
-			// behövs för att alla set command ska köra
+			//Calling gun and fire.
 			gun.Wave(enemyTracker);
+			
 			execute();
 
 		}
 	}
-
-	// Settings when starting robot
+	/**
+	 * initialize: Settings when starting robot
+	 */
 	public void initialize() {
-		// Initialization of the robot should be put here
 		setColors(Color.magenta, Color.black, Color.black, Color.green, Color.magenta); // body,gun,radar, bullet, scan
-
-		// ser till att alla delar kan rotera individuellt
 		setAdjustGunForRobotTurn(true);
 		setAdjustRadarForGunTurn(true);
 		setTurnRadarRight(360);
@@ -95,20 +88,19 @@ public class MrRobot extends robocode.TeamRobot {
 		}
 
 	}
-	// Standard message == 0
-	// rGettningRammed == 1
-	// rAlly == 2
-	// rEnemy == 3
-	// rPickRadarTarget == 4
-	// rGettingAttacked == 5
-	// rNewTarget == 6
-
-	// Skickar ivÃ¤g ett meddelande
-	// receiver == 1 skicka till alla.
-	// receiver == 2 skicka till alla mrRobot.
-	// receiver != 1 || 2 skicka till receiver.
+	
+	/**
+	 * sendMessage: Sending messages to teammates.
+	 * @param messageType We send 7 diffrent types of messages.
+	 * messageType can have a value from 0-6 and will send diffrent kinds of messages depending on the value.
+	 * @param receiver We can have 3 types of strings as input.
+	 * If we want to send the message to all allied bots we set "1" as the input.
+	 * If we want to send the message to all MrRobots we set "2" as the input.
+	 * If we want to send the message to a teammate we set the name of that teammate as input.
+	 */
 	public void sendMessage(int messageType, String receiver) {
 		String message = "";
+		//Getting the right string after for the messageType we are trying to send.
 		switch (messageType) {
 		case 0: {
 			message = messageWriter.standardMessage(this.getX(), this.getY(), allyTracker.getAllyList(),
@@ -145,6 +137,7 @@ public class MrRobot extends robocode.TeamRobot {
 			break;
 		}
 		}
+		//Sending the message to the right receiver.
 		messageHandler.send(message, receiver);
 	}
 
@@ -152,7 +145,6 @@ public class MrRobot extends robocode.TeamRobot {
 	 * onMessageReceived: What to do when you receive a message
 	 */
 	public void onMessageReceived(MessageEvent e) {
-
 		if (e.getMessage() instanceof RobotColors) {
 			RobotColors c = (RobotColors) e.getMessage();
 			setBodyColor(c.bodyColor);
@@ -171,31 +163,24 @@ public class MrRobot extends robocode.TeamRobot {
 	/**
 	 * onHitByBullet: What to do when you're hit by a bullet
 	 */
-
 	public void onHitByBullet(HitByBulletEvent e) {
-		if(e.getName().contains("MrRobot")){
-			System.out.println("HIT count" + counter++);
-		}
-		// // TODO:switch target to the one that hit us
 		lastHitEvent = e;
 		radarControl.gettingAttacked(e);
 		surfing.onHitByBulletSurf(e);
 	}
-
 	/**
-	 * onHitWall: What to do when you hit a wall
+	 * onRobotDeath: What to do when another robot dies
 	 */
-	public void onHitWall(HitWallEvent e) {
-		//System.out.println("HIT!!!!!!!!!!!!!!!!!!!!!");
-	}
-
 	public void onRobotDeath(RobotDeathEvent e) {
 		enemyTracker.robotDeath(e);
 		enemyTracker.updateTarget();
 		allyTracker.robotDeath(e);
 		radarControl.robotDeath(e);
 	}
-
+	/**
+	 * getCloseEnemies: Creating an ArrayList with all enemies that is closer the 150 pixles away
+	 * and sort it in order starting with the closest.
+	 */
 	public ArrayList<EnemyBot> getCloseEnemies() {
 		ArrayList<EnemyBot> rammers = new ArrayList<>();
 		for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
