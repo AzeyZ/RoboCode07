@@ -42,10 +42,11 @@ public class MessageHandlerTest {
 	public void testSend_Broadcast () {
 		// For sending messages
 		String receiver = "1";
-		String message = " ";
+		String message = "Han är sprängd";
 		
 		msgHandler.send(message, receiver);
+		String msg = mock.getBroadcast();
 		
-		assertEquals("The message failed to broadcast", message, "Broadcast"); //change Broadcast to mock.getBroadcast
+		assertEquals("The message failed to broadcast", message, msg); 
 	}
 }
