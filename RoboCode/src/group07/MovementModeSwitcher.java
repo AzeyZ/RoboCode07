@@ -9,7 +9,7 @@ public class MovementModeSwitcher {
 	// ...
 	private TeamRobot r;
 	private long time = 0;
-	public static int currentMode = 0;
+	private int currentMode = 0;
 
 	public MovementModeSwitcher(TeamRobot r) {
 		this.r = r;
@@ -19,17 +19,17 @@ public class MovementModeSwitcher {
 		return currentMode;
 	}
 
-	public void SurfMode() {
+	public void surfMode() {
 		time = r.getTime() + 25;
 		currentMode = 1;
 	}
 
-	public void NewTurn() {
+	public void newTurn() {
 		if (time <= r.getTime()) {
 			currentMode = 0;
 		}
 	}
-	public void RNDMove() {
+	public void rndMove() {
 		time = r.getTime() + 10;
 		currentMode = 2;
 	}

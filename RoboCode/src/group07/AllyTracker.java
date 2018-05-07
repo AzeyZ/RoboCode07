@@ -1,19 +1,29 @@
 package group07;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import robocode.*;
 
+/**
+ * AllyTracker: Handles info about allies.
+ * 
+ *
+ */
 public class AllyTracker {
 	private ArrayList<Ally> allies = new ArrayList<>();
 	private MrRobot MrRobot;
 
+	/**
+	 * 
+	 * @param MrRobot
+	 */
 	public AllyTracker(MrRobot MrRobot) {
 		this.MrRobot = MrRobot;
 	}
 
+	/**
+	 * addAllAllies: Adding all allies to the allyList.
+	 * 
+	 */
 	public void addAllAllies() {
 		String[] teamm8 = MrRobot.getTeammates();
 		if (teamm8 != null) {
@@ -21,12 +31,17 @@ public class AllyTracker {
 				allies.add(new Ally(teamm8[i]));
 
 			}
-			
+
 		}
 		allies.add(0, new Ally(MrRobot.getName()));
 		sortAlly();
 	}
 
+	/**
+	 * update: Update the info about the scanned ally.
+	 * 
+	 * @param ScannedRobotEvent
+	 */
 	public void update(ScannedRobotEvent e) {
 		double absBearingDeg = (MrRobot.getHeading() + e.getBearing());
 		if (absBearingDeg < 0) {
@@ -40,6 +55,11 @@ public class AllyTracker {
 		}
 	}
 
+	/**
+	 * robotDeath: Remove the robot that died from allyList.
+	 * 
+	 * @param RobotDeathEvent
+	 */
 	public void robotDeath(RobotDeathEvent e) {
 		for (Ally k : allies) {
 			if (e.getName().equals(k.getName())) {
@@ -50,6 +70,11 @@ public class AllyTracker {
 
 	}
 
+	/**
+	 * amountMrRobot: Count the amount of MrRobots in allyList.
+	 * 
+	 * @return int
+	 */
 	private int amountMrRobot() {
 		int amount = 0;
 		for (int i = 0; i < allies.size(); i++) {
@@ -62,6 +87,10 @@ public class AllyTracker {
 
 	}
 
+	/**
+	 * sortAlly: Sort allyList and place the MrRobot in name order and all other
+	 * bots after them.
+	 */
 	private void sortAlly() {
 
 		for (int i = 1; i < allies.size(); i++) {
@@ -87,6 +116,11 @@ public class AllyTracker {
 		allies.addAll(removedAllies);
 	}
 
+	/**
+	 * getMrRobots: Get a list with all MrRobots.
+	 * 
+	 * @return ArrayList<Ally>
+	 */
 	public ArrayList<Ally> getMrRobots() {
 		ArrayList<Ally> temp = new ArrayList<>();
 		temp.addAll(allies);
@@ -99,6 +133,11 @@ public class AllyTracker {
 		return temp;
 	}
 
+	/**
+	 * getAllyListWithoutOurself: get a list without ourself.
+	 * 
+	 * @return ArrayList<Ally>
+	 */
 	public ArrayList<Ally> getAllyListWithoutOurself() {
 		ArrayList<Ally> temp = new ArrayList<>();
 		temp.addAll(allies);
@@ -113,10 +152,19 @@ public class AllyTracker {
 		return temp;
 	}
 
+	/**
+	 * 
+	 * @return ArrayList<Ally>
+	 */
 	public ArrayList<Ally> getAllyList() {
 		return allies;
 	}
 
+	/**
+	 * getPlaceInList: Return the place the ally has in allyList.
+	 * 
+	 * @return int
+	 */
 	public int getPlaceInList() {
 		for (int i = 0; i < allies.size(); i++) {
 			if (allies.get(i).getName().equalsIgnoreCase(MrRobot.getName())) {

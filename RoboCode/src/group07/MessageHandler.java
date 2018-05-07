@@ -1,6 +1,5 @@
 package group07;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +24,6 @@ public class MessageHandler {
 			try {
 				robot.broadcastMessage(message);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else if (receiver.contains("2")) {
@@ -42,7 +40,6 @@ public class MessageHandler {
 					try {
 						robot.sendMessage(mrrobots.get(i).getName(), message);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -51,7 +48,6 @@ public class MessageHandler {
 			try {
 				robot.sendMessage(receiver, message);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
