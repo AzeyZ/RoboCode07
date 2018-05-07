@@ -69,11 +69,11 @@ public class MessageHandlerTest {
 		
 		msgHandler.send(message, receiver);
 		for (String name: mock.getRecievers()){
-			assertTrue("The message was sent to others than MrRobot", !name.contains("MrRobot"));
+			assertTrue("The message was sent to others than MrRobot", name.contains("MrRobot"));
 			
 		}
 		
-		for (String rec: mock.getRecievers()){
+		for (String rec: mock.getMessages()){
 			assertTrue("The wrong message was sent", rec.equals(message));
 		}
 	}
