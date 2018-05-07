@@ -34,8 +34,7 @@ public class EnemyTracker {
 			String name) {
 		double bearing = calBearing(enemyX, enemyY);
 		double distance = MathUtils.distance(robot.getX(), robot.getY(), enemyX, enemyY);
-		if(bearing < -180 || bearing > 180) {
-		}
+
 		if (bearing != -1) {
 			if ((isNewEnemy(name) != null)) {
 				for (int k = 0; k < enemies.size(); k++) {

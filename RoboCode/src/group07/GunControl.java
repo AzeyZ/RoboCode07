@@ -20,7 +20,7 @@ public class GunControl {
 	}
 
 	private boolean distance() {
-		return robot.getGunHeat() == 0 && Math.abs(robot.getGunTurnRemaining()) < 2 && target.getDistance() < 600;
+		return robot.getGunHeat() == 0 && Math.abs(robot.getGunTurnRemaining()) < 2 && target.getDistance() < 900;
 	}
 
 	private boolean target() {
@@ -39,6 +39,7 @@ public class GunControl {
 		}
 		for (Ally k : ally.getAllyListWithoutOurself()) {
 			double distance = MathUtils.distance(robot.getX(), robot.getY(), k.getX(), k.getY());
+			double triDistance = Math.min(200, target.getDistance());
 			double angle = Math.toDegrees(Math.atan2(k.getX() - robot.getX(), k.getY() - robot.getY()));
 			double heading = robot.getGunHeading();
 			if (heading >= 180) {
@@ -48,7 +49,7 @@ public class GunControl {
 			if (bearing >= 180) {
 				bearing -= 360;
 			}
-			if ((bearing > -20 && bearing < 20) && (distance < target.getDistance() || target.getDistance() < 200)) {
+			if ((bearing > -20 && bearing < 20) && (distance <  triDistance)) {
 				return false;
 			}
 		}

@@ -3,8 +3,6 @@ package group07;
 import robocode.*;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MrRobot extends robocode.TeamRobot {
@@ -39,7 +37,7 @@ public class MrRobot extends robocode.TeamRobot {
 			sendMessage(2, "2");
 			sendMessage(3, "2");
 			//Telling MovementModeSwitcher that its a new turn.
-			mode.NewTurn();
+			mode.newTurn();
 			//Calling movement
 			if (mode.getCurrentMode() == 0) {
 				robotMovement.antiGravMove(enemyTracker);
@@ -178,8 +176,9 @@ public class MrRobot extends robocode.TeamRobot {
 		radarControl.robotDeath(e);
 	}
 	/**
-	 * getCloseEnemies: Creating an ArrayList with all enemies that is closer the 150 pixles away
+	 * getCloseEnemies: Creating an ArrayList with all enemies that is closer the 150 pixels away
 	 * and sort it in order starting with the closest.
+	 * @return 
 	 */
 	public ArrayList<EnemyBot> getCloseEnemies() {
 		ArrayList<EnemyBot> rammers = new ArrayList<>();
