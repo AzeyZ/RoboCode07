@@ -23,6 +23,8 @@ SOFTWARE.
 */
 package group07test;
 
+import java.io.Serializable;
+
 import group07.MrRobot;
 
 /**
@@ -43,6 +45,7 @@ public class MockBot extends MrRobot {
 	private double fakeGunHeading;
 	private double fakeGunTurnRight;
 	private long fakeTime = 0;
+	private String fakeBroadcast;
 	
 	/**
 	 * Construct a mock robot to be used as a substitute for BasicMeleeBot in unit testing.
@@ -155,5 +158,14 @@ public class MockBot extends MrRobot {
 	@Override
 	public long getTime(){
 		return fakeTime;
+	}
+	
+	@Override
+	public void broadcastMessage(Serializable message){
+		fakeBroadcast = (String) message;
+	}
+	
+	public String getBroadcast(){
+		return fakeBroadcast;
 	}
 }
