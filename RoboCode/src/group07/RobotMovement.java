@@ -141,10 +141,8 @@ public class RobotMovement {
 					gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
 							enemyTracker.getLivingEnemies().get(i).getY(), -6000));
 				}
+					gravpoints.add(new GravPoint(robot.getBattleFieldHeight()/2,robot.getBattleFieldHeight()/2, -700));
 				
-				if(track.getTarget().getName().toLowerCase().contains("coborode")) {
-					gravpoints.add(new GravPoint(robot.getBattleFieldHeight()/2,robot.getBattleFieldHeight()/2, -1500));
-				}
 				if (track.getTarget().getDistance() > 400) {
 					gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 3000));
 				} else if (track.getTarget().getDistance() < 150) {
