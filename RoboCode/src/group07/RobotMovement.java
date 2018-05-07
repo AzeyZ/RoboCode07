@@ -5,7 +5,12 @@ import java.util.ArrayList;
 
 // method antigrav move is heavily inspired by Alisdair Owens from IBM
 // https://www.ibm.com/developerworks/library/j-antigrav/index.html
-
+/**
+ * method antigrav move is heavily inspired by Alisdair Owens from IBM
+ * https://www.ibm.com/developerworks/library/j-antigrav/index.html
+ * Class for our anti gravity movement and random based movement system 
+ * 
+ */
 public class RobotMovement {
 	private int moveDirection = 1;
 	private double velocity;
@@ -20,6 +25,12 @@ public class RobotMovement {
 	private static double lastX;
 	private static double lastY;
 
+	/**
+	 * 
+	 * @param robot instance of our main class
+	 * @param mode Instance of our movementsystem switcher 
+	 * @param enemyTracker Instance of our enemy tracker.
+	 */
 	public RobotMovement(MrRobot robot, MovementModeSwitcher mode, EnemyTracker enemyTracker) {
 		this.robot = robot;
 		this.mode = mode;
