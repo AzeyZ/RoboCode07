@@ -139,7 +139,7 @@ public class EnemyTrackerTest {
 		tempEnemy.update(sBearing, sDistance, energy + 30, sHeading, sVelocity, time, "Temp");
 		eTrack.update(sBearing, sDistance, energy + 30, sHeading, sVelocity, time, "Temp");
 		enemies = eTrack.getEnemies();
-		prio.sortList(enemies);
+		prio.sortList(enemies, time);
 
 		EnemyBot gottenEnemy = eTrack.getTarget();
 		// This far the function runs but the result is not tested.
