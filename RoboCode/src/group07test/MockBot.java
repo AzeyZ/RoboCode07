@@ -42,6 +42,7 @@ public class MockBot extends MrRobot {
 	private double fakeTurnRight;
 	private double fakeGunHeading;
 	private double fakeGunTurnRight;
+	private double fakeVelocity;
 	private long fakeTime = 0;
 	
 	/**
@@ -155,5 +156,10 @@ public class MockBot extends MrRobot {
 	@Override
 	public long getTime(){
 		return fakeTime;
+	}
+	
+	@Override
+	public double getVelocity () {
+		return fakeVelocity;
 	}
 }
