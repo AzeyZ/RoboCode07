@@ -39,7 +39,7 @@ public class MrRobot extends robocode.TeamRobot {
 			sendMessage(2, "2");
 			sendMessage(3, "2");
 			//Telling MovementModeSwitcher that its a new turn.
-			mode.NewTurn();
+			mode.newTurn();
 			//Calling movement
 			if (mode.getCurrentMode() == 0) {
 				robotMovement.antiGravMove(enemyTracker);
