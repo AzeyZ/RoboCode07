@@ -10,10 +10,12 @@ public class EnemyTracker {
 	private EnemyBot target;
 	private TargetPrioritizer targetPrio = new TargetPrioritizer();
 	private MrRobot robot;
+	private boolean allEnemiesScanned;
 
 	public EnemyTracker(MrRobot robot) {
 		this.robot = robot;
 		target = new EnemyBot(robot);
+		allEnemiesScanned = false;
 	}
 
 	// Update enemy list
@@ -95,7 +97,10 @@ public class EnemyTracker {
 	}
 
 	public boolean allEnemiesScanned() {
-		return enemies.size() > robot.getOthers() - robot.getAllies().size();
+		if(enemies.size() > robot.getOthers() - robot.getAllies().size()) {
+			allEnemiesScanned = true;
+		}
+		return allEnemiesScanned;
 	}
 
 	public ArrayList<EnemyBot> getLivingEnemies() {

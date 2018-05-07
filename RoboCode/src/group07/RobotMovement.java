@@ -88,8 +88,8 @@ public class RobotMovement {
 		if ((MathUtils.distance(robot.getX(), robot.getY(), lastX, lastY)) < 15) {
 			warning++;
 			boolean antiRam = false;
-			for (int i = 0; i < track.getEnemies().size(); i++) {
-				if (track.getEnemies().get(i).getDistance() < 150) {
+			for (int i = 0; i < track.getLivingEnemies().size(); i++) {
+				if (track.getLivingEnemies().get(i).getDistance() < 150) {
 					antiRam = true;
 				}
 			}
