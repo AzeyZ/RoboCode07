@@ -1,6 +1,7 @@
 package group07test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -9,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import robocode.MessageEvent;
-
+import group07.Ally;
 import group07.AllyTracker;
 import group07.EnemyTracker;
 import group07.MessageHandler;
@@ -35,7 +36,12 @@ public class MessageHandlerTest {
 	
 	@After
 	public void tearDown () {
+		mock = null;
 		
+		allyTracker = null;
+		enemyTracker = null;
+		
+		msgHandler = null;
 	}
 	
 	@Test
@@ -48,5 +54,25 @@ public class MessageHandlerTest {
 		String msg = mock.getBroadcast();
 		
 		assertEquals("The message failed to broadcast", message, msg); 
+	}
+	
+	@Test
+	public void testSend_mrRobots() {
+		Ally[] allies = {new Ally("Robot07"), new Ally("yes"), new Ally("Robot07 (2)")};
+		for (Ally ally: allies){
+			mock.addFakeAlly(ally);
+		}
+		
+		// For sending messages
+		String receiver = "2";
+		String message = "Exclusive message";
+		
+		msgHandler.send(message, receiver);
+		for (String name: mock.getRecievers()){
+			assertTrue("The message was sent to others than Robot07", name.contains("Robot07"));
+			
+		}
+		
+		//assertEquals("The message failed to broadcast", message, msg); 
 	}
 }

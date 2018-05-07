@@ -26,6 +26,7 @@ package group07test;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import group07.Ally;
 import group07.MrRobot;
 
 /**
@@ -50,6 +51,7 @@ public class MockBot extends MrRobot {
 	private String fakeBroadcast;
 	private ArrayList<String> recievers = new ArrayList<String>();
 	private ArrayList<String> msg = new ArrayList<String>();
+	private ArrayList<Ally> fakeAllies = new ArrayList<Ally>();
 	
 	/**
 	 * Construct a mock robot to be used as a substitute for BasicMeleeBot in unit testing.
@@ -170,9 +172,9 @@ public class MockBot extends MrRobot {
 		msg.add((String) message);
 	}
 	
-	public String getReciever(int i){
+	public ArrayList<String> getRecievers(){
 		if (recievers.size() == 0) return null;
-		return recievers.get(i);
+		return recievers;
 	}
 	
 	public String getMessage(int i){
@@ -187,5 +189,14 @@ public class MockBot extends MrRobot {
 	
 	public String getBroadcast(){
 		return fakeBroadcast;
+	}
+	
+	public void addFakeAlly(Ally ally){
+		fakeAllies.add(ally);
+	}
+	
+	@Override
+	public ArrayList<Ally> getAllies(){
+		return fakeAllies;
 	}
 }
