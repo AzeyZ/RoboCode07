@@ -4,6 +4,10 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 
 public class MathUtils {
+	
+	private MathUtils() {
+		
+	}
 
 	// Ger en vinkel mellan -180 och 180
 	public static double normalizeBearing(double angle) {
@@ -39,17 +43,6 @@ public class MathUtils {
 		return (x * Math.PI) / 180;
 	}
 
-	// Calculate the future X value
-//	public static double getFutureLinearX(double x, double heading, double velocity, double time) {
-//		x += Math.sin(Math.toRadians(heading)) * velocity * time;
-//		return x;
-//	}
-//
-//	// Calculate the future Y value
-//	public static double getFutureLinearY(double y, double heading, double velocity, double time) {
-//		y += Math.sin(Math.toRadians(heading)) * velocity * time;
-//		return y;
-//	}
 
 	public static double bulletVelocity(double power) {
 		return 20.0D - 3.0D * power;
