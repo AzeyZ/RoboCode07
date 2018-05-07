@@ -48,7 +48,7 @@ public class Gun {
 		double enemyAbsoluteBearing = robot.getHeadingRadians() + target.getBearingRadians();
 		double enemyDistance = target.getDistance();
 		double enemyVelocity = target.getVelocity();
-		double power = Math.min(400 / enemyDistance, 3);
+		double power = Math.min(600 / enemyDistance, 3);
 
 		if (enemyVelocity != 0) {
 			lateralDirection = MathUtils.sign(enemyVelocity
