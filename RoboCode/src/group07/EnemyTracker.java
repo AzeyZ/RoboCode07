@@ -3,8 +3,9 @@ package group07;
 import java.util.ArrayList;
 
 import robocode.RobotDeathEvent;
-import robocode.ScannedRobotEvent;
-
+/**
+ * EnemyTracker: Tracking data about EnemyBots.
+ */
 public class EnemyTracker {
 	private ArrayList<EnemyBot> enemies = new ArrayList<EnemyBot>();
 	private EnemyBot target;
