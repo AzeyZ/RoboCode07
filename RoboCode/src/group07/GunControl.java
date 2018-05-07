@@ -35,6 +35,7 @@ public class GunControl {
 	private boolean friendlyFire() {
 		if(target.getName().toLowerCase().contains("rut") || target.getName().toLowerCase().contains("rain"))
 		{
+			System.out.println("---------------");
 			return true;
 		}
 		for (Ally k : ally.getAllyListWithoutOurself()) {

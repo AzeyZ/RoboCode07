@@ -113,6 +113,10 @@ public class EnemyBot {
 	 * @return String
 	 */
 	public String getName() {
+		if(name == null)
+		{
+			return "";
+		}
 		return name;
 	}
 
