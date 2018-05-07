@@ -71,7 +71,7 @@ public class TargetEnemyPrioritizerTest {
 			leaderList.add(droidBot);
 		}
 		
-		sortedList = prio.sortList(leaderList);
+		sortedList = prio.sortList(leaderList, sTick);
 		
 		if (sortedList.get(0).getType() == TargetPrioritizer.LEADER_BOT) {
 			isLeaderList = true;
@@ -87,7 +87,7 @@ public class TargetEnemyPrioritizerTest {
 			normalList.add(normalBot);
 		}
 		
-		sortedList = prio.sortList(normalList);
+		sortedList = prio.sortList(normalList, sTick);
 		
 		if (sortedList.get(0).getType() == TargetPrioritizer.NORMAL_BOT) {
 			isNormalList = true;
@@ -102,7 +102,7 @@ public class TargetEnemyPrioritizerTest {
 			droidList.add(droidBot);
 		}
 		
-		sortedList = prio.sortList(droidList);
+		sortedList = prio.sortList(droidList, sTick);
 		
 		if (sortedList.get(0).getType() == TargetPrioritizer.DROID) {
 			isDroidList = true;

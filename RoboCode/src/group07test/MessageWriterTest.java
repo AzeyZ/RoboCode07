@@ -11,7 +11,6 @@ import org.junit.Test;
 import group07.Ally;
 import group07.EnemyBot;
 import group07.MessageWriter;
-import group07.Shots;
 
 public class MessageWriterTest {
 	double myXPos = 200;
@@ -52,19 +51,6 @@ public class MessageWriterTest {
 		assertEquals("Test if standard message is correct",
 				"myPos;200.0;200.0\nfriendPos;Friend;0.0;0.0\nenemyDetails;null;30.0;40.0;0.0;0.0;0.0;0\ntargetEnemy;SomeName\ntargetPos;100.0;100.0",
 				outputMsg);
-	}
-
-	@Test
-	public void shotTowardsAlly() {
-		ArrayList<Shots> shots = new ArrayList<Shots>();
-		Shots shot = new Shots(50, 39, 40);
-		shots.add(shot);
-
-		String outputMsg;
-		outputMsg = msg.shotTowardsAlly(myXPos, myYPos, name, shots);
-		assertEquals("Test if shotTowardsAlly message is correct",
-				"myPos;200.0;200.0\ntargetEnemy;Robot07something\nrShot;50.0;39.0;40", outputMsg);
-
 	}
 
 	@Test
