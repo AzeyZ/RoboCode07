@@ -173,13 +173,11 @@ public class MockBot extends MrRobot {
 	}
 	
 	public ArrayList<String> getRecievers(){
-		if (recievers.size() == 0) return null;
 		return recievers;
 	}
 	
-	public String getMessage(int i){
-		if (msg.size() == 0) return null;
-		return msg.get(i);
+	public ArrayList<String> getMessages(){
+		return msg;
 	}
 	
 	@Override

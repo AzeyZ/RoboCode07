@@ -58,7 +58,7 @@ public class MessageHandlerTest {
 	
 	@Test
 	public void testSend_mrRobots() {
-		Ally[] allies = {new Ally("Robot07"), new Ally("yes"), new Ally("Robot07 (2)")};
+		Ally[] allies = {new Ally("MrRobot"), new Ally("yes"), new Ally("MrRobot (2)")};
 		for (Ally ally: allies){
 			mock.addFakeAlly(ally);
 		}
@@ -69,10 +69,12 @@ public class MessageHandlerTest {
 		
 		msgHandler.send(message, receiver);
 		for (String name: mock.getRecievers()){
-			assertTrue("The message was sent to others than Robot07", name.contains("Robot07"));
+			assertTrue("The message was sent to others than MrRobot", !name.contains("MrRobot"));
 			
 		}
 		
-		//assertEquals("The message failed to broadcast", message, msg); 
+		for (String rec: mock.getRecievers()){
+			assertTrue("The wrong message was sent", rec.equals(message));
+		}
 	}
 }
