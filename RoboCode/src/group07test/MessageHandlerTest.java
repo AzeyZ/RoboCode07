@@ -73,7 +73,7 @@ public class MessageHandlerTest {
 			
 		}
 		
-		for (String rec: mock.getRecievers()){
+		for (String rec: mock.getMessages()){
 			assertTrue("The wrong message was sent", rec.equals(message));
 		}
 	}
