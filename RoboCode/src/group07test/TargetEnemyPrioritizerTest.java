@@ -184,20 +184,20 @@ public class TargetEnemyPrioritizerTest {
 		assertEquals("Fails to place doirds first", true, isDroidFirst);
 	}
 	
-	@Test
-	public void testPlaceDead () {
-		// placeDeadBotLast - function
-		EnemyBot deadBot = new EnemyBot(mock);
-		deadBot.update(sBearing, sDistance, 0, sHeading, sVelocity, sTick, "DeadBot");
-		enemies.add(deadBot);
-		
-		boolean isDeadLast = false;
-		ArrayList<EnemyBot> deadLast = prio.placeDeadBotsLast(enemies);
-		
-		if (enemies.get(enemies.size() - 1).getEnergy() == 0) {
-			isDeadLast = true;
-		}
-		
-		assertEquals("Fails to place dead bots last", true, isDeadLast);
-	}
+//	@Test
+//	public void testPlaceDead () {
+//		// placeDeadBotLast - function
+//		EnemyBot deadBot = new EnemyBot(mock);
+//		deadBot.update(sBearing, sDistance, 0, sHeading, sVelocity, sTick, "DeadBot");
+//		enemies.add(deadBot);
+//		
+//		boolean isDeadLast = false;
+//		ArrayList<EnemyBot> deadLast = prio.placeDeadBotsLast(enemies);
+//		
+//		if (enemies.get(enemies.size() - 1).getEnergy() == 0) {
+//			isDeadLast = true;
+//		}
+//		
+//		assertEquals("Fails to place dead bots last", true, isDeadLast);
+//	}
 }
