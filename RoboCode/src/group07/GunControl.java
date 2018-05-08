@@ -1,8 +1,5 @@
 package group07;
 
-import java.awt.geom.Arc2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
  /**
   * 
   * Our class to control the gun from firing when it's not good to shoot. 
@@ -60,7 +57,6 @@ public class GunControl {
 	private boolean friendlyFire() {
 		if(target.getName().toLowerCase().contains("rut") || target.getName().toLowerCase().contains("rain"))
 		{
-			System.out.println("---------------");
 			return true;
 		}
 		for (Ally k : ally.getAllyListWithoutOurself()) {

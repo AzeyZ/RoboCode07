@@ -15,13 +15,15 @@ public class AllyTracker {
 	/**
 	 * 
 	 * @param MrRobot
+	 * Instance of our main class.
 	 */
 	public AllyTracker(MrRobot MrRobot) {
 		this.MrRobot = MrRobot;
 	}
 
 	/**
-	 * addAllAllies: Adding all allies to the allyList.
+	 * addAllAllies: Adding all allies to the allyList,
+	 * including ourself.
 	 * 
 	 */
 	public void addAllAllies() {
@@ -40,7 +42,8 @@ public class AllyTracker {
 	/**
 	 * update: Update the info about the scanned ally.
 	 * 
-	 * @param ScannedRobotEvent
+	 * @param e
+	 * ScannedRobotEvent
 	 */
 	public void update(ScannedRobotEvent e) {
 		double absBearingDeg = (MrRobot.getHeading() + e.getBearing());
@@ -58,7 +61,8 @@ public class AllyTracker {
 	/**
 	 * robotDeath: Remove the robot that died from allyList.
 	 * 
-	 * @param RobotDeathEvent
+	 * @param e
+	 * RobotDeathEvent
 	 */
 	public void robotDeath(RobotDeathEvent e) {
 		for (Ally k : allies) {
@@ -74,6 +78,7 @@ public class AllyTracker {
 	 * amountMrRobot: Count the amount of MrRobots in allyList.
 	 * 
 	 * @return int
+	 * The number of MrRobots in allyList.
 	 */
 	private int amountMrRobot() {
 		int amount = 0;
@@ -120,6 +125,7 @@ public class AllyTracker {
 	 * getMrRobots: Get a list with all MrRobots.
 	 * 
 	 * @return ArrayList<Ally>
+	 * With all living Mr. Robots, including ourself.
 	 */
 	public ArrayList<Ally> getMrRobots() {
 		ArrayList<Ally> temp = new ArrayList<>();
@@ -137,6 +143,7 @@ public class AllyTracker {
 	 * getAllyListWithoutOurself: get a list without ourself.
 	 * 
 	 * @return ArrayList<Ally>
+	 * With all all living allies, excluding ourself.
 	 */
 	public ArrayList<Ally> getAllyListWithoutOurself() {
 		ArrayList<Ally> temp = new ArrayList<>();
@@ -155,15 +162,17 @@ public class AllyTracker {
 	/**
 	 * 
 	 * @return ArrayList<Ally>
+	 * With all allies, including ourself.
 	 */
 	public ArrayList<Ally> getAllyList() {
 		return allies;
 	}
 
 	/**
-	 * getPlaceInList: Return the place the ally has in allyList.
+	 * getPlaceInList: Calculating the place the robot has in allyList.
 	 * 
 	 * @return int
+	 * the index of the robot in the list.
 	 */
 	public int getPlaceInList() {
 		for (int i = 0; i < allies.size(); i++) {
