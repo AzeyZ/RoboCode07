@@ -17,8 +17,8 @@ import robocode.control.testing.RobotTestBed;
 public class ST_F1_WallsAvoided extends RobotTestBed {
 	
 	
-	private String ROBOT_UNDER_TEST = "group07.Robot07*";
-	private String ENEMY_ROBOTS = "group07.Robot07*";
+	private String ROBOT_UNDER_TEST = "group07.MrRobot*";
+	private String ENEMY_ROBOTS = "group07.MrRobot*";
 	private int NBR_ROUNDS = 1000;
 	private boolean PRINT_DEBUG = false;
 	

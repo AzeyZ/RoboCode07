@@ -7,7 +7,7 @@ import robocode.control.events.BattleMessageEvent;
 import robocode.control.testing.RobotTestBed;
 
 public class ST_Q_1vs1Rut extends RobotTestBed{
-	private String ROBOT_UNDER_TEST = "group07.Robot07*";
+	private String ROBOT_UNDER_TEST = "group07.MrRobot*";
 	private String ENEMY_ROBOTS = "grupp1.RUT";
 	private int NBR_ROUNDS = 1000;
 	private double TRESHHOLD = 1;

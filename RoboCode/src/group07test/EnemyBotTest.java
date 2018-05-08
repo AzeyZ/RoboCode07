@@ -39,16 +39,16 @@ public class EnemyBotTest {
 		enemy = null;
 	}
 	
-	@Test
-	public void none() {
-		mock = new MockBot("MrRobot", 100, 10, 10, 10);
-		enemy = new EnemyBot(mock);
-		
-		enemy.update(bearing, distance, energy, heading, velocity, tick, "");
-		assertEquals("Fienden heter något trots att den inte borde det!", true, enemy.none());
-		enemy.update(bearing, distance, energy, heading, velocity, tick, "Enemy");
-		assertEquals("Fienden heter ingenting.", false, enemy.none());
-	}
+//	@Test
+//	public void none() {
+//		mock = new MockBot("MrRobot", 100, 10, 10, 10);
+//		enemy = new EnemyBot(mock);
+//
+//		enemy.update(bearing, distance, energy, heading, velocity, tick, "");
+//		assertEquals("Fienden heter något trots att den inte borde det!", true, enemy.none());
+//		enemy.update(bearing, distance, energy, heading, velocity, tick, "Enemy");
+//		assertEquals("Fienden heter ingenting.", false, enemy.none());
+//	}
 	
 	@Test
 	public void testUpdate () {

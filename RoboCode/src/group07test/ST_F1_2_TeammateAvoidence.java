@@ -10,8 +10,8 @@ import robocode.control.testing.RobotTestBed;
 
 public class ST_F1_2_TeammateAvoidence extends RobotTestBed {
 
-	private String ROBOT_UNDER_TEST = "group07.Robot07*";
-	private String ENEMY_ROBOTS = "group07.Robot07*,group07.Robot07*,group07.Robot07*,group07.Robot07*,sample.Crazy";
+	private String ROBOT_UNDER_TEST = "group07.MrRobot*";
+	private String ENEMY_ROBOTS = "group07.MrRobot*,group07.MrRobot*,group07.MrRobot*,group07.MrRobot*,sample.Crazy";
 	private int NBR_ROUNDS = 1000;
 	private boolean PRINT_DEBUG = false;
 	private int TEAM_SIZE = 5;
