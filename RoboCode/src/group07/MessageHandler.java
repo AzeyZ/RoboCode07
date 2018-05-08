@@ -123,6 +123,9 @@ public class MessageHandler {
 				radarControl.teammateGettingAttacked(e.getSender(), infoInRow.get(1), infoInRow.get(2));
 			}else if (k.contains("rNewRadarTarget")) {
 				radarControl.teammateNewTarget(e.getSender(), infoInRow.get(1));
+			}else if (k.contains("rSetGunTarget"))
+			{
+				enemyTracker.msgUpdateTarget(infoInRow.get(1));
 			}
 			
 		}

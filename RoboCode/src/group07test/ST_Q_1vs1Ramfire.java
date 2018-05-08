@@ -7,13 +7,16 @@ import org.junit.runners.JUnit4;
 
 import robocode.control.events.BattleCompletedEvent;
 import robocode.control.events.BattleMessageEvent;
+import robocode.control.events.RoundEndedEvent;
+import robocode.control.events.TurnEndedEvent;
+import robocode.control.snapshot.IRobotSnapshot;
 import robocode.control.testing.RobotTestBed;
 
 @RunWith(JUnit4.class)
-public class ST_Q_1vs1Crazy extends RobotTestBed {
+public class ST_Q_1vs1Ramfire extends RobotTestBed {
 
 	private String ROBOT_UNDER_TEST = "group07.MrRobot*";
-	private String ENEMY_ROBOTS = "sample.Crazy";
+	private String ENEMY_ROBOTS = "sample.RamFire";
 	private int NBR_ROUNDS = 1000;
 	private double TRESHHOLD = 1;
 	private boolean PRINT_DEBUG = false;
@@ -56,14 +59,12 @@ public class ST_Q_1vs1Crazy extends RobotTestBed {
 	@Override
 	public void onBattleCompleted(BattleCompletedEvent event) {
 		wins = event.getIndexedResults()[0].getFirsts();
-		assertTrue("The Bot suck get more wins: " + wins + " wins. "+ event.getIndexedResults()[0].getTeamLeaderName(), wins / (double)NBR_ROUNDS >= TRESHHOLD);
-		// Insert assert for countWallHits
+		assertTrue("The Bot suck get more wins: " + wins + " wins. " + event.getIndexedResults()[0].getTeamLeaderName(), wins / (double)NBR_ROUNDS >= TRESHHOLD);
 	}
 
 	@Override
 	public void onBattleMessage(BattleMessageEvent event) {
 		event.getMessage();
 	}
-
 
 }

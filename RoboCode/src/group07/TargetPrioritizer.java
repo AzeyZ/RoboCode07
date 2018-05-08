@@ -34,20 +34,21 @@ public class TargetPrioritizer {
 		} else {
 			EnemyList = placeDroidFirst(EnemyList); // Place the droids first in case we just got droids left.
 		}
-		EnemyList = placeOldInfoBotsLast(EnemyList, time); //place all bots that havent get any new info in the 5 last rounds.
-		EnemyList = placeDeadBotsLast(EnemyList); // Place all dead bots last so we dont try to focus at a dead bot.
-		
-//		for (EnemyBot k : EnemyList) {
-//			System.out.println(k.getName());
-//		}
-//		System.out.println("-----------------------");
+//		EnemyList = placeOldInfoBotsLast(EnemyList, time); // place all bots that havent get any new info in the 5 last
+															// rounds.
+	//	EnemyList = placeDeadBotsLast(EnemyList); // Place all dead bots last so we dont try to focus at a dead bot.
+
+		// for (EnemyBot k : EnemyList) {
+		// System.out.println(k.getName());
+		// }
+		// System.out.println("-----------------------");
 		return EnemyList;
 	}
 
 	public int amountDroidAlive(ArrayList<EnemyBot> EnemyList) {
 		int m_amountDroids = 0;
 		for (EnemyBot k : EnemyList) {
-			if (k.getEnergy() != 0 && k.getType() == DROID) {
+			if (k.getType() == DROID) {
 				m_amountDroids++;
 			}
 		}
@@ -57,7 +58,7 @@ public class TargetPrioritizer {
 	public int amountNormalBotAlive(ArrayList<EnemyBot> EnemyList) {
 		int m_amountNormalBot = 0;
 		for (EnemyBot k : EnemyList) {
-			if (k.getEnergy() != 0 && k.getType() == NORMAL_BOT) {
+			if ( k.getType() == NORMAL_BOT) {
 				m_amountNormalBot++;
 			}
 		}
@@ -66,7 +67,7 @@ public class TargetPrioritizer {
 
 	public boolean leaderAlive(ArrayList<EnemyBot> EnemyList) {
 		for (EnemyBot k : EnemyList) {
-			if (k.getEnergy() != 0 && k.getType() == LEADER_BOT) {
+			if (k.getType() == LEADER_BOT) {
 				return true;
 			}
 		}
@@ -84,7 +85,8 @@ public class TargetPrioritizer {
 		}
 		return m_temp;
 	}
-	public ArrayList<EnemyBot> placeOldInfoBotsLast(ArrayList<EnemyBot> EnemyList, long time){
+
+	public ArrayList<EnemyBot> placeOldInfoBotsLast(ArrayList<EnemyBot> EnemyList, long time) {
 		ArrayList<EnemyBot> m_temp = new ArrayList<>();
 		m_temp.addAll(EnemyList);
 		for (EnemyBot k : EnemyList) {
@@ -96,17 +98,17 @@ public class TargetPrioritizer {
 		return m_temp;
 	}
 
-	public ArrayList<EnemyBot> placeDeadBotsLast(ArrayList<EnemyBot> EnemyList) {
-		ArrayList<EnemyBot> m_temp = new ArrayList<>();
-		m_temp.addAll(EnemyList);
-		for (EnemyBot k : EnemyList) {
-			if (k.getEnergy() == 0) {
-				m_temp.remove(k);
-				m_temp.add(k);
-			}
-		}
-		return m_temp;
-	}
+//	public ArrayList<EnemyBot> placeDeadBotsLast(ArrayList<EnemyBot> EnemyList) {
+//		ArrayList<EnemyBot> m_temp = new ArrayList<>();
+//		m_temp.addAll(EnemyList);
+//		for (EnemyBot k : EnemyList) {
+//			if (k.getEnergy() == 0) {
+//				m_temp.remove(k);
+//				m_temp.add(k);
+//			}
+//		}
+//		return m_temp;
+//	}
 
 	public ArrayList<EnemyBot> placeNormalBotFirst(ArrayList<EnemyBot> EnemyList) {
 		ArrayList<EnemyBot> m_temp = new ArrayList<>();
@@ -114,8 +116,8 @@ public class TargetPrioritizer {
 		for (EnemyBot k : EnemyList) {
 			if (k.getType() == NORMAL_BOT && k.getEnergy() != 0) {
 				if (m_temp.get(0).getType() == NORMAL_BOT && m_temp.get(0).getEnergy() < k.getEnergy()
-						&& amountAlive > 1 && m_temp.get(0).getEnergy() != 0) {
-
+						&& amountAlive > 1) {
+				//	 && m_temp.get(0).getEnergy() != 0
 					m_temp.remove(k);
 					m_temp.add(1, k);
 				} else {
@@ -133,7 +135,8 @@ public class TargetPrioritizer {
 		for (EnemyBot k : EnemyList) {
 			if (k.getType() == DROID && k.getEnergy() != 0) {
 				if (m_temp.get(0).getType() == DROID && m_temp.get(0).getEnergy() < k.getEnergy() && amountAlive > 1
-						&& m_temp.get(0).getEnergy() != 0) {
+						) {
+					//&& m_temp.get(0).getEnergy() != 0
 					m_temp.remove(k);
 					m_temp.add(1, k);
 				} else {

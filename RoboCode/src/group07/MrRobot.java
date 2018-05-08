@@ -9,8 +9,9 @@ import java.util.ArrayList;
  * MrRobot: Our robot.
  */
 public class MrRobot extends robocode.TeamRobot {
-	private EnemyTracker enemyTracker = new EnemyTracker(this);
+	
 	private AllyTracker allyTracker = new AllyTracker(this);
+	private EnemyTracker enemyTracker = new EnemyTracker(this, allyTracker);
 	private Radar radar = new Radar(this);
 	private Gun gun = new Gun(this, allyTracker);
 	private MessageHandler messageHandler = new MessageHandler(this);
@@ -39,7 +40,7 @@ public class MrRobot extends robocode.TeamRobot {
 			sendMessage(0, "1");
 			sendMessage(2, "2");
 			sendMessage(3, "2");
-
+			System.out.println(enemyTracker.getTarget().getName());
 			//Telling MovementModeSwitcher that its a new turn.
 			mode.newTurn();
 			//Calling movement
@@ -102,7 +103,7 @@ public class MrRobot extends robocode.TeamRobot {
 	 * @param receiver
 	 *            We can have 3 types of strings as input. If we want to send the
 	 *            message to all allied bots we set "1" as the input. If we want to
-	 *            send the message to all MrRobots we set "2" as the input. If we
+	 *            send the message to all MrRobots (not yourself) we set "2" as the input. If we
 	 *            want to send the message to a teammate we set the name of that
 	 *            teammate as input.
 	 */
@@ -144,6 +145,10 @@ public class MrRobot extends robocode.TeamRobot {
 			message = messageWriter.newRadarTarget(this.getX(), this.getY(), radarControl.getRadarTarget().getName());
 			break;
 		}
+		case 7: {
+			message = messageWriter.setGunTarget(this.getX(), this.getY(), enemyTracker.getTarget().getName());
+			break;
+		}
 		}
 		// Sending the message to the right receiver.
 		messageHandler.send(message, receiver);
@@ -182,7 +187,6 @@ public class MrRobot extends robocode.TeamRobot {
 	 */
 	public void onRobotDeath(RobotDeathEvent e) {
 		enemyTracker.robotDeath(e);
-		enemyTracker.updateTarget();
 		allyTracker.robotDeath(e);
 		radarControl.robotDeath(e);
 	}

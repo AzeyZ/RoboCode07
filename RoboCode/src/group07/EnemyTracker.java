@@ -9,12 +9,26 @@ import robocode.RobotDeathEvent;
 public class EnemyTracker {
 	private ArrayList<EnemyBot> enemies = new ArrayList<EnemyBot>();
 	private EnemyBot target;
+	private EnemyBot updateTarget;
 	private TargetPrioritizer targetPrio = new TargetPrioritizer();
 	private MrRobot robot;
+	private AllyTracker ally;
+	private boolean allEnemiesScanned;
+	private boolean robotDead;
+	private boolean gotUpdateTarget;
+	private boolean sentMessage;
+	private boolean oneTurn;
 
-	public EnemyTracker(MrRobot robot) {
+	public EnemyTracker(MrRobot robot, AllyTracker ally) {
 		this.robot = robot;
+		this.ally = ally;
 		target = new EnemyBot(robot);
+		allEnemiesScanned = false;
+		updateTarget = null;
+		robotDead = false;
+		gotUpdateTarget = false;
+		sentMessage = false;
+		oneTurn = false;
 	}
 
 	// Update enemy list
@@ -47,6 +61,16 @@ public class EnemyTracker {
 			}
 		}
 	}
+	public void msgUpdateTarget(String targetName) {
+		for (int i = 0; i < enemies.size(); i++) {
+			if (enemies.get(i).getName().equals(targetName)) {
+				updateTarget = enemies.get(i);
+				gotUpdateTarget = true;
+				System.out.println("test");
+			}
+		}
+
+	}
 
 	// Enemies
 	public void addEnemy(double bearing, double distance, double energy, double heading, double velocity, long time,
@@ -68,41 +92,52 @@ public class EnemyTracker {
 
 	// Updates dead robot
 	public void robotDeath(RobotDeathEvent e) {
+		
 		for (int k = 0; k < enemies.size(); k++) {
 			if (e.getName().equals(enemies.get(k).getName())) {
-				enemies.get(k).setEnergy(0);
-				// enemies.remove(enemies.get(k));
+				//enemies.get(k).setEnergy(0);
+				enemies.remove(enemies.get(k));
+				robotDead = true;
 			}
 		}
 		enemies = targetPrio.sortList(enemies, robot.getTime());
+		updateTarget();
 
 	}
+	
 
 	// Target prio
 	public void updateTarget() {
 		if (!enemies.isEmpty()) {
 			enemies = targetPrio.sortList(enemies, robot.getTime());
-			if (allEnemiesScanned() && robot.getCloseEnemies().isEmpty()) {
+			if (allEnemiesScanned() && robot.getCloseEnemies().isEmpty() && (robotDead || !gotUpdateTarget)) {
 				target = enemies.get(0);
+				if(ally.getPlaceInList() == 0 && !sentMessage && oneTurn) {
+					sentMessage= true;
+					robot.sendMessage(7, "2");
+					msgUpdateTarget(target.getName());
+				}
 			} else if (!robot.getCloseEnemies().isEmpty()) {
 				target = robot.getCloseEnemies().get(0);
 				robot.enemyNearby();
+			}else if(gotUpdateTarget) {
+				target = updateTarget;
+			}
+			if(allEnemiesScanned()) {
+				oneTurn = true;
 			}
 		}
 	}
 
 	public boolean allEnemiesScanned() {
-		return enemies.size() > robot.getOthers() - robot.getAllies().size();
+		if(enemies.size() > robot.getOthers() - robot.getAllies().size()) {
+			allEnemiesScanned = true;
+		}
+		return allEnemiesScanned;
 	}
 
 	public ArrayList<EnemyBot> getLivingEnemies() {
-		ArrayList<EnemyBot> temp = new ArrayList<>();
-		for (int i = 0; i < enemies.size(); i++) {
-			if (enemies.get(i).getEnergy() > 0) {
-				temp.add(enemies.get(i));
-			}
-		}
-		return temp;
+		return enemies;
 	}
 
 	private double calBearing(double enemyX, double enemyY) {

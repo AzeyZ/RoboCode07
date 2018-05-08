@@ -29,7 +29,7 @@ public class MessageHandlerTest {
 		mock = new MockBot("Mock", 100, 90, 10, 10);
 		
 		allyTracker = new AllyTracker (mock);
-		enemyTracker = new EnemyTracker(mock);
+		enemyTracker = new EnemyTracker(mock, allyTracker);
 		
 		msgHandler = new MessageHandler(mock);
 	}
@@ -76,5 +76,21 @@ public class MessageHandlerTest {
 		for (String rec: mock.getMessages()){
 			assertTrue("The wrong message was sent", rec.equals(message));
 		}
+	}
+	
+	@Test
+	public void thisIsTestSend_singleBotMsg () {
+		// For sending messages
+		String receiver = "SomeOther bot 1";
+		String message = "Possibly Useful Data";
+		
+		msgHandler.send(message, receiver);
+		
+		assertEquals("More than one receiever", 1, mock.getRecievers().size()); 
+		assertEquals("More than one message was sent", 1, mock.getMessages().size());
+		
+		assertEquals("Wrong reciever receieved the message", receiver, mock.getRecievers().get(0));
+		assertEquals("The message was recieved incorrectly", message, mock.getMessages().get(0));
+
 	}
 }

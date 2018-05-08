@@ -106,6 +106,10 @@ public class MessageWriter {
 	public String gettingRammed(double myXPos, double myYPos, String shooterName, String oldTargetName) {
 		return "myPos;" + myXPos + ";" + myYPos + "\nrGettingAttacked;" + shooterName + ";" + oldTargetName;
 	}
+	public String setGunTarget(double myXPos, double myYPos, String targetName)
+	{
+		return "myPos;" + myXPos + ";" + myYPos + "\nrSetGunTarget;" + targetName;
+	}
 	
 
 }

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import group07.EnemyTracker;
+import group07.AllyTracker;
 import group07.EnemyBot;
 import group07.TargetPrioritizer;
 
@@ -29,7 +30,9 @@ public class EnemyTrackerTest {
 	@Before
 	public void setUp() {
 		mock = new MockBot("Mock", energy, sHeading, 10, 10);
-		eTrack = new EnemyTracker(mock);
+		AllyTracker ally = new AllyTracker(mock);
+		
+		eTrack = new EnemyTracker(mock, ally);
 		bot = new EnemyBot(mock);
 
 		prio = new TargetPrioritizer();
