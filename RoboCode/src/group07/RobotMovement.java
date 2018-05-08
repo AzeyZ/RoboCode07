@@ -134,21 +134,21 @@ public class RobotMovement {
 			for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
 				if (enemyTracker.getLivingEnemies().get(i).getDistance() < 200) {
 					gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
-							enemyTracker.getLivingEnemies().get(i).getY(), -1000));
+							enemyTracker.getLivingEnemies().get(i).getY(), -800));
 
 				}
-				else if (enemyTracker.getLivingEnemies().get(i).getDistance() < 150) {
+				else if (enemyTracker.getLivingEnemies().get(i).getDistance() < 125) {
 					gravpoints.add(new GravPoint(enemyTracker.getLivingEnemies().get(i).getX(),
 							enemyTracker.getLivingEnemies().get(i).getY(), -6000));
 				}
-					gravpoints.add(new GravPoint(robot.getBattleFieldHeight()/2,robot.getBattleFieldHeight()/2, -700));
+					gravpoints.add(new GravPoint(robot.getBattleFieldHeight()/2,robot.getBattleFieldHeight()/2, -200));
 				
 				if (track.getTarget().getDistance() > 400) {
 					gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 3000));
 				} else if (track.getTarget().getDistance() < 150) {
-					gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -1000));
+					gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), -400));
 				} else {
-					gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 1500));
+					gravpoints.add(new GravPoint(track.getTarget().getX(), track.getTarget().getY(), 2000));
 				}
 
 			}

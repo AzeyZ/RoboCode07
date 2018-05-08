@@ -42,9 +42,9 @@ public class Gun {
 	public void Wave(EnemyTracker track) {
 		//new wave
 		GFTWave wave = new GFTWave(robot);
-		if((lastTarget != null && target != lastTarget)) {
-				wave.reset();
-		}
+//		if((lastTarget != null && target != lastTarget)) {
+//				wave.reset();
+//		}
 		// Checks if target is null
 		target = track.getTarget();
 		if (target == null)
@@ -147,7 +147,7 @@ class GFTWave extends Condition {
 		return mostVisited;
 	}
 	
-	public void reset() {
-		statBuffers = new int[DISTANCE_INDEXES][VELOCITY_INDEXES][VELOCITY_INDEXES][BINS];
-	}
+//	public void reset() {
+//		statBuffers = new int[DISTANCE_INDEXES][VELOCITY_INDEXES][VELOCITY_INDEXES][BINS];
+//	}
 }
