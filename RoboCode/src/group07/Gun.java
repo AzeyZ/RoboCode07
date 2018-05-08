@@ -13,7 +13,7 @@ import robocode.util.Utils;
 /**
  * 
  * Class for shooting and aiming.
- * TODO: finish javadoc @author andreas 
+ * 
  */
 public class Gun {
 
@@ -25,24 +25,31 @@ public class Gun {
 	private static EnemyBot lastTarget = null;
 
 	private GunControl gunControl;
-	
+	/**
+	 * 
+	 * @param robot Instance our main class
+	 * @param ally Instance of AllyTracker
+	 */
 	public Gun(MrRobot robot, AllyTracker ally) {
 		this.robot = robot;
 		gunControl = new GunControl(ally);
 	}
 
-	// Wave functions
+	/**
+	 * AntiGravity movement calculations class
+	 * @param track Instance of our enemyTrack
+	 */
 	public void Wave(EnemyTracker track) {
-		
+		//new wave
 		GFTWave wave = new GFTWave(robot);
 		if((lastTarget != null && target != lastTarget)) {
 				wave.reset();
 		}
-		
+		// Checks if target is null
 		target = track.getTarget();
 		if (target == null)
 			return;
-		
+		// calculating some doubles
 		double enemyAbsoluteBearing = robot.getHeadingRadians() + target.getBearingRadians();
 		double enemyDistance = target.getDistance();
 		double enemyVelocity = target.getVelocity();
