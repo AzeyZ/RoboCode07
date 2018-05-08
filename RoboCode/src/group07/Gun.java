@@ -10,7 +10,11 @@ import robocode.util.Utils;
 // Code and Methods heavily inspired by the Guess Factor Targeting Tutorial by Kawigi
 // http://www.robowiki.net/wiki/GuessFactor_Targeting_Tutorial
 
-
+/**
+ * 
+ * Class for shooting and aiming.
+ * TODO: finish javadoc @author andreas 
+ */
 public class Gun {
 
 	private MrRobot robot;
