@@ -19,21 +19,21 @@ public class MessageHandler {
 	// receiver != 1 || 2 skicka till receiver.
 	public void send(String message, String receiver) {
 
-		if (receiver.contains("1")) {
+		if (receiver.equals("1")) {
 
 			try {
 				robot.broadcastMessage(message);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if (receiver.contains("2")) {
+		} else if (receiver.equals("2")) {
 
-			// Kolla vilka robotar i laget som �r Mr.robots
+			// Kolla vilka robotar i laget som �r Mr.robots
 			// Skicka till dessa robotar
 
 			ArrayList<Ally> mrrobots = robot.getAllies();
 
-			// Loopar listan och skickar till de robotar som �r Mrrobots.
+			// Loopar listan och skickar till de robotar som �r Mrrobots.
 
 			for (int i = 0; i < mrrobots.size(); i++) {
 				if (mrrobots.get(i).isMrRobot() && !mrrobots.get(i).getName().equals(robot.getName())) {
@@ -79,7 +79,7 @@ public class MessageHandler {
 					}
 				}
 			} else if (k.contains("friendPos")) {
-				// I nuläget vill vi inte göra något med denna infon�
+				// I nuläget vill vi inte göra något med denna infon�
 			} else if (k.contains("enemyDetails")) {
 				// I nuläget vill vi inte göra något med denna infon
 
