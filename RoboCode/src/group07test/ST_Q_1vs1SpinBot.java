@@ -15,7 +15,7 @@ import robocode.control.testing.RobotTestBed;
 @RunWith(JUnit4.class)
 public class ST_Q_1vs1SpinBot extends RobotTestBed {
 
-	private String ROBOT_UNDER_TEST = "group07.Robot07*";
+	private String ROBOT_UNDER_TEST = "group07.MrRobot*";
 	private String ENEMY_ROBOTS = "sample.SpinBot";
 	private int NBR_ROUNDS = 1000;
 	private double TRESHHOLD = 1;
