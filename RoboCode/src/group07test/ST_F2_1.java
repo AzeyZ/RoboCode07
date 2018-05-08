@@ -68,11 +68,10 @@ public class ST_F2_1 extends RobotTestBed {
 		robots[0].getName();
 		for (IBulletSnapshot bullet : event.getTurnSnapshot().getBullets()) {
 			if (bullet.getState().FIRED.isActive() == true && bullet.getOwnerIndex() == robots[0].getRobotIndex()
-					&& 900 >= (robots[0].getX() - robots[1].getX())*(robots[0].getX() - robots[1].getX()) * (robots[0].getY() - robots[1].getY())*(robots[0].getY() - robots[1].getY())) {
+					&& 900 < Math.sqrt(Math.pow(robots[0].getX() - robots[1].getX(), 2) + Math.pow(robots[0].getY() - robots[1].getY(), 2))) {
 				neverShotTooFar = false;
 			}
 		}
-
 	}
 
 	@Override
