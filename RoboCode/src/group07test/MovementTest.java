@@ -2,6 +2,7 @@ package group07test;
 
 import java.util.ArrayList;
 
+import group07.AllyTracker;
 import group07.EnemyBot;
 import group07.EnemyTracker;
 import group07.RobotMovement;
@@ -23,8 +24,9 @@ public class MovementTest {
 	@Before
 	public void setUp () {
 		mock = new MockBot("Mock", 100, 90, 10, 10);
+		AllyTracker allyTrack = new AllyTracker(mock);
 		enemy = new EnemyBot (mock);
-		eTrack = new EnemyTracker (mock);
+		eTrack = new EnemyTracker (mock, allyTrack);
 		modeSwitch = new MovementModeSwitcher(mock);
 		rMove = new RobotMovement(mock, modeSwitch, eTrack);
 	}
