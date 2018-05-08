@@ -215,4 +215,13 @@ public class MockBot extends MrRobot {
 	public ArrayList<Ally> getAllies() {
 		return fakeAllies;
 	}
+	@Override
+	public double getBattleFieldWidth() {
+		return 800;
+	}
+	
+	@Override
+	public double getBattleFieldHeight() {
+		return 1000;
+	}
 }
