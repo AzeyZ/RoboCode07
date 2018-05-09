@@ -1,6 +1,7 @@
 package group07;
 
 import robocode.*;
+import se.lth.cs.etsa02.RobotColors.RobotColors;
 
 import java.awt.Color;
 import java.util.ArrayList;
