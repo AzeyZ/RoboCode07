@@ -40,9 +40,7 @@ public class Ally {
 	/**
 	 * isMrRobot: Checks if this ally is MrRobot.
 	 * 
-	 * @return boolean
-	 * If it´s a MrRobot true,
-	 * otherwise false.
+	 * @return boolean If it´s a MrRobot true, otherwise false.
 	 */
 	public boolean isMrRobot() {
 		return this.name.contains("MrRobot");
@@ -50,8 +48,7 @@ public class Ally {
 
 	/**
 	 * 
-	 * @return String
-	 * Name of the Ally.
+	 * @return String Name of the Ally.
 	 */
 	public String getName() {
 		return name;
@@ -59,8 +56,7 @@ public class Ally {
 
 	/**
 	 * 
-	 * @return double
-	 * X value for the ally.
+	 * @return double X value for the ally.
 	 */
 	public double getX() {
 		return x;
@@ -68,16 +64,15 @@ public class Ally {
 
 	/**
 	 * 
-	 * @return double
-	 * Y value for the ally.
+	 * @return double Y value for the ally.
 	 */
 	public double getY() {
 		return y;
 	}
+
 	/**
 	 * 
-	 * @return long
-	 * The turn the information about the ally was last updated.
+	 * @return long The turn the information about the ally was last updated.
 	 */
 	public long getTick() {
 		return tick;

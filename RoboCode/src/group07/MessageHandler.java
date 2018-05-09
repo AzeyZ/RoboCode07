@@ -5,36 +5,44 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import robocode.MessageEvent;
-
+/**
+ * MessageHandler: Sends and receives messages. 
+ *
+ */
 public class MessageHandler {
 	MrRobot robot;
-
+	/**
+	 * 
+	 * @param robot
+	 * Instance of main class.
+	 */
 	public MessageHandler(MrRobot robot) {
 		this.robot = robot;
 	}
 
-	// Skickar iv√§g ett meddelande
-	// receiver == 1 skicka till alla.
-	// receiver == 2 skicka till alla mrRobot.
-	// receiver != 1 || 2 skicka till receiver.
+	/**
+	 * send: Sending messages.
+	 * @param message
+	 * The string that should be sent.
+	 * @param receiver
+	 * Receiver can contain 3 different types of Strings.
+	 * The string can contain "1" sending message to all teammates.
+	 * The string can contain "2" sending message to all MrRobots in the team.
+	 * If the string does not contain "1" or "2" send message to "receiver". 
+	 * 
+	 */
 	public void send(String message, String receiver) {
 
-		if (receiver.contains("1")) {
+		if (receiver.equals("1")) {
 
 			try {
 				robot.broadcastMessage(message);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if (receiver.contains("2")) {
-
-			// Kolla vilka robotar i laget som ‰r Mr.robots
-			// Skicka till dessa robotar
+		} else if (receiver.equals("2")) {
 
 			ArrayList<Ally> mrrobots = robot.getAllies();
-
-			// Loopar listan och skickar till de robotar som ‰r Mrrobots.
-
 			for (int i = 0; i < mrrobots.size(); i++) {
 				if (mrrobots.get(i).isMrRobot() && !mrrobots.get(i).getName().equals(robot.getName())) {
 					try {
@@ -53,8 +61,16 @@ public class MessageHandler {
 		}
 	}
 
-	// Tar emot ett Message och uppdaterar alla variablar h√§r
-	public void recieve(MessageEvent e, AllyTracker allyTracker, EnemyTracker enemyTracker, RadarControl radarControl) {
+	/**
+	 * receive: Handling received messages.
+	 * @param e
+	 * MessageEvent
+	 * @param allyTracker
+	 * Instance of AllyTracker
+	 * @param enemyTracker
+	 * @param radarControl
+	 */
+	public void receive(MessageEvent e, AllyTracker allyTracker, EnemyTracker enemyTracker, RadarControl radarControl) {
 		ArrayList<String> rowsInMessage = new ArrayList<>();
 		rowsInMessage.addAll(Arrays.asList(e.getMessage().toString().split("\n")));
 

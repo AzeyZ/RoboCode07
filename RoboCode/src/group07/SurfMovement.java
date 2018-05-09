@@ -165,8 +165,8 @@ public class SurfMovement {
 		boolean targetDistanceCheck = e.getDistance() > 800;
 		// checking for rammers
 		boolean antiRam = true;
-		for (int i = 0; i < track.getLivingEnemies().size(); i++) {
-			if (track.getLivingEnemies().get(i).getDistance() < 150) {
+		for (int i = 0; i < track.getEnemyList().size(); i++) {
+			if (track.getEnemyList().get(i).getDistance() < 150) {
 				antiRam = false;
 			}
 		}

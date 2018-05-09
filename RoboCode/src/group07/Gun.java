@@ -21,15 +21,16 @@ public class Gun {
 	private EnemyBot target;
 	public static double lastEnemyVelocity;
 	public static double lateralDirection;
-
 	private static EnemyBot lastTarget = null;
 
 	private GunControl gunControl;
 
 	/**
 	 * 
-	 * @param robotInstance our main class
-	 * @param ally Instance of AllyTracker
+	 * @param robotInstance
+	 *            our main class
+	 * @param ally
+	 *            Instance of AllyTracker
 	 * 
 	 */
 	public Gun(MrRobot robot, AllyTracker ally) {
@@ -39,18 +40,21 @@ public class Gun {
 
 	/**
 	 * AntiGravity movement calculations class
-	 * @param track Instance of our enemyTrack
+	 * 
+	 * @param track
+	 *            Instance of our enemyTrack
 	 */
 	public void Wave(EnemyTracker track) {
-		//new wave
+		// new wave
 		GFTWave wave = new GFTWave(robot);
 		target = track.getTarget();
 		if (target == null)
 			return;
 		// calculating some doubles
 		double enemyAbsoluteBearing = robot.getHeadingRadians() + target.getBearingRadians();
-		if(enemyAbsoluteBearing >= 2*Math.PI) {
-			enemyAbsoluteBearing -= 2*Math.PI; }
+		if (enemyAbsoluteBearing >= 2 * Math.PI) {
+			enemyAbsoluteBearing -= 2 * Math.PI;
+		}
 		double enemyDistance = target.getDistance();
 		double enemyVelocity = target.getVelocity();
 		double power = Math.min(600 / enemyDistance, 3);
@@ -68,9 +72,8 @@ public class Gun {
 		wave.bearing = enemyAbsoluteBearing;
 		robot.setTurnGunRightRadians(Utils.normalRelativeAngle(
 				enemyAbsoluteBearing - robot.getGunHeadingRadians() + wave.mostVisitedBearingOffset()));
-		if(gunControl.takeShot(robot, target))
-		{
-			robot.setFire(wave.bulletPower);			
+		if (gunControl.takeShot(robot, target)) {
+			robot.setFire(wave.bulletPower);
 		}
 		if (robot.getEnergy() >= power) {
 			robot.addCustomEvent(wave); // ????
@@ -79,6 +82,7 @@ public class Gun {
 	}
 
 }
+
 /**
  * Guess factor waves class
  *
@@ -103,6 +107,7 @@ class GFTWave extends Condition {
 	GFTWave(TeamRobot _robot) {
 		this.robot = _robot;
 	}
+
 	/**
 	 * Checks if wave has arrived at enemy
 	 */
@@ -114,15 +119,19 @@ class GFTWave extends Condition {
 		}
 		return false;
 	}
+
 	/**
 	 * Calculates the most Visited Bearing Offset
+	 * 
 	 * @return mostVisitedBearingOffset
 	 */
 	double mostVisitedBearingOffset() {
 		return (lateralDirection * BIN_WIDTH) * (mostVisitedBin() - MIDDLE_BIN);
 	}
+
 	/**
 	 * Updates our statBuffers
+	 * 
 	 * @param distance
 	 * @param velocity
 	 * @param lastVelocity
@@ -133,14 +142,17 @@ class GFTWave extends Condition {
 		int lastVelocityIndex = (int) Math.abs(lastVelocity / 2);
 		buffer = statBuffers[distanceIndex][velocityIndex][lastVelocityIndex];
 	}
+
 	/**
 	 * advance the wave forward
 	 */
 	private void advance() {
 		this.distanceTraveled += MathUtils.bulletVelocity(this.bulletPower);
 	}
+
 	/**
-	 *  Checks if wave has arrived
+	 * Checks if wave has arrived
+	 * 
 	 * @return
 	 */
 	private boolean hasArrived() {
@@ -150,12 +162,14 @@ class GFTWave extends Condition {
 	private int currentBin() {
 		int bin = (int) Math.round(
 				Utils.normalRelativeAngle(MathUtils.absoluteBearing(this.gunLocation, targetLocation) - this.bearing)
-				/ (this.lateralDirection * BIN_WIDTH) + MIDDLE_BIN);
+						/ (this.lateralDirection * BIN_WIDTH) + MIDDLE_BIN);
 
 		return MathUtils.minMax(bin, 0, BINS - 1);
 	}
+
 	/**
 	 * Returns mostvisited bin
+	 * 
 	 * @return
 	 */
 	private int mostVisitedBin() {

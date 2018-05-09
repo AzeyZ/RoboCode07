@@ -92,7 +92,7 @@ public class EnemyTrackerTest {
 	@Test
 	public void testGetLivingEnemies() {
 		ArrayList<EnemyBot> enemies = getEnemies();
-		ArrayList<EnemyBot> temp = eTrack.getLivingEnemies();
+		ArrayList<EnemyBot> temp = eTrack.getEnemyList();
 		boolean isSame = false;
 
 		for (int i = 0; i < enemies.size(); i++) {

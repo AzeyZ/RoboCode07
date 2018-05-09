@@ -113,7 +113,7 @@ public class MrRobot extends robocode.TeamRobot {
 		switch (messageType) {
 		case 0: {
 			message = messageWriter.standardMessage(this.getX(), this.getY(), allyTracker.getAllyList(),
-					enemyTracker.getEnemies(), enemyTracker.getTarget().getName(), enemyTracker.getTarget().getX(),
+					enemyTracker.getEnemyList(), enemyTracker.getTarget().getName(), enemyTracker.getTarget().getX(),
 					enemyTracker.getTarget().getY());
 			break;
 		}
@@ -128,7 +128,7 @@ public class MrRobot extends robocode.TeamRobot {
 			break;
 		}
 		case 3: {
-			message = messageWriter.enemyListUpdate(this.getX(), this.getY(), enemyTracker.getEnemies());
+			message = messageWriter.enemyListUpdate(this.getX(), this.getY(), enemyTracker.getEnemyList());
 			break;
 		}
 		case 4: {
@@ -168,7 +168,7 @@ public class MrRobot extends robocode.TeamRobot {
 		}
 
 		else {
-			messageHandler.recieve(e, allyTracker, enemyTracker, radarControl);
+			messageHandler.receive(e, allyTracker, enemyTracker, radarControl);
 		}
 
 	}
@@ -205,9 +205,9 @@ public class MrRobot extends robocode.TeamRobot {
 	 */
 	public ArrayList<EnemyBot> getCloseEnemies() {
 		ArrayList<EnemyBot> rammers = new ArrayList<>();
-		for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
-			if (enemyTracker.getLivingEnemies().get(i).getDistance() < 150) {
-				rammers.add(enemyTracker.getLivingEnemies().get(i));
+		for (int i = 0; i < enemyTracker.getEnemyList().size(); i++) {
+			if (enemyTracker.getEnemyList().get(i).getDistance() < 150) {
+				rammers.add(enemyTracker.getEnemyList().get(i));
 			}
 		}
 
