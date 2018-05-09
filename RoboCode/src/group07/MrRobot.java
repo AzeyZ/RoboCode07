@@ -40,7 +40,6 @@ public class MrRobot extends robocode.TeamRobot {
 			sendMessage(0, "1");
 			sendMessage(2, "2");
 			sendMessage(3, "2");
-			System.out.println(enemyTracker.getTarget().getName());
 			// Telling MovementModeSwitcher that its a new turn.
 			mode.newTurn();
 			// Calling movement

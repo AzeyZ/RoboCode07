@@ -12,10 +12,6 @@ import java.util.ArrayList;
 //[0-1] targetPos;x;y
 //[0-1] moveTo;x;y
 
-//messageWriter.standardMessage(this.getX(), 
-//this.getY(), allyTracker.getAllyList(), enemyTracker.getEnemies(), enemyTracker.getTarget().getName(), 
-//enemyTracker.getTarget().getX(), enemyTracker.getTarget().getY());
-
 //Shooting at an ally that has to move
 
 //[0-1] myPos;x;y
