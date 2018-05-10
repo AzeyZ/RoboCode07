@@ -1,4 +1,4 @@
-package se.lth.cs.etsa02.RobotColors;
+package se.lth.cs.etsa02;
 
 import java.awt.Color;
 /**
