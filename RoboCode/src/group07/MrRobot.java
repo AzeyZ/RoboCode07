@@ -1,6 +1,7 @@
 package group07;
 
 import robocode.*;
+import se.lth.cs.etsa02.RobotColors.RobotColors;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -127,7 +128,7 @@ public class MrRobot extends robocode.TeamRobot {
 			break;
 		}
 		case 3: {
-			message = messageWriter.enemyListUpdate(this.getX(), this.getY(), enemyTracker.getEnemyList());
+			message = messageWriter.enemyListUpdate(enemyTracker.getEnemyList());
 			break;
 		}
 		case 4: {
