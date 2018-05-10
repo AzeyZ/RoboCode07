@@ -125,8 +125,8 @@ public class MessageWriter {
 	 *            List enemyList.
 	 * @return enemyListUpdate message.
 	 */
-	public String enemyListUpdate(double myXPos, double myYPos, ArrayList<EnemyBot> enemyList) {
-		String message = "myPos;" + myXPos + ";" + myYPos;
+	public String enemyListUpdate(ArrayList<EnemyBot> enemyList) {
+		String message = "";
 		if (!enemyList.isEmpty()) {
 
 			for (EnemyBot k : enemyList) {

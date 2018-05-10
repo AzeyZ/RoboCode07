@@ -128,7 +128,7 @@ public class MrRobot extends robocode.TeamRobot {
 			break;
 		}
 		case 3: {
-			message = messageWriter.enemyListUpdate(this.getX(), this.getY(), enemyTracker.getEnemyList());
+			message = messageWriter.enemyListUpdate(enemyTracker.getEnemyList());
 			break;
 		}
 		case 4: {
