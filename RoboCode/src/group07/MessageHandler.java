@@ -96,29 +96,6 @@ public class MessageHandler {
 						}
 					}
 				}
-<<<<<<< HEAD
-			} else if (k.contains("friendPos")) {
-				// I nuläget vill vi inte göra något med denna infon�
-			} else if (k.contains("enemyDetails")) {
-				// I nuläget vill vi inte göra något med denna infon
-
-			} else if (k.contains("bullet")) {
-				// I nuläget vill vi inte göra något med denna infon
-			}
-
-			else if (k.contains("enemyPos")) {
-				// I nuläget vill vi inte göra något med denna infon
-			} else if (k.contains("targetEnemy")) {
-				// I nuläget vill vi inte göra något med denna infon
-			} else if (k.contains("targetPos")) {
-				// I nuläget vill vi inte göra något med denna infon
-			} else if (k.contains("moveTo")) {
-				// I nuläget vill vi inte göra något med denna infon
-			} else if (k.contains("rShot")) {
-
-				// göra saker med hur roboten rör sig
-=======
->>>>>>> branch 'Beta.0.5.1' of https://github.com/AzeyZ/RoboCode07.git
 			} else if (k.contains("rAlly")) {
 				// Uppdatera listan om infon e nyare
 				if (infoInRow.size() == 5) {
