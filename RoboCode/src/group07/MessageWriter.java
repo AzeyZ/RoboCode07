@@ -1,34 +1,6 @@
 package group07;
 
 import java.util.ArrayList;
-//Standard Protocol
-
-//[0-1] leadership;[followMe|leadMe]
-//[0-1] teamMode;[offensive|defensive]
-//[0-1] myPos;x;y
-//[0-1] friendPos;x;y
-//[0-*] enemyPos;x;y
-//[0-1] targetEnemy;name
-//[0-1] targetPos;x;y
-//[0-1] moveTo;x;y
-
-//Shooting at an ally that has to move
-
-//[0-1] myPos;x;y
-//[0-1] targetEnemy;name
-//[0-*] rShot;x,y,tick/time (many rows)
-
-//AllyList update
-
-//[0-1] myPos;x;y
-//[0-*] rAlly;name;x;y;tick
-
-//EnemyList update
-
-//[0-1] myPos;x;y
-//[0-*] rEnemy;name;type;x;y;tick
-
-// The code to get the standard string to send to teammates.
 /**
  * 
  * MessageWriter: returning a String that we are going to send.
@@ -92,7 +64,6 @@ public class MessageWriter {
 		message = message + "\ntargetPos;" + tarXPos + ";" + tarYPos;
 		return message;
 	}
-
 	/**
 	 * allyListUpdate: Sending message to update allyList.
 	 * 
