@@ -16,14 +16,13 @@ import robocode.control.testing.RobotTestBed;
 
 @RunWith(JUnit4.class)
 public class ST_F2_1 extends RobotTestBed {
-	
-	
+
 	private String ROBOT_UNDER_TEST = "group07.MrRobot*";
 	private String ENEMY_ROBOTS = "group07.MrRobot*";
 	private int NBR_ROUNDS = 1000;
 	private boolean PRINT_DEBUG = false;
-	
-	boolean neverShotToFar = true;
+
+	boolean neverShotTooFar = true;
 
 	@Override
 	public String getRobotNames() {
@@ -50,7 +49,6 @@ public class ST_F2_1 extends RobotTestBed {
 		return 0;
 	}
 
-
 	@Override
 	protected void runSetup() {
 	}
@@ -58,27 +56,24 @@ public class ST_F2_1 extends RobotTestBed {
 	@Override
 	protected void runTeardown() {
 	}
-	
+
 	@Override
 	public void onBattleCompleted(BattleCompletedEvent event) {
-		assertTrue("The bot shot to far away from an enemy.", neverShotToFar);
+		assertTrue("The bot shot too far away from an enemy.", neverShotTooFar);
 	}
-	
+
 	@Override
 	public void onTurnEnded(TurnEndedEvent event) {
-	IRobotSnapshot[] robots = event.getTurnSnapshot().getRobots();
-	robots[0].getName();
-	for (IBulletSnapshot bullet:event.getTurnSnapshot().getBullets()){
-		if (bullet.getState().FIRED == true && bullet.getOwnerIndex() == robots[0].getRobotIndex())
-	}
-	
-	//
-	if (robot.getState().isHitWall()) {
-		neverCrashedIntoAWall = false;
-		countWallHits++;
+		IRobotSnapshot[] robots = event.getTurnSnapshot().getRobots();
+		robots[0].getName();
+		for (IBulletSnapshot bullet : event.getTurnSnapshot().getBullets()) {
+			if (bullet.getState().FIRED.isActive() == true && bullet.getOwnerIndex() == robots[0].getRobotIndex()
+					&& 900 < Math.sqrt(Math.pow(robots[0].getX() - robots[1].getX(), 2) + Math.pow(robots[0].getY() - robots[1].getY(), 2))) {
+				neverShotTooFar = false;
+			}
 		}
 	}
-	
+
 	@Override
 	public void onBattleMessage(BattleMessageEvent event) {
 		event.getMessage();

@@ -6,17 +6,34 @@ import java.util.Arrays;
 
 import robocode.MessageEvent;
 
+/**
+ * MessageHandler: Sends and receives messages.
+ *
+ */
 public class MessageHandler {
 	MrRobot robot;
 
+	/**
+	 * 
+	 * @param robot
+	 *            Instance of main class.
+	 */
 	public MessageHandler(MrRobot robot) {
 		this.robot = robot;
 	}
 
-	// Skickar iväg ett meddelande
-	// receiver == 1 skicka till alla.
-	// receiver == 2 skicka till alla mrRobot.
-	// receiver != 1 || 2 skicka till receiver.
+	/**
+	 * send: Sending messages.
+	 * 
+	 * @param message
+	 *            The string that should be sent.
+	 * @param receiver
+	 *            Receiver can contain 3 different types of Strings. The string can
+	 *            contain "1" sending message to all teammates. The string can
+	 *            contain "2" sending message to all MrRobots in the team. If the
+	 *            string does not contain "1" or "2" send message to "receiver".
+	 * 
+	 */
 	public void send(String message, String receiver) {
 
 		if (receiver.equals("1")) {
@@ -28,12 +45,7 @@ public class MessageHandler {
 			}
 		} else if (receiver.equals("2")) {
 
-			// Kolla vilka robotar i laget som �r Mr.robots
-			// Skicka till dessa robotar
-
 			ArrayList<Ally> mrrobots = robot.getAllies();
-
-			// Loopar listan och skickar till de robotar som �r Mrrobots.
 
 			for (int i = 0; i < mrrobots.size(); i++) {
 				if (mrrobots.get(i).isMrRobot() && !mrrobots.get(i).getName().equals(robot.getName())) {
@@ -53,20 +65,26 @@ public class MessageHandler {
 		}
 	}
 
-	// Tar emot ett Message och uppdaterar alla variablar här
-	public void recieve(MessageEvent e, AllyTracker allyTracker, EnemyTracker enemyTracker, RadarControl radarControl) {
+	/**
+	 * receive: Handling received messages.
+	 * 
+	 * @param e
+	 *            MessageEvent
+	 * @param allyTracker
+	 *            Instance of AllyTracker
+	 * @param enemyTracker
+	 *            Instance of EnemyTracker
+	 * @param radarControl
+	 *            Instance of RadarControl
+	 */
+	public void receive(MessageEvent e, AllyTracker allyTracker, EnemyTracker enemyTracker, RadarControl radarControl) {
 		ArrayList<String> rowsInMessage = new ArrayList<>();
 		rowsInMessage.addAll(Arrays.asList(e.getMessage().toString().split("\n")));
 
 		for (String k : rowsInMessage) {
 			ArrayList<String> infoInRow = new ArrayList<>();
 			infoInRow.addAll(Arrays.asList(k.split(";")));
-
-			if (k.contains("leadership")) {
-				// I nuläget vill vi inte göra något med denna infon
-			} else if (k.contains("teamMode")) {
-				// I nuläget vill vi inte göra något med denna infon
-			} else if (k.contains("myPos")) {
+			if (k.contains("myPos")) {
 				// Uppdatera ally listan
 				if (infoInRow.size() == 3) {
 					String m_SenderName = e.getSender();
@@ -78,6 +96,7 @@ public class MessageHandler {
 						}
 					}
 				}
+<<<<<<< HEAD
 			} else if (k.contains("friendPos")) {
 				// I nuläget vill vi inte göra något med denna infon�
 			} else if (k.contains("enemyDetails")) {
@@ -98,6 +117,8 @@ public class MessageHandler {
 			} else if (k.contains("rShot")) {
 
 				// göra saker med hur roboten rör sig
+=======
+>>>>>>> branch 'Beta.0.5.1' of https://github.com/AzeyZ/RoboCode07.git
 			} else if (k.contains("rAlly")) {
 				// Uppdatera listan om infon e nyare
 				if (infoInRow.size() == 5) {
@@ -116,18 +137,17 @@ public class MessageHandler {
 						Double.parseDouble(infoInRow.get(3)), Double.parseDouble(infoInRow.get(4)),
 						Double.parseDouble(infoInRow.get(5)), Long.parseLong(infoInRow.get(6)), infoInRow.get(7));
 				enemyTracker.updateTarget();
-				
-			}else if (k.contains("rPickRadarTarget")) {
+
+			} else if (k.contains("rPickRadarTarget")) {
 				radarControl.teammatePicked(e.getSender(), infoInRow.get(1), Integer.parseInt(infoInRow.get(2)));
-			}else if (k.contains("rGettingAttacked")) {
+			} else if (k.contains("rGettingAttacked")) {
 				radarControl.teammateGettingAttacked(e.getSender(), infoInRow.get(1), infoInRow.get(2));
-			}else if (k.contains("rNewRadarTarget")) {
+			} else if (k.contains("rNewRadarTarget")) {
 				radarControl.teammateNewTarget(e.getSender(), infoInRow.get(1));
-			}else if (k.contains("rSetGunTarget"))
-			{
+			} else if (k.contains("rSetGunTarget")) {
 				enemyTracker.msgUpdateTarget(infoInRow.get(1));
 			}
-			
+
 		}
 	}
 }

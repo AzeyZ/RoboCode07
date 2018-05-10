@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import robocode.HitByBulletEvent;
 import robocode.RobotDeathEvent;
 
+/**
+ * RadarControl: Makes sure we are focusing the right enemy with our radar.
+ *
+ */
 public class RadarControl {
 	EnemyBot radarTarget;
 	MrRobot mrRobot;
@@ -16,6 +20,16 @@ public class RadarControl {
 	int myPlaceInList;
 	ArrayList<AllyWithTarget> targetTracking = new ArrayList<>();
 
+	/**
+	 * 
+	 * @param allyTracker
+	 *            Instance of AllyTracker.
+	 * @param enemyTracker
+	 *            Instance of EnemyTracker.
+	 * 
+	 * @param mrRobot
+	 *            Instance of main class.
+	 */
 	public RadarControl(AllyTracker allyTracker, EnemyTracker enemyTracker, MrRobot mrRobot) {
 		this.allyTracker = allyTracker;
 		this.enemyTracker = enemyTracker;
@@ -23,16 +37,25 @@ public class RadarControl {
 		oneTime = true;
 		gotTarget = false;
 	}
+
+	/**
+	 * givePlaceInList: Saves the place MrRobot has in allyList.
+	 */
 	public void givePlaceInList() {
 		myPlaceInList = allyTracker.getPlaceInList();
 	}
+
+	/**
+	 * StartOfGame: Makes sure the ally with place 0 in allyList picks a target and
+	 * sends a message telling the next MrRobot to pick a target.
+	 * 
+	 */
 	public void startOfGame() {
 		if (enemyTracker.allEnemiesScanned() && oneTime) {
-			
-		//	System.out.println(myPlaceInList);
+
 			if (myPlaceInList == 0) {
-				if (!enemyTracker.getLivingEnemies().isEmpty()) {
-					radarTarget = enemyTracker.getLivingEnemies().get(0);
+				if (!enemyTracker.getEnemyList().isEmpty()) {
+					radarTarget = enemyTracker.getEnemyList().get(0);
 
 					targetTracking.add(new AllyWithTarget(allyTracker.getMrRobots().get(myPlaceInList), radarTarget));
 				} else {
@@ -46,15 +69,21 @@ public class RadarControl {
 			oneTime = false;
 		}
 	}
+
+	/**
+	 * gettingRammed: Change radarTarget if Mr Robot is getting rammed.
+	 * 
+	 * @param ramBot
+	 *            The EnemyBot that is ramming us.
+	 */
 	public void gettingRammed(EnemyBot ramBot) {
 		if (gotTarget) {
-			for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
-				if (enemyTracker.getLivingEnemies().get(i).getName().equals(ramBot.getName())) {
+			for (int i = 0; i < enemyTracker.getEnemyList().size(); i++) {
+				if (enemyTracker.getEnemyList().get(i).getName().equals(ramBot.getName())) {
 					if (!ramBot.getName().equals(radarTarget.getName())) {
-						newRadarTarget = enemyTracker.getLivingEnemies().get(getIndexForEnemy(ramBot.getName()));
+						newRadarTarget = enemyTracker.getEnemyList().get(getIndexForEnemy(ramBot.getName()));
 						mrRobot.sendMessage(1, "2");
-//						System.out.println(e.getName() + "-------");
-						radarTarget = enemyTracker.getLivingEnemies().get(getIndexForEnemy(ramBot.getName()));
+						radarTarget = enemyTracker.getEnemyList().get(getIndexForEnemy(ramBot.getName()));
 						targetTracking.get(getIndexForName(mrRobot.getName())).updateTarget(radarTarget);
 					}
 				}
@@ -62,14 +91,19 @@ public class RadarControl {
 		}
 	}
 
+	/**
+	 * gettingAttacked: Change radarTarget if Mr Robot is getting attacked.
+	 * 
+	 * @param e
+	 *            HitByBulletEvent
+	 */
 	public void gettingAttacked(HitByBulletEvent e) {
 		if (gotTarget) {
-			for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
-				if (enemyTracker.getLivingEnemies().get(i).getName().equals(e.getName())) {
+			for (int i = 0; i < enemyTracker.getEnemyList().size(); i++) {
+				if (enemyTracker.getEnemyList().get(i).getName().equals(e.getName())) {
 					if (!e.getName().equals(radarTarget.getName())) {
 						mrRobot.sendMessage(5, "2");
-//						System.out.println(e.getName() + "-------");
-						radarTarget = enemyTracker.getLivingEnemies().get(getIndexForEnemy(e.getName()));
+						radarTarget = enemyTracker.getEnemyList().get(getIndexForEnemy(e.getName()));
 						targetTracking.get(getIndexForName(mrRobot.getName())).updateTarget(radarTarget);
 					}
 				}
@@ -77,11 +111,15 @@ public class RadarControl {
 		}
 	}
 
+	/**
+	 * robotDeath: Change target if our old target died.
+	 * 
+	 * @param e
+	 *            RobotDeathEvent
+	 */
 	public void robotDeath(RobotDeathEvent e) {
-//		System.out.println(e.getName());
-//		System.out.println(radarTarget.getName() + "-------------------------------------!");
+
 		if (gotTarget && e.getName().equals(radarTarget.getName())) {
-			System.out.println("test");
 			radarTarget = newRadarTarget();
 			mrRobot.sendMessage(6, "2");
 
@@ -92,13 +130,24 @@ public class RadarControl {
 
 	}
 
+	/**
+	 * teammatePicked: The next Mr Robot with a number higher than last placeInList
+	 * should now pick.
+	 * 
+	 * @param teammateName
+	 *            Name of the teammate that picked target.
+	 * @param targetName
+	 *            Name of the target the teammate picked.
+	 * @param placeInList
+	 *            The place in allyList for the ally that picked.
+	 */
 	public void teammatePicked(String teammateName, String targetName, int placeInList) {
-		
+
 		EnemyBot m_EnemyBot = null;
 		Ally m_Ally = null;
-		for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
-			if (enemyTracker.getLivingEnemies().get(i).getName().equals(targetName)) {
-				m_EnemyBot = enemyTracker.getLivingEnemies().get(i);
+		for (int i = 0; i < enemyTracker.getEnemyList().size(); i++) {
+			if (enemyTracker.getEnemyList().get(i).getName().equals(targetName)) {
+				m_EnemyBot = enemyTracker.getEnemyList().get(i);
 
 				break;
 			}
@@ -121,34 +170,61 @@ public class RadarControl {
 
 	}
 
+	/**
+	 * teammateGettingAttacked: Change target if a teammate is getting attacked by
+	 * our old target.
+	 * 
+	 * @param teammateName
+	 *            Name of the teammate.
+	 * @param shooter
+	 *            Name of the robot the teammate is getting attacked by.
+	 * @param oldTarget
+	 *            name of the teammates old radarTarget.
+	 */
 	public void teammateGettingAttacked(String teammateName, String shooter, String oldTarget) {
-//		System.out.println("test");
-		if(gotTarget) {
-		if (shooter.equals(radarTarget.getName()) && getIndexForEnemy(oldTarget) != -1) {
+		if (gotTarget) {
+			if (shooter.equals(radarTarget.getName()) && getIndexForEnemy(oldTarget) != -1) {
 
-			radarTarget = enemyTracker.getLivingEnemies().get(getIndexForEnemy(oldTarget));
-			targetTracking.get(getIndexForName(mrRobot.getName())).updateTarget(radarTarget);
-			mrRobot.sendMessage(6, "2");
+				radarTarget = enemyTracker.getEnemyList().get(getIndexForEnemy(oldTarget));
+				targetTracking.get(getIndexForName(mrRobot.getName())).updateTarget(radarTarget);
+				mrRobot.sendMessage(6, "2");
 
-		}}
+			}
+		}
 		if (getIndexForName(teammateName) != -1 && getIndexForEnemy(shooter) != -1) {
 			targetTracking.get(getIndexForName(teammateName))
-					.updateTarget(enemyTracker.getLivingEnemies().get(getIndexForEnemy(shooter)));
+					.updateTarget(enemyTracker.getEnemyList().get(getIndexForEnemy(shooter)));
 
 		}
 	}
 
+	/**
+	 * teammateNewTarget: Update list a teammate changed target.
+	 * 
+	 * @param teammateName
+	 *            Name of the teammate that changed target.
+	 * @param newTarget
+	 *            Name of the new target.
+	 */
 	public void teammateNewTarget(String teammateName, String newTarget) {
 		if (getIndexForName(teammateName) != -1 && getIndexForEnemy(newTarget) != -1) {
 			targetTracking.get(getIndexForName(teammateName))
-					.updateTarget(enemyTracker.getLivingEnemies().get(getIndexForEnemy(newTarget)));
+					.updateTarget(enemyTracker.getEnemyList().get(getIndexForEnemy(newTarget)));
 		}
 	}
 
+	/**
+	 * getIndexForEnemy: Finds the index in enemyList for the enemyName.
+	 * 
+	 * @param enemyName
+	 *            Name of the robot we are looking for.
+	 * @return The index in enemyList. If we can not find the robot in the list
+	 *         return -1.
+	 */
 	private int getIndexForEnemy(String enemyName) {
 
-		for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
-			if (enemyTracker.getLivingEnemies().get(i).getName().equals(enemyName)) {
+		for (int i = 0; i < enemyTracker.getEnemyList().size(); i++) {
+			if (enemyTracker.getEnemyList().get(i).getName().equals(enemyName)) {
 				return i;
 
 			}
@@ -157,6 +233,14 @@ public class RadarControl {
 
 	}
 
+	/**
+	 * getIndexForName: Finds the index in targetList for the teammateName.
+	 * 
+	 * @param teammateName
+	 *            Name of the teammate we ar looking for.
+	 * @return The index in targetList. if we can not find the teammate in the list
+	 *         return -1.
+	 */
 	private int getIndexForName(String teammateName) {
 		for (int x = 0; x < targetTracking.size(); x++) {
 			if (targetTracking.get(x).getAlly().getName().equals(teammateName)) {
@@ -165,18 +249,22 @@ public class RadarControl {
 		}
 		return -1;
 	}
-	
 
+	/**
+	 * newRadarTarget: Finds a free enemy bot to scan.
+	 * 
+	 * @return Object of the enemy we should scan.
+	 */
 	private EnemyBot newRadarTarget() {
 		ArrayList<EnemyBot> temp = new ArrayList<>();
-		temp.addAll(enemyTracker.getLivingEnemies());
+		temp.addAll(enemyTracker.getEnemyList());
 
-		if (!enemyTracker.getLivingEnemies().isEmpty() && !targetTracking.isEmpty()) {
-			for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
+		if (!enemyTracker.getEnemyList().isEmpty() && !targetTracking.isEmpty()) {
+			for (int i = 0; i < enemyTracker.getEnemyList().size(); i++) {
 				for (int x = 0; x < targetTracking.size(); x++) {
-					if (enemyTracker.getLivingEnemies().get(i).getName()
+					if (enemyTracker.getEnemyList().get(i).getName()
 							.equals(targetTracking.get(x).getRadarTarget().getName())) {
-						temp.remove(enemyTracker.getLivingEnemies().get(i));
+						temp.remove(enemyTracker.getEnemyList().get(i));
 					}
 				}
 			}
@@ -187,7 +275,11 @@ public class RadarControl {
 		}
 		return enemyTracker.getTarget();
 	}
-
+	/**
+	 * 
+	 * @return
+	 * radarTarget.
+	 */
 	public EnemyBot getRadarTarget() {
 		if (gotTarget) {
 			return radarTarget;
@@ -196,6 +288,11 @@ public class RadarControl {
 		}
 
 	}
+	/**
+	 * 
+	 * @return
+	 * newRadarTarget.
+	 */
 	public EnemyBot getNewRadarTarget() {
 		if (gotTarget) {
 			return newRadarTarget;
@@ -204,24 +301,46 @@ public class RadarControl {
 		}
 	}
 }
-
+/**
+ * AllyWithTarget: Saves which target every ally has.
+ *
+ */
 class AllyWithTarget {
 	Ally ally;
 	EnemyBot radarTarget;
-
+	/**
+	 * 
+	 * @param ally
+	 * The Ally.
+	 * @param radarTarget
+	 * The Enemy that Ally is scanning.
+	 * 
+	 */
 	public AllyWithTarget(Ally ally, EnemyBot radarTarget) {
 		this.ally = ally;
 		this.radarTarget = radarTarget;
 	}
-
+/**
+ * updateTarget: updating the radarTarget.
+ * @param newRadarTarget
+ * The newTarget.
+ */
 	public void updateTarget(EnemyBot newRadarTarget) {
 		radarTarget = newRadarTarget;
 	}
-
+/**
+ * 
+ * @return
+ * Ally.
+ */
 	public Ally getAlly() {
 		return ally;
 	}
-
+/**
+ * 
+ * @return
+ * EnemyBot.
+ */
 	public EnemyBot getRadarTarget() {
 		return radarTarget;
 	}

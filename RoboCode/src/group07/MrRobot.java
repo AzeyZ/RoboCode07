@@ -1,6 +1,7 @@
 package group07;
 
 import robocode.*;
+import se.lth.cs.etsa02.RobotColors.RobotColors;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * MrRobot: Our robot.
  */
 public class MrRobot extends robocode.TeamRobot {
-	
+
 	private AllyTracker allyTracker = new AllyTracker(this);
 	private EnemyTracker enemyTracker = new EnemyTracker(this, allyTracker);
 	private Radar radar = new Radar(this);
@@ -40,10 +41,9 @@ public class MrRobot extends robocode.TeamRobot {
 			sendMessage(0, "1");
 			sendMessage(2, "2");
 			sendMessage(3, "2");
-			System.out.println(enemyTracker.getTarget().getName());
-			//Telling MovementModeSwitcher that its a new turn.
+			// Telling MovementModeSwitcher that its a new turn.
 			mode.newTurn();
-			//Calling movement
+			// Calling movement
 			if (mode.getCurrentMode() == 0) {
 				robotMovement.antiGravMove(enemyTracker);
 			}
@@ -103,9 +103,9 @@ public class MrRobot extends robocode.TeamRobot {
 	 * @param receiver
 	 *            We can have 3 types of strings as input. If we want to send the
 	 *            message to all allied bots we set "1" as the input. If we want to
-	 *            send the message to all MrRobots (not yourself) we set "2" as the input. If we
-	 *            want to send the message to a teammate we set the name of that
-	 *            teammate as input.
+	 *            send the message to all MrRobots (not yourself) we set "2" as the
+	 *            input. If we want to send the message to a teammate we set the
+	 *            name of that teammate as input.
 	 */
 	public void sendMessage(int messageType, String receiver) {
 		String message = "";
@@ -113,7 +113,7 @@ public class MrRobot extends robocode.TeamRobot {
 		switch (messageType) {
 		case 0: {
 			message = messageWriter.standardMessage(this.getX(), this.getY(), allyTracker.getAllyList(),
-					enemyTracker.getEnemies(), enemyTracker.getTarget().getName(), enemyTracker.getTarget().getX(),
+					enemyTracker.getEnemyList(), enemyTracker.getTarget().getName(), enemyTracker.getTarget().getX(),
 					enemyTracker.getTarget().getY());
 			break;
 		}
@@ -128,7 +128,7 @@ public class MrRobot extends robocode.TeamRobot {
 			break;
 		}
 		case 3: {
-			message = messageWriter.enemyListUpdate(this.getX(), this.getY(), enemyTracker.getEnemies());
+			message = messageWriter.enemyListUpdate(this.getX(), this.getY(), enemyTracker.getEnemyList());
 			break;
 		}
 		case 4: {
@@ -168,7 +168,7 @@ public class MrRobot extends robocode.TeamRobot {
 		}
 
 		else {
-			messageHandler.recieve(e, allyTracker, enemyTracker, radarControl);
+			messageHandler.receive(e, allyTracker, enemyTracker, radarControl);
 		}
 
 	}
@@ -192,22 +192,16 @@ public class MrRobot extends robocode.TeamRobot {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * getCloseEnemies: Creating an ArrayList with all enemies that is closer the
+	 * getCloseEnemies: Creating an ArrayList with all enemies that is closer than
 	 * 150 pixels away and sort it in order starting with the closest.
 	 * 
-	 * @return ArrayList<EnemyBot>
-=======
-	 * getCloseEnemies: Creating an ArrayList with all enemies that is closer than 150 pixels away
-	 * and sort it in order starting with the closest.
-	 * @return 
->>>>>>> branch 'Beta.0.5.1' of https://github.com/AzeyZ/RoboCode07.git
+	 * @return ArrayList with EnemyBot
 	 */
 	public ArrayList<EnemyBot> getCloseEnemies() {
 		ArrayList<EnemyBot> rammers = new ArrayList<>();
-		for (int i = 0; i < enemyTracker.getLivingEnemies().size(); i++) {
-			if (enemyTracker.getLivingEnemies().get(i).getDistance() < 150) {
-				rammers.add(enemyTracker.getLivingEnemies().get(i));
+		for (int i = 0; i < enemyTracker.getEnemyList().size(); i++) {
+			if (enemyTracker.getEnemyList().get(i).getDistance() < 150) {
+				rammers.add(enemyTracker.getEnemyList().get(i));
 			}
 		}
 

@@ -34,7 +34,8 @@ public class RadarControlTest {
 	@Before
 	public void setUp () {
 		mock = new MockBot ("Mock", 100, 90, 9, 9);
-		eTrack = new EnemyTracker(mock);
+		AllyTracker allyTrack = new AllyTracker(mock);
+		eTrack = new EnemyTracker(mock, allyTrack);
 	}
 	
 	@After

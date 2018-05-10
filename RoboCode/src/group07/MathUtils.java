@@ -2,6 +2,7 @@ package group07;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
+
 /**
  * Class for our mathemathical calculations
  * 
@@ -41,9 +42,11 @@ public class MathUtils {
 
 		return bearing;
 	}
+
 	/**
 	 * 
-	 * @param angle in degrees
+	 * @param angle
+	 *            in degrees
 	 * @return angle in radians
 	 */
 	public static double toRadians(double x) {
@@ -52,14 +55,17 @@ public class MathUtils {
 
 	/**
 	 * Calculates velocity of with given power
+	 * 
 	 * @param power
 	 * @return velocity
 	 */
 	public static double bulletVelocity(double power) {
 		return 20.0D - 3.0D * power;
 	}
+
 	/**
 	 * Projecting our position in the angle and length given
+	 * 
 	 * @param sourceLocation
 	 * @param angle
 	 * @param length
@@ -69,29 +75,37 @@ public class MathUtils {
 		return new Point2D.Double(sourceLocation.getX() + Math.sin(angle) * length,
 				sourceLocation.getY() + Math.cos(angle) * length);
 	}
+
 	/**
 	 * Calculates the absolute bearing to enemy from our location
+	 * 
 	 * @return angle to enemy
 	 */
 	public static double absoluteBearing(Point2D sourcelocation, Point2D targetlocation) {
 		return Math.atan2(targetlocation.getX() - sourcelocation.getX(), targetlocation.getY() - sourcelocation.getY());
 	}
+
 	/**
 	 * Calculates direction from angle
+	 * 
 	 * @return direction
 	 */
 	public static int sign(double angle) {
 		return angle < 0.0D ? -1 : 1;
 	}
+
 	/**
 	 * Checks if value is between min and max
+	 * 
 	 * @return returns value.
 	 */
 	public static int minMax(int value, int min, int max) {
 		return Math.max(min, Math.min(max, value));
 	}
+
 	/**
 	 * Calculates distance between point x1,y1 and x2,y2.
+	 * 
 	 * @param x1
 	 * @param y1
 	 * @param x2
@@ -101,8 +115,10 @@ public class MathUtils {
 	public static double distance(double x1, double y1, double x2, double y2) {
 		return Math.hypot(x2 - x1, y2 - y1);
 	}
+
 	/**
 	 * alculates distance between point1 and point2.
+	 * 
 	 * @param point1
 	 * @param point2
 	 * @return distance

@@ -13,7 +13,7 @@ import robocode.util.Utils;
 /**
  * 
  * Class for shooting and aiming.
- * TODO: finish javadoc @author andreas 
+ * 
  */
 public class Gun {
 
@@ -21,29 +21,39 @@ public class Gun {
 	private EnemyBot target;
 	public static double lastEnemyVelocity;
 	public static double lateralDirection;
-	
-	private static EnemyBot lastTarget = null;
 
 	private GunControl gunControl;
-	
+
+	/**
+	 * 
+	 * @param robotInstance
+	 *            our main class
+	 * @param ally
+	 *            Instance of AllyTracker
+	 * 
+	 */
 	public Gun(MrRobot robot, AllyTracker ally) {
 		this.robot = robot;
 		gunControl = new GunControl(ally);
 	}
 
-	// Wave functions
+	/**
+	 * AntiGravity movement calculations class
+	 * 
+	 * @param track
+	 *            Instance of our enemyTrack
+	 */
 	public void Wave(EnemyTracker track) {
-		
+		// new wave
 		GFTWave wave = new GFTWave(robot);
-		if((lastTarget != null && target != lastTarget)) {
-				wave.reset();
-		}
-		
 		target = track.getTarget();
 		if (target == null)
 			return;
-		
+		// calculating some doubles
 		double enemyAbsoluteBearing = robot.getHeadingRadians() + target.getBearingRadians();
+		if (enemyAbsoluteBearing >= 2 * Math.PI) {
+			enemyAbsoluteBearing -= 2 * Math.PI;
+		}
 		double enemyDistance = target.getDistance();
 		double enemyVelocity = target.getVelocity();
 		double power = Math.min(600 / enemyDistance, 3);
@@ -61,18 +71,20 @@ public class Gun {
 		wave.bearing = enemyAbsoluteBearing;
 		robot.setTurnGunRightRadians(Utils.normalRelativeAngle(
 				enemyAbsoluteBearing - robot.getGunHeadingRadians() + wave.mostVisitedBearingOffset()));
-		if(gunControl.takeShot(robot, target))
-		{
-			robot.setFire(wave.bulletPower);			
+		if (gunControl.takeShot(robot, target)) {
+			robot.setFire(wave.bulletPower);
 		}
 		if (robot.getEnergy() >= power) {
 			robot.addCustomEvent(wave); // ????
 		}
-		lastTarget = target;
 	}
 
 }
 
+/**
+ * Guess factor waves class
+ *
+ */
 class GFTWave extends Condition {
 	static Point2D targetLocation;
 	double bulletPower;
@@ -83,7 +95,7 @@ class GFTWave extends Condition {
 	private static final int VELOCITY_INDEXES = 5;
 	private static final int BINS = 25;
 	private static final int MIDDLE_BIN = (BINS - 1) / 2;
-	private static final double MAX_ESCAPE_ANGLE = 0.7D;
+	private static final double MAX_ESCAPE_ANGLE = 0.65D;
 	private static final double BIN_WIDTH = MAX_ESCAPE_ANGLE / (double) MIDDLE_BIN;
 	private static int[][][][] statBuffers = new int[DISTANCE_INDEXES][VELOCITY_INDEXES][VELOCITY_INDEXES][BINS];
 	private int[] buffer;
@@ -94,6 +106,9 @@ class GFTWave extends Condition {
 		this.robot = _robot;
 	}
 
+	/**
+	 * Checks if wave has arrived at enemy
+	 */
 	public boolean test() {
 		advance();
 		if (hasArrived()) {
@@ -103,10 +118,22 @@ class GFTWave extends Condition {
 		return false;
 	}
 
+	/**
+	 * Calculates the most Visited Bearing Offset
+	 * 
+	 * @return mostVisitedBearingOffset
+	 */
 	double mostVisitedBearingOffset() {
 		return (lateralDirection * BIN_WIDTH) * (mostVisitedBin() - MIDDLE_BIN);
 	}
 
+	/**
+	 * Updates our statBuffers
+	 * 
+	 * @param distance
+	 * @param velocity
+	 * @param lastVelocity
+	 */
 	void setSegmentations(double distance, double velocity, double lastVelocity) {
 		int distanceIndex = Math.min(4, (int) (distance / 180.0D));
 		int velocityIndex = (int) Math.abs(velocity / 2);
@@ -114,10 +141,18 @@ class GFTWave extends Condition {
 		buffer = statBuffers[distanceIndex][velocityIndex][lastVelocityIndex];
 	}
 
+	/**
+	 * advance the wave forward
+	 */
 	private void advance() {
 		this.distanceTraveled += MathUtils.bulletVelocity(this.bulletPower);
 	}
 
+	/**
+	 * Checks if wave has arrived
+	 * 
+	 * @return
+	 */
 	private boolean hasArrived() {
 		return this.distanceTraveled > this.gunLocation.distance(targetLocation) - 18.0D;
 	}
@@ -125,11 +160,16 @@ class GFTWave extends Condition {
 	private int currentBin() {
 		int bin = (int) Math.round(
 				Utils.normalRelativeAngle(MathUtils.absoluteBearing(this.gunLocation, targetLocation) - this.bearing)
-				/ (this.lateralDirection * BIN_WIDTH) + MIDDLE_BIN);
+						/ (this.lateralDirection * BIN_WIDTH) + MIDDLE_BIN);
 
 		return MathUtils.minMax(bin, 0, BINS - 1);
 	}
 
+	/**
+	 * Returns mostvisited bin
+	 * 
+	 * @return
+	 */
 	private int mostVisitedBin() {
 		int mostVisited = MIDDLE_BIN;
 		for (int i = 0; i < BINS; i++) {
@@ -138,9 +178,5 @@ class GFTWave extends Condition {
 			}
 		}
 		return mostVisited;
-	}
-	
-	public void reset() {
-		statBuffers = new int[DISTANCE_INDEXES][VELOCITY_INDEXES][VELOCITY_INDEXES][BINS];
 	}
 }

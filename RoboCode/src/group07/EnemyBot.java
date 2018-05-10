@@ -28,16 +28,24 @@ public class EnemyBot {
 	}
 
 	/**
-	 * update: Updating the info about the EnemyBot.
+	 * update: Updating the info about the EnemyBot. Energy is used to decide which
+	 * type the Enemy is the first time we update the information.
 	 * 
 	 * @param bearing
+	 *            Bearing to Enemy.
 	 * @param distance
+	 *            Distance to Enemy.
 	 * @param energy
-	 *            Energy is used to decide which type the enemyRobot is.
+	 *            The energy that the Enemy has left.
+	 * 
 	 * @param heading
+	 *            Heading of the Enemy.
 	 * @param velocity
+	 *            Velocity of the Enemy.
 	 * @param time
+	 *            Turn information was updated.
 	 * @param name
+	 *            Name of the Enemy the information belongs to.
 	 */
 	public void update(double bearing, double distance, double energy, double heading, double velocity, long time,
 			String name) {
@@ -62,7 +70,7 @@ public class EnemyBot {
 
 	/**
 	 * 
-	 * @return double
+	 * @return double Bearing in degrees.
 	 */
 	public double getBearing() {
 		return bearing;
@@ -70,7 +78,7 @@ public class EnemyBot {
 
 	/**
 	 * 
-	 * @return double
+	 * @return double Bearing in radians.
 	 */
 	public double getBearingRadians() {
 		return Math.toRadians(bearing);
@@ -78,7 +86,7 @@ public class EnemyBot {
 
 	/**
 	 * 
-	 * @return double
+	 * @return double Distance to Enemy.
 	 */
 	public double getDistance() {
 		return distance;
@@ -86,7 +94,7 @@ public class EnemyBot {
 
 	/**
 	 * 
-	 * @return double
+	 * @return double Energy.
 	 */
 	public double getEnergy() {
 		return energy;
@@ -94,7 +102,7 @@ public class EnemyBot {
 
 	/**
 	 * 
-	 * @return double
+	 * @return double Heading.
 	 */
 	public double getHeading() {
 		return heading;
@@ -102,7 +110,7 @@ public class EnemyBot {
 
 	/**
 	 * 
-	 * @return double
+	 * @return double Velocity.
 	 */
 	public double getVelocity() {
 		return velocity;
@@ -110,11 +118,10 @@ public class EnemyBot {
 
 	/**
 	 * 
-	 * @return String
+	 * @return String Name.
 	 */
 	public String getName() {
-		if(name == null)
-		{
+		if (name == null) {
 			return "";
 		}
 		return name;
@@ -122,7 +129,7 @@ public class EnemyBot {
 
 	/**
 	 * 
-	 * @return int
+	 * @return int The type of the enemy.
 	 */
 	public int getType() {
 		return type;
@@ -130,7 +137,7 @@ public class EnemyBot {
 
 	/**
 	 * 
-	 * @return long
+	 * @return long Turn information was updated.
 	 */
 	public long getTick() {
 		return tick;
@@ -138,16 +145,7 @@ public class EnemyBot {
 
 	/**
 	 * 
-	 * @param Energy
-	 */
-	public void setEnergy(int Energy) {
-		this.energy = Energy;
-
-	}
-
-	/**
-	 * 
-	 * @return double
+	 * @return double X for the Enemy.
 	 */
 	public double getX() {
 		double absBearingDeg = (MrRobot.getHeading() + bearing);
@@ -159,7 +157,7 @@ public class EnemyBot {
 
 	/**
 	 * 
-	 * @return double
+	 * @return double Y for the Enemy.
 	 */
 	public double getY() {
 		double absBearingDeg = (MrRobot.getHeading() + bearing);
