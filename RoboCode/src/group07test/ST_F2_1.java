@@ -18,11 +18,13 @@ import robocode.control.testing.RobotTestBed;
 public class ST_F2_1 extends RobotTestBed {
 
 	private String ROBOT_UNDER_TEST = "group07.MrRobot*";
-	private String ENEMY_ROBOTS = "group07.MrRobot*";
+	private String ENEMY_ROBOTS = "sample.SpinBot";
 	private int NBR_ROUNDS = 1000;
 	private boolean PRINT_DEBUG = false;
 
 	boolean neverShotTooFar = true;
+	private int fired = 0;
+	private int hits;
 
 	@Override
 	public String getRobotNames() {
@@ -60,6 +62,7 @@ public class ST_F2_1 extends RobotTestBed {
 	@Override
 	public void onBattleCompleted(BattleCompletedEvent event) {
 		assertTrue("The bot shot too far away from an enemy.", neverShotTooFar);
+		assertTrue("Try dodging more.", 0.5 < (double) hits/fired);
 	}
 
 	@Override
@@ -70,6 +73,12 @@ public class ST_F2_1 extends RobotTestBed {
 			if (bullet.getState().FIRED.isActive() == true && bullet.getOwnerIndex() == robots[0].getRobotIndex()
 					&& 900 < Math.sqrt(Math.pow(robots[0].getX() - robots[1].getX(), 2) + Math.pow(robots[0].getY() - robots[1].getY(), 2))) {
 				neverShotTooFar = false;
+			}
+			if (bullet.getState().FIRED.isActive() == true && bullet.getOwnerIndex() == robots[1].getRobotIndex()){
+				fired ++;
+			}
+			if (bullet.getState().HIT_VICTIM.isActive() == true && bullet.getOwnerIndex() == robots[1].getRobotIndex()){
+				hits ++;
 			}
 		}
 	}
