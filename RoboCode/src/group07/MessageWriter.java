@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class MessageWriter {
 	MrRobot MrRobot;
+	private String mypos = "myPos;";
 
 	/**
 	 * 
@@ -39,7 +40,7 @@ public class MessageWriter {
 	 */
 	public String standardMessage(double myXPos, double myYPos, ArrayList<Ally> allyList, ArrayList<EnemyBot> enemyList,
 			String targetEnemy, double tarXPos, double tarYPos) {
-		String message = "myPos;" + myXPos + ";" + myYPos;
+		String message = mypos + myXPos + ";" + myYPos;
 		if (!allyList.isEmpty()) {
 			for (Ally k : allyList) {
 				message = message + "\nfriendPos;" + k.getName() + ";" + k.getX() + ";" + k.getY();
@@ -76,7 +77,7 @@ public class MessageWriter {
 	 * @return allyUpdate message.
 	 */
 	public String allyListUpdate(double myXPos, double myYPos, ArrayList<Ally> allyList) {
-		String message = "myPos;" + myXPos + ";" + myYPos;
+		String message = mypos + myXPos + ";" + myYPos;
 		if (!allyList.isEmpty()) {
 			for (Ally k : allyList) {
 				message = message + "\nrAlly;" + k.getName() + ";" + k.getX() + ";" + k.getY() + ";" + k.getTick();
@@ -124,7 +125,7 @@ public class MessageWriter {
 	 */
 	public String pickRadarTarget(double myXPos, double myYPos, String targetName, int placeInList) {
 
-		return "myPos;" + myXPos + ";" + myYPos + "\nrPickRadarTarget;" + targetName + ";" + placeInList;
+		return mypos + myXPos + ";" + myYPos + "\nrPickRadarTarget;" + targetName + ";" + placeInList;
 	}
 
 	/**
@@ -141,7 +142,7 @@ public class MessageWriter {
 	 * @return gettingAttacked message.
 	 */
 	public String gettingAttacked(double myXPos, double myYPos, String shooterName, String oldTargetName) {
-		return "myPos;" + myXPos + ";" + myYPos + "\nrGettingAttacked;" + shooterName + ";" + oldTargetName;
+		return mypos + myXPos + ";" + myYPos + "\nrGettingAttacked;" + shooterName + ";" + oldTargetName;
 	}
 
 	/**
@@ -156,7 +157,7 @@ public class MessageWriter {
 	 * @return newRadarTarget message.
 	 */
 	public String newRadarTarget(double myXPos, double myYPos, String targetName) {
-		return "myPos;" + myXPos + ";" + myYPos + "\nrNewRadarTarget;" + targetName;
+		return mypos + myXPos + ";" + myYPos + "\nrNewRadarTarget;" + targetName;
 	}
 
 	/**
@@ -174,7 +175,7 @@ public class MessageWriter {
 	 * @return gettingRammed message.
 	 */
 	public String gettingRammed(double myXPos, double myYPos, String rammerName, String oldTargetName) {
-		return "myPos;" + myXPos + ";" + myYPos + "\nrGettingAttacked;" + rammerName + ";" + oldTargetName;
+		return mypos + myXPos + ";" + myYPos + "\nrGettingAttacked;" + rammerName + ";" + oldTargetName;
 	}
 
 	/**
@@ -189,7 +190,7 @@ public class MessageWriter {
 	 * @return setGunTarget message.
 	 */
 	public String setGunTarget(double myXPos, double myYPos, String targetName) {
-		return "myPos;" + myXPos + ";" + myYPos + "\nrSetGunTarget;" + targetName;
+		return mypos + myXPos + ";" + myYPos + "\nrSetGunTarget;" + targetName;
 	}
 
 }
