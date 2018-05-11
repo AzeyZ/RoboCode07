@@ -85,7 +85,7 @@ public class EnemyBotTest {
 		assertEquals("Fiendens type är fel", type, enemy.getType(), 0.4d);
 		
 		// One setter
-		enemy.setEnergy(newEnergy);
-		assertEquals("Check the energy", newEnergy, enemy.getEnergy(), 0.1d);
+		//enemy.setEnergy(newEnergy);
+		//assertEquals("Check the energy", newEnergy, enemy.getEnergy(), 0.1d);
 	}
 }

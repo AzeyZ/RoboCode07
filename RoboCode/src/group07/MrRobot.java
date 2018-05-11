@@ -1,6 +1,7 @@
 package group07;
 
 import robocode.*;
+import se.lth.cs.etsa02.RobotColors;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class MrRobot extends robocode.TeamRobot {
 			sendMessage(2, "2");
 			sendMessage(3, "3");
 			System.out.println(enemyTracker.getTarget().getName());
+
 			// Telling MovementModeSwitcher that its a new turn.
 			mode.newTurn();
 			// Calling movement
@@ -129,7 +131,7 @@ public class MrRobot extends robocode.TeamRobot {
 			break;
 		}
 		case 3: {
-			message = messageWriter.enemyListUpdate(this.getX(), this.getY(), enemyTracker.getEnemyList());
+			message = messageWriter.enemyListUpdate(enemyTracker.getEnemyList());
 			break;
 		}
 		case 4: {

@@ -129,7 +129,7 @@ public class TargetEnemyPrioritizerTest {
 		assertEquals("Fails to correctly check if leader is alive", true, leaderAlive);
 
 		// Alter the list to reach all branches
-		enemies.get(2).setEnergy(0);
+		//enemies.get(2).setEnergy(0);
 		leaderAlive = prio.leaderAlive(enemies);
 		assertEquals("Fails to correctly check if leader is dead", false, leaderAlive);
 	}

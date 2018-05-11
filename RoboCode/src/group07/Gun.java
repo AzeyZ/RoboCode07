@@ -21,7 +21,6 @@ public class Gun {
 	private EnemyBot target;
 	public static double lastEnemyVelocity;
 	public static double lateralDirection;
-	private static EnemyBot lastTarget = null;
 
 	private GunControl gunControl;
 
@@ -78,7 +77,6 @@ public class Gun {
 		if (robot.getEnergy() >= power) {
 			robot.addCustomEvent(wave); // ????
 		}
-		lastTarget = target;
 	}
 
 }

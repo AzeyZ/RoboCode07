@@ -67,7 +67,7 @@ public class RadarControlTest {
 			eTrack.addEnemy(sBearing, sDistance, sEnergy, sHeading, sVelocity, sTime, "Enemy" + i);
 		}
 		
-		temp = eTrack.getEnemies();
+		//temp = eTrack.getEnemies();
 		
 		return temp;
 	}

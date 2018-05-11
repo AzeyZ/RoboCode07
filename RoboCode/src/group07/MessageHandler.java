@@ -46,6 +46,7 @@ public class MessageHandler {
 		} else if (receiver.equals("2")) {
 
 			ArrayList<Ally> mrrobots = robot.getAllies();
+
 			for (int i = 0; i < mrrobots.size(); i++) {
 				if (mrrobots.get(i).isMrRobot() && !mrrobots.get(i).getName().equals(robot.getName())) {
 					try {
