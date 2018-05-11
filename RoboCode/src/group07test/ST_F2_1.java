@@ -62,7 +62,7 @@ public class ST_F2_1 extends RobotTestBed {
 	@Override
 	public void onBattleCompleted(BattleCompletedEvent event) {
 		assertTrue("The bot shot too far away from an enemy.", neverShotTooFar);
-		assertTrue("Try dodging more.", 0.5 < (double) hits/fired);
+		assertTrue("Try dodging more. " + (double)hits/fired + " Hit rate", 0.0 >= (double) hits/fired);
 	}
 
 	@Override

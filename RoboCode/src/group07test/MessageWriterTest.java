@@ -49,7 +49,7 @@ public class MessageWriterTest {
 		outputMsg = msg.standardMessage(myXPos, myYPos, allyList, enemyList, targetEnemy, tarXPos, tarYPos);
 
 		assertEquals("Test if standard message is correct",
-				"myPos;200.0;200.0\nfriendPos;Friend;0.0;0.0\nenemyDetails;null;30.0;40.0;0.0;0.0;0.0;0\ntargetEnemy;SomeName\ntargetPos;100.0;100.0",
+				"myPos;200.0;200.0\nfriendPos;Friend;0.0;0.0\nenemyDetails;;30.0;40.0;0.0;0.0;0.0;0\ntargetEnemy;SomeName\ntargetPos;100.0;100.0",
 				outputMsg);
 	}
 
@@ -64,9 +64,9 @@ public class MessageWriterTest {
 	@Test
 	public void enemyListUpdate() {
 		String outputMsg;
-		outputMsg = msg.enemyListUpdate(myXPos, myYPos, enemyList);
+		outputMsg = msg.enemyListUpdate(enemyList);
 		assertEquals("Test if enemyListUpdate message is correct",
-				"myPos;200.0;200.0\nrEnemy;0.0;0.0;0.0;0.0;0.0;0;null", outputMsg);
+				"\nrEnemy;30.0;40.0;0.0;0.0;0.0;0;", outputMsg);
 	}
 	
 	@Test

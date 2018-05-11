@@ -52,7 +52,7 @@ public class EnemyTrackerTest {
 			index++;
 		}
 		// Get and alter the list
-		ArrayList<EnemyBot> enemies = eTrack.getEnemies();
+		ArrayList<EnemyBot> enemies = eTrack.getEnemyList();
 		return enemies;
 	}
 
@@ -77,7 +77,7 @@ public class EnemyTrackerTest {
 		// Change name to reach all branches
 		isChanged = false;
 		eTrack.update(sBearing, sDistance, energy, sHeading, sVelocity, time2, "NewEnemy");
-		enemies = eTrack.getEnemies();
+		enemies = eTrack.getEnemyList();
 
 		// MAke sure the changes happened
 		for (int i = 0; i < enemies.size(); i++) {
@@ -141,7 +141,7 @@ public class EnemyTrackerTest {
 		EnemyBot tempEnemy = new EnemyBot(mock);
 		tempEnemy.update(sBearing, sDistance, energy + 30, sHeading, sVelocity, time, "Temp");
 		eTrack.update(sBearing, sDistance, energy + 30, sHeading, sVelocity, time, "Temp");
-		enemies = eTrack.getEnemies();
+		enemies = eTrack.getEnemyList();
 		prio.sortList(enemies, time);
 
 		EnemyBot gottenEnemy = eTrack.getTarget();
