@@ -39,7 +39,7 @@ public class MrRobot extends robocode.TeamRobot {
 			// One standard message and two special for Mr Robot.
 			sendMessage(0, "1");
 			sendMessage(2, "2");
-			sendMessage(3, "2");
+			sendMessage(3, "3");
 			System.out.println(enemyTracker.getTarget().getName());
 			// Telling MovementModeSwitcher that its a new turn.
 			mode.newTurn();
@@ -101,10 +101,11 @@ public class MrRobot extends robocode.TeamRobot {
 	 *            from 0-6 and will send diffrent kinds of messages depending on the
 	 *            value.
 	 * @param receiver
-	 *            We can have 3 types of strings as input. If we want to send the
+	 *            We can have 4 types of strings as input. If we want to send the
 	 *            message to all allied bots we set "1" as the input. If we want to
 	 *            send the message to all MrRobots (not yourself) we set "2" as the
-	 *            input. If we want to send the message to a teammate we set the
+	 *            input. If we want to send to MrRobots and Hannibal we set "3" as the input.
+	 *            If we want to send the message to a teammate we set the
 	 *            name of that teammate as input.
 	 */
 	public void sendMessage(int messageType, String receiver) {
