@@ -26,6 +26,7 @@ public class MrRobot extends robocode.TeamRobot {
 	/**
 	 * run: Robot's default behavior
 	 */
+	@Override
 	public void run() {
 		// Getting the robot ready for battle.
 		initialize();
@@ -41,7 +42,6 @@ public class MrRobot extends robocode.TeamRobot {
 			sendMessage(0, "1");
 			sendMessage(2, "2");
 			sendMessage(3, "3");
-			System.out.println(enemyTracker.getTarget().getName());
 
 			// Telling MovementModeSwitcher that its a new turn.
 			mode.newTurn();
@@ -81,6 +81,7 @@ public class MrRobot extends robocode.TeamRobot {
 	/**
 	 * onScannedRobot: What to do when you see another robot
 	 */
+	@Override
 	public void onScannedRobot(ScannedRobotEvent e) {
 		surfing.updateSurf(e);
 		// Checks if Scanned is Team
@@ -160,6 +161,7 @@ public class MrRobot extends robocode.TeamRobot {
 	/**
 	 * onMessageReceived: What to do when you receive a message
 	 */
+	@Override
 	public void onMessageReceived(MessageEvent e) {
 		if (e.getMessage() instanceof RobotColors) {
 			RobotColors c = (RobotColors) e.getMessage();
@@ -179,6 +181,7 @@ public class MrRobot extends robocode.TeamRobot {
 	/**
 	 * onHitByBullet: What to do when you're hit by a bullet
 	 */
+	@Override
 	public void onHitByBullet(HitByBulletEvent e) {
 		lastHitEvent = e;
 		radarControl.gettingAttacked(e);
@@ -188,6 +191,7 @@ public class MrRobot extends robocode.TeamRobot {
 	/**
 	 * onRobotDeath: What to do when another robot dies
 	 */
+	@Override
 	public void onRobotDeath(RobotDeathEvent e) {
 		enemyTracker.robotDeath(e);
 		allyTracker.robotDeath(e);
