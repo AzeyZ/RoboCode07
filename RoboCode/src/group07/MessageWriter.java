@@ -1,34 +1,6 @@
 package group07;
 
 import java.util.ArrayList;
-//Standard Protocol
-
-//[0-1] leadership;[followMe|leadMe]
-//[0-1] teamMode;[offensive|defensive]
-//[0-1] myPos;x;y
-//[0-1] friendPos;x;y
-//[0-*] enemyPos;x;y
-//[0-1] targetEnemy;name
-//[0-1] targetPos;x;y
-//[0-1] moveTo;x;y
-
-//Shooting at an ally that has to move
-
-//[0-1] myPos;x;y
-//[0-1] targetEnemy;name
-//[0-*] rShot;x,y,tick/time (many rows)
-
-//AllyList update
-
-//[0-1] myPos;x;y
-//[0-*] rAlly;name;x;y;tick
-
-//EnemyList update
-
-//[0-1] myPos;x;y
-//[0-*] rEnemy;name;type;x;y;tick
-
-// The code to get the standard string to send to teammates.
 /**
  * 
  * MessageWriter: returning a String that we are going to send.
@@ -36,6 +8,7 @@ import java.util.ArrayList;
  */
 public class MessageWriter {
 	MrRobot MrRobot;
+	private String mypos = "myPos;";
 
 	/**
 	 * 
@@ -67,7 +40,7 @@ public class MessageWriter {
 	 */
 	public String standardMessage(double myXPos, double myYPos, ArrayList<Ally> allyList, ArrayList<EnemyBot> enemyList,
 			String targetEnemy, double tarXPos, double tarYPos) {
-		String message = "myPos;" + myXPos + ";" + myYPos;
+		String message = mypos + myXPos + ";" + myYPos;
 		if (!allyList.isEmpty()) {
 			for (Ally k : allyList) {
 				message = message + "\nfriendPos;" + k.getName() + ";" + k.getX() + ";" + k.getY();
@@ -92,7 +65,6 @@ public class MessageWriter {
 		message = message + "\ntargetPos;" + tarXPos + ";" + tarYPos;
 		return message;
 	}
-
 	/**
 	 * allyListUpdate: Sending message to update allyList.
 	 * 
@@ -105,7 +77,7 @@ public class MessageWriter {
 	 * @return allyUpdate message.
 	 */
 	public String allyListUpdate(double myXPos, double myYPos, ArrayList<Ally> allyList) {
-		String message = "myPos;" + myXPos + ";" + myYPos;
+		String message = mypos + myXPos + ";" + myYPos;
 		if (!allyList.isEmpty()) {
 			for (Ally k : allyList) {
 				message = message + "\nrAlly;" + k.getName() + ";" + k.getX() + ";" + k.getY() + ";" + k.getTick();
@@ -153,7 +125,7 @@ public class MessageWriter {
 	 */
 	public String pickRadarTarget(double myXPos, double myYPos, String targetName, int placeInList) {
 
-		return "myPos;" + myXPos + ";" + myYPos + "\nrPickRadarTarget;" + targetName + ";" + placeInList;
+		return mypos + myXPos + ";" + myYPos + "\nrPickRadarTarget;" + targetName + ";" + placeInList;
 	}
 
 	/**
@@ -170,7 +142,7 @@ public class MessageWriter {
 	 * @return gettingAttacked message.
 	 */
 	public String gettingAttacked(double myXPos, double myYPos, String shooterName, String oldTargetName) {
-		return "myPos;" + myXPos + ";" + myYPos + "\nrGettingAttacked;" + shooterName + ";" + oldTargetName;
+		return mypos + myXPos + ";" + myYPos + "\nrGettingAttacked;" + shooterName + ";" + oldTargetName;
 	}
 
 	/**
@@ -185,7 +157,7 @@ public class MessageWriter {
 	 * @return newRadarTarget message.
 	 */
 	public String newRadarTarget(double myXPos, double myYPos, String targetName) {
-		return "myPos;" + myXPos + ";" + myYPos + "\nrNewRadarTarget;" + targetName;
+		return mypos + myXPos + ";" + myYPos + "\nrNewRadarTarget;" + targetName;
 	}
 
 	/**
@@ -203,7 +175,7 @@ public class MessageWriter {
 	 * @return gettingRammed message.
 	 */
 	public String gettingRammed(double myXPos, double myYPos, String rammerName, String oldTargetName) {
-		return "myPos;" + myXPos + ";" + myYPos + "\nrGettingAttacked;" + rammerName + ";" + oldTargetName;
+		return mypos + myXPos + ";" + myYPos + "\nrGettingAttacked;" + rammerName + ";" + oldTargetName;
 	}
 
 	/**
@@ -218,7 +190,7 @@ public class MessageWriter {
 	 * @return setGunTarget message.
 	 */
 	public String setGunTarget(double myXPos, double myYPos, String targetName) {
-		return "myPos;" + myXPos + ";" + myYPos + "\nrSetGunTarget;" + targetName;
+		return mypos + myXPos + ";" + myYPos + "\nrSetGunTarget;" + targetName;
 	}
 
 }

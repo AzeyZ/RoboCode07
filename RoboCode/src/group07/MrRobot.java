@@ -1,7 +1,7 @@
 package group07;
 
 import robocode.*;
-import se.lth.cs.etsa02.RobotColors.RobotColors;
+import se.lth.cs.etsa02.RobotColors;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -26,6 +26,7 @@ public class MrRobot extends robocode.TeamRobot {
 	/**
 	 * run: Robot's default behavior
 	 */
+	@Override
 	public void run() {
 		// Getting the robot ready for battle.
 		initialize();
@@ -40,7 +41,8 @@ public class MrRobot extends robocode.TeamRobot {
 			// One standard message and two special for Mr Robot.
 			sendMessage(0, "1");
 			sendMessage(2, "2");
-			sendMessage(3, "2");
+			sendMessage(3, "3");
+
 			// Telling MovementModeSwitcher that its a new turn.
 			mode.newTurn();
 			// Calling movement
@@ -79,6 +81,7 @@ public class MrRobot extends robocode.TeamRobot {
 	/**
 	 * onScannedRobot: What to do when you see another robot
 	 */
+	@Override
 	public void onScannedRobot(ScannedRobotEvent e) {
 		surfing.updateSurf(e);
 		// Checks if Scanned is Team
@@ -101,10 +104,11 @@ public class MrRobot extends robocode.TeamRobot {
 	 *            from 0-6 and will send diffrent kinds of messages depending on the
 	 *            value.
 	 * @param receiver
-	 *            We can have 3 types of strings as input. If we want to send the
+	 *            We can have 4 types of strings as input. If we want to send the
 	 *            message to all allied bots we set "1" as the input. If we want to
 	 *            send the message to all MrRobots (not yourself) we set "2" as the
-	 *            input. If we want to send the message to a teammate we set the
+	 *            input. If we want to send to MrRobots and Hannibal we set "3" as the input.
+	 *            If we want to send the message to a teammate we set the
 	 *            name of that teammate as input.
 	 */
 	public void sendMessage(int messageType, String receiver) {
@@ -157,6 +161,7 @@ public class MrRobot extends robocode.TeamRobot {
 	/**
 	 * onMessageReceived: What to do when you receive a message
 	 */
+	@Override
 	public void onMessageReceived(MessageEvent e) {
 		if (e.getMessage() instanceof RobotColors) {
 			RobotColors c = (RobotColors) e.getMessage();
@@ -176,6 +181,7 @@ public class MrRobot extends robocode.TeamRobot {
 	/**
 	 * onHitByBullet: What to do when you're hit by a bullet
 	 */
+	@Override
 	public void onHitByBullet(HitByBulletEvent e) {
 		lastHitEvent = e;
 		radarControl.gettingAttacked(e);
@@ -185,6 +191,7 @@ public class MrRobot extends robocode.TeamRobot {
 	/**
 	 * onRobotDeath: What to do when another robot dies
 	 */
+	@Override
 	public void onRobotDeath(RobotDeathEvent e) {
 		enemyTracker.robotDeath(e);
 		allyTracker.robotDeath(e);

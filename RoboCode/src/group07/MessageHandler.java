@@ -56,6 +56,18 @@ public class MessageHandler {
 					}
 				}
 			}
+		} else if (receiver.equals("3")) {
+			ArrayList<Ally> mrrobots = robot.getAllies();
+			for (int i = 0; i < mrrobots.size(); i++) {
+				if ((mrrobots.get(i).isMrRobot() && !mrrobots.get(i).getName().equals(robot.getName()))
+						|| mrrobots.get(i).getName().toLowerCase().contains("hannibal")) {
+					try {
+						robot.sendMessage(mrrobots.get(i).getName(), message);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
 		} else {
 			try {
 				robot.sendMessage(receiver, message);
