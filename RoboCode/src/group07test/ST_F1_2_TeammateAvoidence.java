@@ -2,29 +2,24 @@ package group07test;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-
 import robocode.control.events.BattleCompletedEvent;
 import robocode.control.events.BattleMessageEvent;
-import robocode.control.events.RoundEndedEvent;
-import robocode.control.events.RoundStartedEvent;
 import robocode.control.events.TurnEndedEvent;
 import robocode.control.snapshot.IRobotSnapshot;
 import robocode.control.testing.RobotTestBed;
 
-@RunWith(JUnit4.class)
-public class ST_F1_WallsAvoided extends RobotTestBed {
-	
-	
+public class ST_F1_2_TeammateAvoidence extends RobotTestBed {
+
 	private String ROBOT_UNDER_TEST = "group07.MrRobot*";
-	private String ENEMY_ROBOTS = "group07.MrRobot*";
+	private String ENEMY_ROBOTS = "group07.MrRobot*,group07.MrRobot*,group07.MrRobot*,group07.MrRobot*,sample.Crazy";
 	private int NBR_ROUNDS = 1000;
 	private boolean PRINT_DEBUG = false;
-	
-	boolean neverCrashedIntoAWall = true;
-	int countWallHits = 0;
+	private int TEAM_SIZE = 5;
 
+	boolean neverCrashedIntoAlly = true;
+	int countAllyHits = 0;
+
+	
 	@Override
 	public String getRobotNames() {
 		return ROBOT_UNDER_TEST + "," + ENEMY_ROBOTS;
@@ -50,7 +45,6 @@ public class ST_F1_WallsAvoided extends RobotTestBed {
 		return 0;
 	}
 
-
 	@Override
 	protected void runSetup() {
 	}
@@ -58,23 +52,23 @@ public class ST_F1_WallsAvoided extends RobotTestBed {
 	@Override
 	protected void runTeardown() {
 	}
-	
+
 	@Override
 	public void onBattleCompleted(BattleCompletedEvent event) {
-		assertTrue("The bot crashed into the wall " + countWallHits + " times.", neverCrashedIntoAWall);
-		//Insert assert for countWallHits
+		assertTrue("The bot crashed into other players " + countAllyHits + " times.", 0.02 > (double)countAllyHits / (double)NBR_ROUNDS);
+		//assertTrue("The bot crashed into other players " + countAllyHits + " times.", neverCrashedIntoAlly);
 	}
-	
+
 	@Override
 	public void onTurnEnded(TurnEndedEvent event) {
-	IRobotSnapshot robot = event.getTurnSnapshot().getRobots()[1];
-	//
-	if (robot.getState().isHitWall()) {
-		neverCrashedIntoAWall = false;
-		countWallHits++;
-		}
+		IRobotSnapshot robot = event.getTurnSnapshot().getRobots()[0];
+		
+		if (robot.getState().isHitRobot()){
+			neverCrashedIntoAlly = false;
+			countAllyHits++;
+		}	
 	}
-	
+
 	@Override
 	public void onBattleMessage(BattleMessageEvent event) {
 		event.getMessage();

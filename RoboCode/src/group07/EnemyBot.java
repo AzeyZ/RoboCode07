@@ -1,25 +1,54 @@
 package group07;
 
-import robocode.*;
+/**
+ * 
+ * EnemyBot: Saving info about the enemy.
+ */
 
 public class EnemyBot {
 	public static final int LEADER_BOT = 0;
 	public static final int DROID = 1;
 	public static final int NORMAL_BOT = 2;
 
-	protected Robot07 MrRobot;
+	protected MrRobot MrRobot;
 	private double bearing, distance, energy, heading, velocity;
 	private long tick;
 	private String name;
 	private int type;
 	private boolean scanned = true;
 
-	public EnemyBot(Robot07 MrRobot) {
+	/**
+	 * EnemyBot: Create a new EnemyBot object.
+	 * 
+	 * @param MrRobot
+	 */
+	public EnemyBot(MrRobot MrRobot) {
 		this.MrRobot = MrRobot;
-		reset();
+
 	}
 
-	public void update(double bearing, double distance, double energy, double heading, double velocity, long time, String name) {
+	/**
+	 * update: Updating the info about the EnemyBot. Energy is used to decide which
+	 * type the Enemy is the first time we update the information.
+	 * 
+	 * @param bearing
+	 *            Bearing to Enemy.
+	 * @param distance
+	 *            Distance to Enemy.
+	 * @param energy
+	 *            The energy that the Enemy has left.
+	 * 
+	 * @param heading
+	 *            Heading of the Enemy.
+	 * @param velocity
+	 *            Velocity of the Enemy.
+	 * @param time
+	 *            Turn information was updated.
+	 * @param name
+	 *            Name of the Enemy the information belongs to.
+	 */
+	public void update(double bearing, double distance, double energy, double heading, double velocity, long time,
+			String name) {
 		this.bearing = bearing;
 		this.distance = distance;
 		this.energy = energy;
@@ -27,7 +56,6 @@ public class EnemyBot {
 		this.velocity = velocity;
 		this.tick = time;
 		this.name = name;
-		// first time enemy is scanned gives its type 0 = leader, 1 = droid, 2 = normal
 		if (scanned) {
 			scanned = false;
 			if (energy <= 105) {
@@ -40,63 +68,103 @@ public class EnemyBot {
 		}
 	}
 
-	public void reset() {
-		bearing = 0.0;
-		distance = 0.0;
-		energy = 0.0;
-		heading = 0.0;
-		velocity = 0.0;
-		tick = 0;
-		name = "";
-
-	}
-
-	public boolean none() {
-		if (name == "") {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
+	/**
+	 * 
+	 * @return double Bearing in degrees.
+	 */
 	public double getBearing() {
 		return bearing;
 	}
+
+	/**
+	 * 
+	 * @return double Bearing in radians.
+	 */
 	public double getBearingRadians() {
 		return Math.toRadians(bearing);
 	}
 
+	/**
+	 * 
+	 * @return double Distance to Enemy.
+	 */
 	public double getDistance() {
 		return distance;
 	}
 
+	/**
+	 * 
+	 * @return double Energy.
+	 */
 	public double getEnergy() {
 		return energy;
 	}
 
+	/**
+	 * 
+	 * @return double Heading.
+	 */
 	public double getHeading() {
 		return heading;
 	}
 
+	/**
+	 * 
+	 * @return double Velocity.
+	 */
 	public double getVelocity() {
 		return velocity;
 	}
 
+	/**
+	 * 
+	 * @return String Name.
+	 */
 	public String getName() {
+		if (name == null) {
+			return "";
+		}
 		return name;
 	}
 
+	/**
+	 * 
+	 * @return int The type of the enemy.
+	 */
 	public int getType() {
 		return type;
 	}
 
+	/**
+	 * 
+	 * @return long Turn information was updated.
+	 */
 	public long getTick() {
 		return tick;
 	}
 
-	public void setEnergy(int Energy) {
-		this.energy = Energy;
+	/**
+	 * 
+	 * @return double X for the Enemy.
+	 */
+	public double getX() {
+		double absBearingDeg = (MrRobot.getHeading() + bearing);
+		if (absBearingDeg < 0) {
+			absBearingDeg += 360;
+		}
+		return MrRobot.getX() + Math.sin(Math.toRadians(absBearingDeg)) * distance;
+	}
 
+	/**
+	 * 
+	 * @return double Y for the Enemy.
+	 */
+	public double getY() {
+		double absBearingDeg = (MrRobot.getHeading() + bearing);
+		if (absBearingDeg < 0) {
+			absBearingDeg += 360;
+		}
+		return MrRobot.getY() + Math.cos(Math.toRadians(absBearingDeg)) * distance;
 	}
 
 }

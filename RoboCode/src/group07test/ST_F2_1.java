@@ -10,20 +10,21 @@ import robocode.control.events.BattleMessageEvent;
 import robocode.control.events.RoundEndedEvent;
 import robocode.control.events.RoundStartedEvent;
 import robocode.control.events.TurnEndedEvent;
+import robocode.control.snapshot.IBulletSnapshot;
 import robocode.control.snapshot.IRobotSnapshot;
 import robocode.control.testing.RobotTestBed;
 
 @RunWith(JUnit4.class)
-public class ST_F1_WallsAvoided extends RobotTestBed {
-	
-	
+public class ST_F2_1 extends RobotTestBed {
+
 	private String ROBOT_UNDER_TEST = "group07.MrRobot*";
-	private String ENEMY_ROBOTS = "group07.MrRobot*";
+	private String ENEMY_ROBOTS = "sample.SpinBot";
 	private int NBR_ROUNDS = 1000;
 	private boolean PRINT_DEBUG = false;
-	
-	boolean neverCrashedIntoAWall = true;
-	int countWallHits = 0;
+
+	boolean neverShotTooFar = true;
+	private int fired = 0;
+	private int hits;
 
 	@Override
 	public String getRobotNames() {
@@ -50,7 +51,6 @@ public class ST_F1_WallsAvoided extends RobotTestBed {
 		return 0;
 	}
 
-
 	@Override
 	protected void runSetup() {
 	}
@@ -58,23 +58,31 @@ public class ST_F1_WallsAvoided extends RobotTestBed {
 	@Override
 	protected void runTeardown() {
 	}
-	
+
 	@Override
 	public void onBattleCompleted(BattleCompletedEvent event) {
-		assertTrue("The bot crashed into the wall " + countWallHits + " times.", neverCrashedIntoAWall);
-		//Insert assert for countWallHits
+		assertTrue("The bot shot too far away from an enemy.", neverShotTooFar);
+		assertTrue("Try dodging more. " + (double)hits/fired + " Hit rate", 0.0 >= (double) hits/fired);
 	}
-	
+
 	@Override
 	public void onTurnEnded(TurnEndedEvent event) {
-	IRobotSnapshot robot = event.getTurnSnapshot().getRobots()[1];
-	//
-	if (robot.getState().isHitWall()) {
-		neverCrashedIntoAWall = false;
-		countWallHits++;
+		IRobotSnapshot[] robots = event.getTurnSnapshot().getRobots();
+		robots[0].getName();
+		for (IBulletSnapshot bullet : event.getTurnSnapshot().getBullets()) {
+			if (bullet.getState().FIRED.isActive() == true && bullet.getOwnerIndex() == robots[0].getRobotIndex()
+					&& 900 < Math.sqrt(Math.pow(robots[0].getX() - robots[1].getX(), 2) + Math.pow(robots[0].getY() - robots[1].getY(), 2))) {
+				neverShotTooFar = false;
+			}
+			if (bullet.getState().FIRED.isActive() == true && bullet.getOwnerIndex() == robots[1].getRobotIndex()){
+				fired ++;
+			}
+			if (bullet.getState().HIT_VICTIM.isActive() == true && bullet.getOwnerIndex() == robots[1].getRobotIndex()){
+				hits ++;
+			}
 		}
 	}
-	
+
 	@Override
 	public void onBattleMessage(BattleMessageEvent event) {
 		event.getMessage();

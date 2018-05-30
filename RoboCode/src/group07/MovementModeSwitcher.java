@@ -1,36 +1,63 @@
 package group07;
 
 import robocode.TeamRobot;
-
+/**
+ * 
+ * Our class for switchning between our movement systems
+ * 
+ */
 public class MovementModeSwitcher {
-	// Normal mode = 0
+	// Anti grav mode = 0
 	// Surf mode = 1
-	//Anti Ram mode = 2
-	//...
+	// RNDmode(aka matthias gammla move system) = 2
+	// ...
 	private TeamRobot r;
-	private static long time = 0;
-	private static int currentMode = 0;
-	
+	private long time = 0;
+	private int currentMode = 0;
+	/**
+	 * 
+	 * @param TeamRobot Instance of the main class.
+	 */
 	public MovementModeSwitcher(TeamRobot r) {
 		this.r = r;
 	}
-
+	/**
+	 * returns which mode we are in currently.
+	 * Anti grav mode = 0
+	 * Surf mode = 1
+	 * RND mode = 2
+	 * @return currentMode
+	 */
 	public int getCurrentMode() {
 		return currentMode;
 	}
-
-	public void setCurrentMode(int currentMode) {
-		this.currentMode = currentMode;
-	}
-	
-	public void SurfMode() {
+	/**
+	 * Switchies to surfMode for at least 25 ticks.
+	 */
+	public void surfMode() {
 		time = r.getTime() + 25;
 		currentMode = 1;
 	}
-	
-	public void NewTurn() {
-		if(time <= r.getTime()) {
+	/**
+	 * if no other mode wants priority we switch to antigravity
+	 */
+	public void newTurn() {
+		if (time <= r.getTime()) {
 			currentMode = 0;
 		}
+	}
+	/**
+	 * Switchies to RND mode for at least 25 ticks.
+	 */
+	public void rndMove() {
+		time = r.getTime() + 10;
+		currentMode = 2;
+	}
+	/**
+	 * Switchies to anti gravity mode. 
+	 */
+	public void AGmove() {
+		time = r.getTime();
+		currentMode = 0;
 	}
 }

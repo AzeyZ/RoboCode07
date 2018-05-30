@@ -7,23 +7,18 @@ import org.junit.runners.JUnit4;
 
 import robocode.control.events.BattleCompletedEvent;
 import robocode.control.events.BattleMessageEvent;
-import robocode.control.events.RoundEndedEvent;
-import robocode.control.events.RoundStartedEvent;
-import robocode.control.events.TurnEndedEvent;
-import robocode.control.snapshot.IRobotSnapshot;
 import robocode.control.testing.RobotTestBed;
 
 @RunWith(JUnit4.class)
-public class ST_F1_WallsAvoided extends RobotTestBed {
-	
-	
+public class ST_Q_1vs1Crazy extends RobotTestBed {
+
 	private String ROBOT_UNDER_TEST = "group07.MrRobot*";
-	private String ENEMY_ROBOTS = "group07.MrRobot*";
+	private String ENEMY_ROBOTS = "sample.Crazy";
 	private int NBR_ROUNDS = 1000;
+	private double TRESHHOLD = 1;
 	private boolean PRINT_DEBUG = false;
-	
-	boolean neverCrashedIntoAWall = true;
-	int countWallHits = 0;
+
+	int wins = 0;
 
 	@Override
 	public String getRobotNames() {
@@ -50,7 +45,6 @@ public class ST_F1_WallsAvoided extends RobotTestBed {
 		return 0;
 	}
 
-
 	@Override
 	protected void runSetup() {
 	}
@@ -58,25 +52,18 @@ public class ST_F1_WallsAvoided extends RobotTestBed {
 	@Override
 	protected void runTeardown() {
 	}
-	
+
 	@Override
 	public void onBattleCompleted(BattleCompletedEvent event) {
-		assertTrue("The bot crashed into the wall " + countWallHits + " times.", neverCrashedIntoAWall);
-		//Insert assert for countWallHits
+		wins = event.getIndexedResults()[0].getFirsts();
+		assertTrue("The Bot suck get more wins: " + wins + " wins. "+ event.getIndexedResults()[0].getTeamLeaderName(), wins / (double)NBR_ROUNDS >= TRESHHOLD);
+		// Insert assert for countWallHits
 	}
-	
-	@Override
-	public void onTurnEnded(TurnEndedEvent event) {
-	IRobotSnapshot robot = event.getTurnSnapshot().getRobots()[1];
-	//
-	if (robot.getState().isHitWall()) {
-		neverCrashedIntoAWall = false;
-		countWallHits++;
-		}
-	}
-	
+
 	@Override
 	public void onBattleMessage(BattleMessageEvent event) {
 		event.getMessage();
 	}
+
+
 }

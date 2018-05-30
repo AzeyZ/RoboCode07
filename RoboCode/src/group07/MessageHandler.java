@@ -1,48 +1,69 @@
 package group07;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import robocode.MessageEvent;
 
+/**
+ * MessageHandler: Sends and receives messages.
+ *
+ */
 public class MessageHandler {
-	Robot07 robot;
+	MrRobot robot;
 
-	public MessageHandler(Robot07 robot) {
+	/**
+	 * 
+	 * @param robot
+	 *            Instance of main class.
+	 */
+	public MessageHandler(MrRobot robot) {
 		this.robot = robot;
 	}
 
-	// Skickar iväg ett meddelande
-	// receiver == 1 skicka till alla.
-	// receiver == 2 skicka till alla mrRobot.
-	// receiver != 1 || 2 skicka till receiver.
+	/**
+	 * send: Sending messages.
+	 * 
+	 * @param message
+	 *            The string that should be sent.
+	 * @param receiver
+	 *            Receiver can contain 3 different types of Strings. The string can
+	 *            contain "1" sending message to all teammates. The string can
+	 *            contain "2" sending message to all MrRobots in the team. If the
+	 *            string does not contain "1" or "2" send message to "receiver".
+	 * 
+	 */
 	public void send(String message, String receiver) {
 
-		if (receiver.contains("1")) {
+		if (receiver.equals("1")) {
 
 			try {
 				robot.broadcastMessage(message);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else if (receiver.contains("2")) {
-
-			// Kolla vilka robotar i laget som �r Mr.robots
-			// Skicka till dessa robotar
+		} else if (receiver.equals("2")) {
 
 			ArrayList<Ally> mrrobots = robot.getAllies();
 
-			// Loopar listan och skickar till de robotar som �r Mrrobots.
-			
-			for (int i = 0; i < robot.getAllies().size(); i++) {
-				if (mrrobots.get(i).isMrRobot()) {
+			for (int i = 0; i < mrrobots.size(); i++) {
+				if (mrrobots.get(i).isMrRobot() && !mrrobots.get(i).getName().equals(robot.getName())) {
 					try {
 						robot.sendMessage(mrrobots.get(i).getName(), message);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		} else if (receiver.equals("3")) {
+			ArrayList<Ally> mrrobots = robot.getAllies();
+			for (int i = 0; i < mrrobots.size(); i++) {
+				if ((mrrobots.get(i).isMrRobot() && !mrrobots.get(i).getName().equals(robot.getName()))
+						|| mrrobots.get(i).getName().toLowerCase().contains("hannibal")) {
+					try {
+						robot.sendMessage(mrrobots.get(i).getName(), message);
+					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -51,26 +72,31 @@ public class MessageHandler {
 			try {
 				robot.sendMessage(receiver, message);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
-	// Tar emot ett Message och uppdaterar alla variablar här
-	public void recieve(MessageEvent e, AllyTracker allyTracker, EnemyTracker enemyTracker) {
+	/**
+	 * receive: Handling received messages.
+	 * 
+	 * @param e
+	 *            MessageEvent
+	 * @param allyTracker
+	 *            Instance of AllyTracker
+	 * @param enemyTracker
+	 *            Instance of EnemyTracker
+	 * @param radarControl
+	 *            Instance of RadarControl
+	 */
+	public void receive(MessageEvent e, AllyTracker allyTracker, EnemyTracker enemyTracker, RadarControl radarControl) {
 		ArrayList<String> rowsInMessage = new ArrayList<>();
 		rowsInMessage.addAll(Arrays.asList(e.getMessage().toString().split("\n")));
 
 		for (String k : rowsInMessage) {
 			ArrayList<String> infoInRow = new ArrayList<>();
 			infoInRow.addAll(Arrays.asList(k.split(";")));
-
-			if (k.contains("leadership")) {
-				// I nuläget vill vi inte göra något med denna infon
-			} else if (k.contains("teamMode")) {
-				// I nuläget vill vi inte göra något med denna infon
-			} else if (k.contains("myPos")) {
+			if (k.contains("myPos")) {
 				// Uppdatera ally listan
 				if (infoInRow.size() == 3) {
 					String m_SenderName = e.getSender();
@@ -82,19 +108,6 @@ public class MessageHandler {
 						}
 					}
 				}
-			} else if (k.contains("friendPos")) {
-				// I nuläget vill vi inte göra något med denna infon
-			} else if (k.contains("enemyPos")) {
-				// I nuläget vill vi inte göra något med denna infon
-			} else if (k.contains("targetEnemy")) {
-				// I nuläget vill vi inte göra något med denna infon
-			} else if (k.contains("targetPos")) {
-				// I nuläget vill vi inte göra något med denna infon
-			} else if (k.contains("moveTo")) {
-				// I nuläget vill vi inte göra något med denna infon
-			} else if (k.contains("rShot")) {
-
-				// göra saker med hur roboten rör sig
 			} else if (k.contains("rAlly")) {
 				// Uppdatera listan om infon e nyare
 				if (infoInRow.size() == 5) {
@@ -107,14 +120,23 @@ public class MessageHandler {
 						}
 					}
 				}
-			} else if (k.contains("rEnemy")) {
+			} else if (k.contains("rEnemy") && infoInRow.size() == 8) {
 				// Uppdatera listan om infon e nyare
-				if (infoInRow.size() == 8) {
-					enemyTracker.update(Double.parseDouble(infoInRow.get(1)), Double.parseDouble(infoInRow.get(2)),
-							Double.parseDouble(infoInRow.get(3)), Double.parseDouble(infoInRow.get(4)),
-							Double.parseDouble(infoInRow.get(5)), Long.parseLong(infoInRow.get(6)), infoInRow.get(7));
-				}
+				enemyTracker.msgUpdate(Double.parseDouble(infoInRow.get(1)), Double.parseDouble(infoInRow.get(2)),
+						Double.parseDouble(infoInRow.get(3)), Double.parseDouble(infoInRow.get(4)),
+						Double.parseDouble(infoInRow.get(5)), Long.parseLong(infoInRow.get(6)), infoInRow.get(7));
+				enemyTracker.updateTarget();
+
+			} else if (k.contains("rPickRadarTarget")) {
+				radarControl.teammatePicked(e.getSender(), infoInRow.get(1), Integer.parseInt(infoInRow.get(2)));
+			} else if (k.contains("rGettingAttacked")) {
+				radarControl.teammateGettingAttacked(e.getSender(), infoInRow.get(1), infoInRow.get(2));
+			} else if (k.contains("rNewRadarTarget")) {
+				radarControl.teammateNewTarget(e.getSender(), infoInRow.get(1));
+			} else if (k.contains("rSetGunTarget")) {
+				enemyTracker.msgUpdateTarget(infoInRow.get(1));
 			}
+
 		}
 	}
 }
